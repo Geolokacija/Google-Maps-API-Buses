@@ -1,17 +1,30 @@
-??test
+??testb new
+lllll
 
-a
-asdasd
-das
-d
-as
+Fuck the Police!
+dovidelis
+sveiki
+lalalala
+eik valgyt saldainiu karolina
+Patys ir valgykit tuos saldainius, aš nenoriu būt stora
 
-sda
 
-da
-d
+Eikit dirbt -.-
 
+<<<<<<< HEAD
 sda
 asd
 
 Wut the fuk?
+=======
+
+
+
+
+
+
+
+
+
+PRIVATE
+>>>>>>> a88e5f11418a23cafa1954edbcd1dd344ff000f2
