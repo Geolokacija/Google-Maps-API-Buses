@@ -1,4 +1,4 @@
-??testb new
+??testb new test
 lllll
 
 Fuck the Police!
@@ -11,20 +11,21 @@ Patys ir valgykit tuos saldainius, aš nenoriu būt stora
 
 Eikit dirbt -.-
 
-<<<<<<< HEAD
 sda
 asd
 
 Wut the fuk?
+
+
+
+
+
+
+
+
+<<<<<<< HEAD
+PRIVATE
 =======
 
-
-
-
-
-
-
-
-
 PRIVATE
->>>>>>> a88e5f11418a23cafa1954edbcd1dd344ff000f2
+>>>>>>> d33f544d00a07652f791ff0afac4e81762b5f07c
