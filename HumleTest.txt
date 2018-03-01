@@ -11,6 +11,10 @@ Patys ir valgykit tuos saldainius, aš nenoriu būt stora
 
 Eikit dirbt -.-
 
+sda
+asd
+
+Wut the fuk?
 
 
 
@@ -19,5 +23,9 @@ Eikit dirbt -.-
 
 
 
+<<<<<<< HEAD
+PRIVATE
+=======
 
 PRIVATE
+>>>>>>> d33f544d00a07652f791ff0afac4e81762b5f07c
