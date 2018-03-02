@@ -26,16 +26,11 @@ $.getJSON('http://api-ext.trafi.com/departures?stop_id=idjkb_7-9%20Cawang%20UKI&
 var bus;
 
 setTimeout(function busses() {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", 'http://stops.lt/klaipeda/gps.txt?'+Date.now(), false ); // false for synchronous request
-    xmlHttp.send( null );
-    bus= xmlHttp.response;
-   console.log(bus);
-        /*$.getJSON('http://stops.lt/klaipeda/gps.txt?'+Date.now() ,
-            function(data) {
+    $.get('http://stops.lt/klaipeda/gps.txt?'+Date.now(),
+        function (data) {
 
-                console.log(data);
-            });*/
+    })
+
     console.log("Busses");
     setTimeout(function () {
         busses();
