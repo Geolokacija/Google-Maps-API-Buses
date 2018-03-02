@@ -18,3 +18,8 @@ $.getJSON('http://api-ext.trafi.com/departures?stop_id=idjkb_7-9%20Cawang%20UKI&
     function(data) {
     console.log(data);
 });
+
+$.getJSON('http://api-ext.trafi.com/stops/nearby?lat=55.703297&lng=21.144279&api_key=01f86ef81f0a2d7414bdd0bcfd9f3adc',
+        function(data) {
+            console.log(data);
+        });
