@@ -12,6 +12,7 @@ $.getJSON('http://api-ext.trafi.com/stops/nearby?lat=55.7021303&lng=21.143823300
     for (var i = 0; i < jsObject.Stops.length; i++) {
         dataFromServer[dataFromServer.length] = jsObject.Stops[i];
     }
+    mantis(jsObject);
 });
 
 $.getJSON('http://api-ext.trafi.com/locations?q=rumpiske&region=klaipeda&current_lat=55.703229&current_lng=21.148679000000016&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
@@ -30,7 +31,7 @@ setTimeout(function busses() {
         function(data) {
             console.log(data);
         });
-    console.log("Busses");
+    //console.log("Busses");
     setTimeout(function () {
         busses();
     },5000)
@@ -44,4 +45,26 @@ function initMap() {
           zoom: 4,
           center: centerPoint
         });
+}
+
+var mantis1 = [];
+var cordX = [];
+var cordY = [];
+var abejuCordArry = [];
+function mantis(mantis)
+{
+    mantis1 = mantis;
+    for(var i =0; i < mantis.Stops.length; i++)
+    {
+        cordX[i] = mantis.Stops[i].Coordinate.Lat.toString();
+        cordY[i] = mantis.Stops[i].Coordinates.Lng.toString();
+        for()
+        {
+
+        }
+        //console.log(mantis.Stops[i].Coordinate.Lat.toString());
+        console.log(cord[i]);
+
+
+    }
 }
