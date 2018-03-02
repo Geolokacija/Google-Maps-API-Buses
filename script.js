@@ -13,6 +13,8 @@ $.getJSON('http://api-ext.trafi.com/stops/nearby?lat=55.7021303&lng=21.143823300
         dataFromServer[dataFromServer.length] = jsObject.Stops[i];
     }
     mantis(jsObject);
+    //sending "dataFromServer" array to function, which adds bus stops markers
+    addNearBusStops(dataFromServer);
 });
 
 $.getJSON('http://api-ext.trafi.com/locations?q=rumpiske&region=klaipeda&current_lat=55.703229&current_lng=21.148679000000016&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
@@ -24,14 +26,14 @@ $.getJSON('http://api-ext.trafi.com/departures?stop_id=idjkb_7-9%20Cawang%20UKI&
     function(data) {
     // console.log(data);
 });
-
+var bus;
 
 setTimeout(function busses() {
-    $.getJSON('http://stops.lt/klaipeda/gps.txt?'+Date.now() ,
+    $.get('http://stops.lt/klaipeda/gps.txt?'+Date.now() ,
         function(data) {
-            console.log(data);
+           // console.log(data);
         });
-    //console.log("Busses");
+   // console.log("Busses");
     setTimeout(function () {
         busses();
     },5000)
@@ -68,3 +70,11 @@ function mantis(mantis)
 
     }
 }
+
+
+  function addNearBusStops(dataFromServer) {
+
+    for (var i = 0; i < dataFromServer.length; i++) {
+      console.log(dataFromServer[i]);
+    }
+  }
