@@ -14,7 +14,6 @@ $.getJSON('http://api-ext.trafi.com/stops/nearby?lat=55.7021303&lng=21.143823300
     }
 });
 
-
 $.getJSON('http://api-ext.trafi.com/locations?q=rumpiske&region=klaipeda&current_lat=55.703229&current_lng=21.148679000000016&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
     function(data) {
     // console.log(data);
@@ -24,6 +23,8 @@ $.getJSON('http://api-ext.trafi.com/departures?stop_id=idjkb_7-9%20Cawang%20UKI&
     function(data) {
     // console.log(data);
 });
+
+
 setTimeout(function busses() {
     $.getJSON('http://stops.lt/klaipeda/gps.txt?'+Date.now() ,
         function(data) {
@@ -35,7 +36,6 @@ setTimeout(function busses() {
     },5000)
 
 },5000)
-
 
 
 function initMap() {
