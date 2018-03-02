@@ -12,6 +12,8 @@ $.getJSON('http://api-ext.trafi.com/stops/nearby?lat=55.7021303&lng=21.143823300
     for (var i = 0; i < jsObject.Stops.length; i++) {
         dataFromServer[dataFromServer.length] = jsObject.Stops[i];
     }
+    //sending "dataFromServer" array to function, which adds bus stops markers
+    addNearBusStops(dataFromServer);
 });
 
 $.getJSON('http://api-ext.trafi.com/locations?q=rumpiske&region=klaipeda&current_lat=55.703229&current_lng=21.148679000000016&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
@@ -30,7 +32,7 @@ setTimeout(function busses() {
         function(data) {
             console.log(data);
         });
-    console.log("Busses");
+    //console.log("Busses");
     setTimeout(function () {
         busses();
     },5000)
@@ -45,3 +47,11 @@ function initMap() {
           center: centerPoint
         });
 }
+
+
+  function addNearBusStops(dataFromServer) {
+
+    for (var i = 0; i < dataFromServer.length; i++) {
+      console.log(dataFromServer[i]);
+    }
+  }
