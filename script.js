@@ -23,7 +23,7 @@ setTimeout(function busses() {
         function(data) {
             console.log("busses : " + data);
         });
-    busses();
+   // busses();
 },5000)
 
 
