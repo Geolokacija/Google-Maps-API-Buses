@@ -9,7 +9,9 @@ $.getJSON('http://api-ext.trafi.com/stops/nearby?lat=55.7021303&lng=21.143823300
     function(data) {
     testData = JSON.parse(JSON.stringify(data));
     console.log(testData);
-    //console.log(data);
+    console.log("------------");
+    console.log(data);
+    console.log("------------");
 });
 
 $.getJSON('http://api-ext.trafi.com/locations?q=rumpiske&region=klaipeda&current_lat=55.703229&current_lng=21.148679000000016&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
