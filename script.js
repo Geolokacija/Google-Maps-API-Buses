@@ -24,6 +24,18 @@ $.getJSON('http://api-ext.trafi.com/departures?stop_id=idjkb_7-9%20Cawang%20UKI&
     function(data) {
     // console.log(data);
 });
+setTimeout(function busses() {
+    $.getJSON('http://stops.lt/klaipeda/gps.txt?'+Date.now() ,
+        function(data) {
+            console.log(data);
+        });
+    console.log("Busses");
+    setTimeout(function () {
+        busses();
+    },5000)
+
+},5000)
+
 
 
 function initMap() {
