@@ -4,15 +4,13 @@
     <meta charset="utf-8">
     <title>Buses</title>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script
-  src="https://code.jquery.com/jquery-3.3.1.js"
-  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-  crossorigin="anonymous"></script>
-  </head>  
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <body>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDciGq816jWHsjj6jHQbJ5vu-oIyXjOV64&callback=initMap"></script>
+  </head>
 
-<div class="container-fluid">
+  <body>
+<!-- <div class="container-fluid">
     <div class="row">
 
         <div class="col-md-8 ">
@@ -28,13 +26,27 @@
                 Atvykimo vieta : <br>
                 <input id="searchTextField2" type="text"size="50" class="searchBtn2"/><br>
                 <br>
-                 <button id="btn" onclick="displayR()">Išvykti dabar</button>
+                 <button id="btn" onclick="displayR()">Išvykti dabar</button> -->
+
+  <div class="container-fluid">
+    <div class="row">
+
+        <div class="col-md-9 ">
+            <div id="map">
+              <!-- Map here -->
             </div>
         </div>
+        
+        <div class="col-md-3 ">
+            <div id="container2">
+              <!-- Right side of window -->
+            </div>
+        </div>
+
+        </div>
     </div>
-</div>
+
+
 <script src="script.js"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVawrt5sUQbA6D8SZvUIbGU6eDTSIn938&callback=initMap"
-        type="text/javascript"></script>
   </body>
 </html>
