@@ -30,9 +30,9 @@ var bus;
 setTimeout(function busses() {
     $.get('http://stops.lt/klaipeda/gps.txt?'+Date.now() ,
         function(data) {
-            console.log(data);
+           // console.log(data);
         });
-    console.log("Busses");
+   // console.log("Busses");
     setTimeout(function () {
         busses();
     },5000)
