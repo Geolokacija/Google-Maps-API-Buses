@@ -52,16 +52,33 @@ setTimeout(function busses() {
   }
 
 var markerArr = [];
-
   function addNearBusStops(dataFromServer) {
       for (var i = 0; i < dataFromServer.length; i++) {
           var stopsCords = new google.maps.LatLng(dataFromServer[i].Coordinate.Lat, dataFromServer[i].Coordinate.Lng);
 
+          // markerArr[i] = new google.maps.Marker({
+          //     position: stopsCords,
+          //     map: map,
+          //     title: ""+ dataFromServer[i].Name
+          // });
+
           markerArr[i] = new google.maps.Marker({
               position: stopsCords,
               map: map,
-              title: "" + dataFromServer[i].Name
+              title: ""+ dataFromServer[i].Name
           });
+          addInfoWindow(markerArr[i], dataFromServer[i].Name)
       }
+  }
+
+  function addInfoWindow(marker, message)
+  {
+      var infoWindow = new google.maps.InfoWindow({
+              content: message
+          });
+
+      google.maps.event.addListener(marker, 'click', function(){
+          infoWindow.open(map, marker);
+      });
   }
 
