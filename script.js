@@ -33,9 +33,9 @@ var map;
 setTimeout(function busses() {
     $.get('http://stops.lt/klaipeda/gps.txt?'+Date.now() ,
         function(data) {
-           // console.log(data);
+            console.log(data);
         });
-   // console.log("Busses");
+    //console.log("Busses");
     setTimeout(function () {
         busses();
     },5000)
@@ -51,16 +51,11 @@ setTimeout(function busses() {
           });
   }
 
+  // Places all bus stop markers on the map
 var markerArr = [];
   function addNearBusStops(dataFromServer) {
       for (var i = 0; i < dataFromServer.length; i++) {
           var stopsCords = new google.maps.LatLng(dataFromServer[i].Coordinate.Lat, dataFromServer[i].Coordinate.Lng);
-
-          // markerArr[i] = new google.maps.Marker({
-          //     position: stopsCords,
-          //     map: map,
-          //     title: ""+ dataFromServer[i].Name
-          // });
 
           markerArr[i] = new google.maps.Marker({
               position: stopsCords,
@@ -70,7 +65,7 @@ var markerArr = [];
           addInfoWindow(markerArr[i], dataFromServer[i].Name)
       }
   }
-
+    // Places markers infowindow with name of the stop
   function addInfoWindow(marker, message)
   {
       var infoWindow = new google.maps.InfoWindow({
