@@ -61,5 +61,14 @@ setTimeout(function busses() {
             map: map,
             title: ""+dataFromServer[i].Name
         });
+
+        var infowindow = new google.maps.InfoWindow({
+        content: ""+dataFromServer[i].Name
+        });
+
+        marker.addListener('click', function() {
+        infowindow.open(map, marker);
+        });
+      
       }
   }
