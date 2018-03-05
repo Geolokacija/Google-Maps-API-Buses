@@ -30,7 +30,6 @@ var map;
 var autobusuData = [];
 var busMarkerArr = [];
 
-
 setTimeout(function busses() {
     $.get('http://stops.lt/klaipeda/gps.txt?'+Date.now() ,
         function(data) {
@@ -151,7 +150,11 @@ setTimeout(function busses() {
           busMarkerArr[i] = new google.maps.Marker({
               position: busCoordinates,
               map: map,
-              title: ""+busArray[i][1]
+              title: ""+busArray[i][1],
+              icon: {
+          		url: "http://www.directoryislamabad.com/wp-content/uploads/2017/07/transport.png",
+          		scaledSize: new google.maps.Size(25, 25)
+          	}
           });
 
       }
