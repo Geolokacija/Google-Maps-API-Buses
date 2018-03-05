@@ -29,14 +29,14 @@ $.getJSON('http://api-ext.trafi.com/departures?stop_id=idjkb_7-9%20Cawang%20UKI&
 
 var bus;
 var map;
-var a = [];
+var autobusuData = [];
 setTimeout(function busses() {
     $.get('http://stops.lt/klaipeda/gps.txt?'+Date.now() ,
         function(data) {
             //console.log(data);
-            a = [] = data.split("\n");
-           // console.log(a.length-1+ "\n"+a[12]+ "\n" + a[7])
-            createsBusObjects(a);
+            autobusuData = [] = data.split("\n");
+           // console.log(autobusuData.length-1+ "\n"+autobusuData[12]+ "\n" + autobusuData[7])
+            createsBusObjects(autobusuData);
         });
     //console.log("Busses");
     setTimeout(function () {
