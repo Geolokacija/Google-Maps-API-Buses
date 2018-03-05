@@ -96,22 +96,6 @@ setTimeout(function busses() {
       {
           b[i] = arrayOfBusString[i].split(",");
 
-<<<<<<< HEAD
-        var marker = new google.maps.Marker ({
-            position: stopsCords,
-            map: map,
-            title: ""+dataFromServer[i].Name
-        });
-
-        var infowindow = new google.maps.InfoWindow({
-        content: ""+dataFromServer[i].Name
-        });
-
-        marker.addListener('click', function() {
-        infowindow.open(map, marker);
-        });
-      
-=======
            stringX = b[i][2];
            strLX = stringX.length;
           for(var a =0; a< strLX; a++)
@@ -165,7 +149,20 @@ setTimeout(function busses() {
               map: map,
               title: ""+busArray[i][1]
           });
->>>>>>> 5e09615d4cdfad96410f15573bdc716ea4c02557
+        var marker = new google.maps.Marker ({
+            position: stopsCords,
+            map: map,
+            title: ""+dataFromServer[i].Name
+        });
+
+        var infowindow = new google.maps.InfoWindow({
+        content: ""+dataFromServer[i].Name
+        });
+
+        marker.addListener('click', function() {
+        infowindow.open(map, marker);
+        });
+
       }
       return busCoordinates;
   }
