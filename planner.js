@@ -40,9 +40,9 @@ var ti = {
     RT_ROUTESTOPSPLATFORMS: 16,
     RT_ROUTESTOPS: 17,
     accent_map: {
-        "ą": "a",
-        "ä": "a",
-        "ā": "a",
+        "ą": "autobusuData",
+        "ä": "autobusuData",
+        "ā": "autobusuData",
         "č": "c",
         "ę": "e",
         "ė": "e",
@@ -60,7 +60,7 @@ var ti = {
         "ö": "o",
         "õ": "o",
         "š": "s",
-        "а": "a",
+        "а": "autobusuData",
         "б": "b",
         "в": "v",
         "г": "g",
@@ -549,8 +549,8 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
                 if (!c.test(b.name)) return -1
             } else if (c.test(b.name)) return 1
         }
-        if (a.id.charAt(0) === "a" && b.id.charAt(0) !== "a") return -1;
-        if (b.id.charAt(0) === "a" && a.id.charAt(0) !== "a") return 1;
+        if (a.id.charAt(0) === "autobusuData" && b.id.charAt(0) !== "autobusuData") return -1;
+        if (b.id.charAt(0) === "autobusuData" && a.id.charAt(0) !== "autobusuData") return 1;
         if (typeof pg !== "undefined") {
             if (a.city === pg.city && b.city !== pg.city) return -1;
             if (a.city !== pg.city && b.city === pg.city) return 1
@@ -700,7 +700,7 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
                 var y = h[n];
                 if (y) {
                     var z = p[ti.RT_ROUTETYPE];
-                    if (z === "a-b" || z.indexOf("a-b_") === 0) p[ti.RT_ROUTENAME] !== y.name && (y = null);
+                    if (z === "autobusuData-b" || z.indexOf("autobusuData-b_") === 0) p[ti.RT_ROUTENAME] !== y.name && (y = null);
                     y && y.dirType.indexOf("_") < 0 && (y.weekdays += p[ti.RT_WEEKDAYS])
                 }
                 if (y && s !== "1") {
@@ -1777,7 +1777,7 @@ function dijkstra(a, b, c, d) {
     var e = (new Date).getFullYear();
     typeof cfg == "object" && cfg.defaultLanguage == "lt" && (ti.specialWeekdays[ti.dateToDays(new Date(e, 0, 1))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(2018, 3, 2))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(e, 1, 16))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(e, 2, 11))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(e, 4, 1))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(e, 5, 24))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(e, 6, 6))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(e, 7, 15))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(e, 10, 1))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(e, 11, 24))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(e, 11, 25))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(e, 11, 26))] = 7), typeof cfg == "object" && cfg.defaultLanguage == "ee" && (ti.specialWeekdays[ti.dateToDays(new Date(e, 0, 1))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(e, 1, 24))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(2016, 2, 25))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(2016, 2, 27))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(e, 4, 1))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(e, 5, 23))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(e, 5, 24))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(e, 7, 20))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(e, 11, 24))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(e, 11, 25))] = 7, ti.specialWeekdays[ti.dateToDays(new Date(e, 11, 26))] = 7);
     var f = "",
-        g = "a",
+        g = "autobusuData",
         h = a.mode === "vintra";
     typeof cfg == "object" && cfg.defaultCity == "latvia" && (f = ";bus;trol;tram;minibus;", g = "nothing");
     var i = !1,
@@ -3035,7 +3035,7 @@ var ej = function(a) {
     var c = "";
     for (var b in cfg.transport_colors) {
         var d = cfg.transport_colors[b];
-        c += "." + b + "{ background-color:" + d + "; }", typeof mobile != "undefined" && (c += ".nav-transport ." + b + " span, .nav-transport ." + b + " a, .icon.icon-" + b + "{ background-image:url(" + cfg.transport_icons[b] + "); }", c += ".icon-" + b + "{ width:18px; height:18px;}", c += ".label-" + b + " {background-color:" + d + ";}"), cfg.city.defaultTransport != "tablo" && (c += ".icon.icon_" + b + "{ background-image:url(" + cfg.transport_icons[b] + ");}"), c += ".transfer" + b + ",a.transfer" + b + "{ color:" + d + "; font-weight:bold; }", c += ".departure" + b + "{ color:" + d + "; font-size:smaller; font-style:normal; }"
+        c += "." + b + "{ background-color:" + d + "; }", typeof mobile != "undefined" && (c += ".nav-transport ." + b + " span, .nav-transport ." + b + " autobusuData, .icon.icon-" + b + "{ background-image:url(" + cfg.transport_icons[b] + "); }", c += ".icon-" + b + "{ width:18px; height:18px;}", c += ".label-" + b + " {background-color:" + d + ";}"), cfg.city.defaultTransport != "tablo" && (c += ".icon.icon_" + b + "{ background-image:url(" + cfg.transport_icons[b] + ");}"), c += ".transfer" + b + ",autobusuData.transfer" + b + "{ color:" + d + "; font-weight:bold; }", c += ".departure" + b + "{ color:" + d + "; font-size:smaller; font-style:normal; }"
     }
     cfg.city.custom_css && (cfg.city.custom_css = cfg.city.custom_css.replace(new RegExp("_images/", "g"), pg.imagesFolder), c += cfg.city.custom_css || ""), pg.addCSS(c)
 })(), pg.bodyKeyDown = function(a, b) {
@@ -3046,7 +3046,7 @@ var ej = function(a) {
     }
 }, pg.fLang_Click = function(a) {
     var b = a && (a.target || a.srcElement);
-    if (b && (b.tagName || "").toLowerCase() == "a") {
+    if (b && (b.tagName || "").toLowerCase() == "autobusuData") {
         if (b.innerHTML.length < 10) {
             pg.fUrlSet({
                 schedule: pg.schedule,
@@ -3087,7 +3087,7 @@ var ej = function(a) {
         c = cfg.city.languages.split(",");
     for (var d = 0; d < c.length; d++) {
         var e = c[d];
-        cfg.city.languageFlags ? b += "<a title=\"" + cfg.languages[e] + "\"><img src=\"" + e + ".png\" style=\"width:32px; height:26px; padding:0 5px;\"></a>" : (b += "<a title=\"" + cfg.languages[e] + "\" class=\"underlined\">" + e + "</a>", cfg.city.navigation === "riga" && d % 3 === 2 ? b += " " : b += "&nbsp;")
+        cfg.city.languageFlags ? b += "<autobusuData title=\"" + cfg.languages[e] + "\"><img src=\"" + e + ".png\" style=\"width:32px; height:26px; padding:0 5px;\"></autobusuData>" : (b += "<autobusuData title=\"" + cfg.languages[e] + "\" class=\"underlined\">" + e + "</autobusuData>", cfg.city.navigation === "riga" && d % 3 === 2 ? b += " " : b += "&nbsp;")
     }(a || {}).innerHTML = b
 }, pg.fTranslateStaticTexts = function() {
     if (cfg.defaultCity === "chelyabinsk" && (pg.language === "ru" || pg.language === "" && cfg.defaultLanguage === "ru")) {
@@ -3138,11 +3138,11 @@ var ej = function(a) {
                     timeout: cfg.cities[c].goHomeTimeout
                 });
                 if (!cfg.cities[c].goHomeTimeout) {
-                    f += "<dt><a id=\"" + (i == 1 ? "city" : "region") + "\" href=\"#" + j + "\">" + (cfg.cities[c].logo || "") + "<span class=\"hover\">";
+                    f += "<dt><autobusuData id=\"" + (i == 1 ? "city" : "region") + "\" href=\"#" + j + "\">" + (cfg.cities[c].logo || "") + "<span class=\"hover\">";
                     var k = cfg.cities[c].name;
                     if (k) var l = k[pg.language] || k.en || (i == 1 ? i18n.cityRoutes : i18n.regionRoutes);
                     else var l = i == 1 ? i18n.cityRoutes : i18n.regionRoutes;
-                    f += l, typeof mobile != "undefined" && (e[i - 1].name = l, e[i - 1].logo = cfg.cities[c].logo || ""), f += "</span></a></dt>"
+                    f += l, typeof mobile != "undefined" && (e[i - 1].name = l, e[i - 1].logo = cfg.cities[c].logo || ""), f += "</span></autobusuData></dt>"
                 }
                 for (var m = 0; m < cfg.cities[c].transport.length; m++) {
                     var n = cfg.cities[c].transport[m];
@@ -3158,7 +3158,7 @@ var ej = function(a) {
                             hashForMap: null
                         }, !0),
                         q = ((cfg.cities[c].transportTip || {})[n] || {})[pg.language];
-                    q && (q = " title=\"" + q + "\""), f += ("<dt><a id=\"" + c + "_{tr}\" href=\"#" + p + "\"" + q + "><span class=\"icon icon_{tr}\"></span><span class=\"hover\">" + i18n.transport[n] + "</span></a></dt>").replace(/{tr}/g, n), typeof mobile != "undefined" && e[i - 1].transport.push({
+                    q && (q = " title=\"" + q + "\""), f += ("<dt><autobusuData id=\"" + c + "_{tr}\" href=\"#" + p + "\"" + q + "><span class=\"icon icon_{tr}\"></span><span class=\"hover\">" + i18n.transport[n] + "</span></autobusuData></dt>").replace(/{tr}/g, n), typeof mobile != "undefined" && e[i - 1].transport.push({
                         hash: p,
                         transport: n,
                         name: i18n.transport[n]
@@ -3173,7 +3173,7 @@ var ej = function(a) {
                 var r = ["dedovichi", "nevel", "novorzhev", "ostrov", "porxov"];
                 for (var m = 0; m < r.length; ++m) {
                     var c = r[m];
-                    f += "<dt><a id=\"" + c + "_bus\" href=\"#" + c + "/bus\"><span class=\"hover\">" + cfg.cities[c].name[pg.language] + "</span></a></dt>"
+                    f += "<dt><autobusuData id=\"" + c + "_bus\" href=\"#" + c + "/bus\"><span class=\"hover\">" + cfg.cities[c].name[pg.language] + "</span></autobusuData></dt>"
                 }
             }($("listTransports") || {}).innerHTML = f, ($("divContentPlannerOptionsTransport") || {}).innerHTML = i18n.optionsTransport + "&nbsp;" + g
         }
@@ -3540,7 +3540,7 @@ pg.fTabShowMap_Click = function(a, b) {
                         })
                     }
                     x = f ? +f - 1 : 0, x >= pg.optimalResults.length && (x = 0), t = pg.optimalResults[x].legs || [], s = i18n.option + " " + (x + 1);
-                    for (var v = 0; v < pg.optimalResults.length; ++v) r += "<a href=\"#map,,," + (v + 1) + "\"><span class=\"icon icon_narrow" + (v == x ? " icon_checked" : "") + "\"></span>" + i18n.option + " " + (v + 1) + "</a>"
+                    for (var v = 0; v < pg.optimalResults.length; ++v) r += "<autobusuData href=\"#map,,," + (v + 1) + "\"><span class=\"icon icon_narrow" + (v == x ? " icon_checked" : "") + "\"></span>" + i18n.option + " " + (v + 1) + "</autobusuData>"
                 } else pg.mapShowAllStops = !0, t = [{
                     start_stop: ti.fGetAnyStopDetails(pg.inputStart),
                     finish_stop: ti.fGetAnyStopDetails(pg.inputFinish)
@@ -3664,7 +3664,7 @@ pg.fTabShowMap_Click = function(a, b) {
                         if (z.routeTag && z.dirType != g) continue;
                         D[z.dirType] = !g || z.dirType == g;
                         var O = "map," + z.city + "," + z.transport + "," + z.num + "," + z.dirType;
-                        O = ti.toAscii(O, !0), r = "<a href=\"#" + O + "\"><span class=\"icon icon_narrow" + (z.dirType == g ? " icon_checked" : "") + "\"></span>" + z.name + "</a>" + r;
+                        O = ti.toAscii(O, !0), r = "<autobusuData href=\"#" + O + "\"><span class=\"icon icon_narrow" + (z.dirType == g ? " icon_checked" : "") + "\"></span>" + z.name + "</autobusuData>" + r;
                         if (!D[z.dirType]) continue;
                         var F = [];
                         for (var v = z.stops.length; --v >= 0;) {
@@ -3719,7 +3719,7 @@ pg.fTabShowMap_Click = function(a, b) {
                         }
                     }
                     for (var Q in N) pg.mapStops[N[Q]].hidden = !1;
-                    M.length > 1 && (O = "map," + z.city + "," + z.transport + "," + z.num, r = "<a href=\"#" + O + "\"><span class=\"icon icon_narrow" + (g ? "" : " icon_checked") + "\"></span>" + i18n.mapShowAllDirections + "</a>" + r);
+                    M.length > 1 && (O = "map," + z.city + "," + z.transport + "," + z.num, r = "<autobusuData href=\"#" + O + "\"><span class=\"icon icon_narrow" + (g ? "" : " icon_checked") + "\"></span>" + i18n.mapShowAllDirections + "</autobusuData>" + r);
                     var R = pg.getStyle("transport_icon_" + e);
                     s = "<img class=\"icon icon_narrow\" src=\"" + R + "\"/><span class=\"transfer" + e + "\">&nbsp;" + M[0].numHTML + "</span>";
                     if (cfg.defaultCity !== "latvia")
@@ -3733,7 +3733,7 @@ pg.fTabShowMap_Click = function(a, b) {
                         } else pg.loadPolyline(d, e, f, D)
                 }
             }
-            pg.$mapRoutesDropdown && (r ? (r = "<div id=\"mapDropDownHeader\" style=\"float:left;\"><a href=\"#\" aria-haspopup=\"true\">" + s + "&nbsp;<span class=\"arrow-down\"></span><span id=\"mapRemoveRoute\"></span><!--[if gte IE 7]><!--></a><!--<![endif]--><div id=\"mapDropDownContent\" class=\"dropdown2\">" + r + "<a id=\"mapShowStopsNames\" href=\"#map\" style=\"border-top:solid 1px #CCCCCC; margin-top:3px;\"><span class=\"icon icon_narrow stopsnames" + (pg.mapShowStopsNames ? " icon_checked" : "") + "\"></span>" + i18n.mapShowRouteStopsNames + "</a>" + (pg.schedule && typeof mobile == "undefined" ? "" : "<a href=\"#map\"><span class=\"icon icon_narrow\"></span>" + i18n.mapClearRoute + "</a>") + "</div><!--[if lte IE 6]></a><![endif]--></div>", pg.$mapRoutesDropdown.innerHTML = r, pg.$mapRoutesDropdown.style.display = "", resizeDropDown()) : pg.$mapRoutesDropdown.style.display = "none"), f && pg.clusterManager.hideMarkers(), f && google.maps.event.addDomListenerOnce(pg.GMap, "resize", function() {
+            pg.$mapRoutesDropdown && (r ? (r = "<div id=\"mapDropDownHeader\" style=\"float:left;\"><autobusuData href=\"#\" aria-haspopup=\"true\">" + s + "&nbsp;<span class=\"arrow-down\"></span><span id=\"mapRemoveRoute\"></span><!--[if gte IE 7]><!--></autobusuData><!--<![endif]--><div id=\"mapDropDownContent\" class=\"dropdown2\">" + r + "<autobusuData id=\"mapShowStopsNames\" href=\"#map\" style=\"border-top:solid 1px #CCCCCC; margin-top:3px;\"><span class=\"icon icon_narrow stopsnames" + (pg.mapShowStopsNames ? " icon_checked" : "") + "\"></span>" + i18n.mapShowRouteStopsNames + "</autobusuData>" + (pg.schedule && typeof mobile == "undefined" ? "" : "<autobusuData href=\"#map\"><span class=\"icon icon_narrow\"></span>" + i18n.mapClearRoute + "</autobusuData>") + "</div><!--[if lte IE 6]></autobusuData><![endif]--></div>", pg.$mapRoutesDropdown.innerHTML = r, pg.$mapRoutesDropdown.style.display = "", resizeDropDown()) : pg.$mapRoutesDropdown.style.display = "none"), f && pg.clusterManager.hideMarkers(), f && google.maps.event.addDomListenerOnce(pg.GMap, "resize", function() {
                 if (n == o && p == q) pg.GMap.panTo(new google.maps.LatLng(n, p));
                 else {
                     var a = new google.maps.LatLngBounds(new google.maps.LatLng(n, p), new google.maps.LatLng(o, q));
@@ -3829,7 +3829,7 @@ pg.fTabShowMap_Click = function(a, b) {
             var g;
             cfg.isMobilePage && (pg.mapShowVehicles = 2)
         }
-        typeof mobile != "undefined" && (pg.$mapClose = document.createElement("div"), pg.$mapClose.id = "divMapHide", pg.$mapClose.className = "map_hide", pg.$mapClose.style.left = "5px", pg.$mapClose.style.top = "5px", pg.$mapClose.innerHTML = ["<a onclick=\"return true;\" alt=\"", i18n.btnBack, "\" title=\"", i18n.btnBack, "\" class=\"btn btn-back pull-left\"></a>"].join(""), f.getDiv().appendChild(pg.$mapClose), jq(pg.$mapClose).bind("click", function(a) {
+        typeof mobile != "undefined" && (pg.$mapClose = document.createElement("div"), pg.$mapClose.id = "divMapHide", pg.$mapClose.className = "map_hide", pg.$mapClose.style.left = "5px", pg.$mapClose.style.top = "5px", pg.$mapClose.innerHTML = ["<autobusuData onclick=\"return true;\" alt=\"", i18n.btnBack, "\" title=\"", i18n.btnBack, "\" class=\"btn btn-back pull-left\"></autobusuData>"].join(""), f.getDiv().appendChild(pg.$mapClose), jq(pg.$mapClose).bind("click", function(a) {
             pg.divMapHide_Click(a)
         }));
         var h = typeof mobile == "undefined" ? 30 : 0,
@@ -3844,8 +3844,8 @@ pg.fTabShowMap_Click = function(a, b) {
             var b = a && (a.target || a.srcElement);
             if (!b || b.className == "map_button") return pg.cancelEvent(a);
             var c = b && (b.tagName || "").toLowerCase() || "";
-            b && c !== "a" && c !== "img" && (b = b.parentNode, c = b && (b.tagName || "").toLowerCase() || "");
-            var d = b && (c === "a" && b.href || c === "img" && b.id || "") || "";
+            b && c !== "autobusuData" && c !== "img" && (b = b.parentNode, c = b && (b.tagName || "").toLowerCase() || "");
+            var d = b && (c === "autobusuData" && b.href || c === "img" && b.id || "") || "";
             if (b && b.parentNode && (b.parentNode.tagName || "").toLowerCase() == "td") return pg.cancelEvent(a);
             if (d && d.indexOf("#") >= d.length - 1) return pg.cancelEvent(a);
             d ? k = b : k = {}
@@ -3952,7 +3952,7 @@ pg.fTabShowMap_Click = function(a, b) {
                                 h = k.cluster.join(",");
                             pg.realTimeDepartures.mapStop = h, pg.realTimeDepartures.vehicleID = null;
                             var l = [];
-                            h.indexOf(";") == -1 && l.push("<br/><a href=\"#stop/" + h + (cfg.isMobilePage ? "" : "/map") + "\"><span class=\"icon icon_narrow\"></span>" + i18n.mapShowRoutesFromStop + "</a>"), l.push("<a href=\"#stop/" + h + "/map\" class=\"cluster\"><span class=\"icon icon_narrow\"></span>" + i18n.mapZoomIn + "</a>");
+                            h.indexOf(";") == -1 && l.push("<br/><autobusuData href=\"#stop/" + h + (cfg.isMobilePage ? "" : "/map") + "\"><span class=\"icon icon_narrow\"></span>" + i18n.mapShowRoutesFromStop + "</autobusuData>"), l.push("<autobusuData href=\"#stop/" + h + "/map\" class=\"cluster\"><span class=\"icon icon_narrow\"></span>" + i18n.mapZoomIn + "</autobusuData>");
                             var m = ti.fGetRoutesAtStop(h, !1, !0),
                                 c = [],
                                 n = null,
@@ -3975,7 +3975,7 @@ pg.fTabShowMap_Click = function(a, b) {
                                 var t = pg.fUrlSet({
                                         schedule: s
                                     }, !0),
-                                    u = "<a class=\"hover " + (cfg.defaultCity == "riga" ? "activetransfer " : "transfer") + route.transport + "\" href=\"#" + t + "\" title=\"" + (route.name || "").replace(/"/g, "") + "\">" + route.numHTML.replace(/\s/g, "&nbsp;") + "</a> ";
+                                    u = "<autobusuData class=\"hover " + (cfg.defaultCity == "riga" ? "activetransfer " : "transfer") + route.transport + "\" href=\"#" + t + "\" title=\"" + (route.name || "").replace(/"/g, "") + "\">" + route.numHTML.replace(/\s/g, "&nbsp;") + "</autobusuData> ";
                                 c.push(u), p % o || c.push("<br/><span style=\"margin-left:22px;\"></span>"), p += 1
                             }
                             var v = ti.fGetAnyStopDetails(h),
@@ -4007,7 +4007,7 @@ pg.fTabShowMap_Click = function(a, b) {
         }), ELabel = function(a, b, c, d, e, f, g, h) {
             this.div_ = null, this.map_ = a, this.point = b, this.html = c, this.href = d, this.classname = e || "", this.pixelOffset = f || new google.maps.Size(0, 0), g && (g < 0 && (g = 0), g > 100 && (g = 100)), this.percentOpacity = g, this.overlap = h || !1, this.hidden = !1, this._ready = !1
         }, ELabel.prototype = new google.maps.OverlayView, ELabel.prototype.onAdd = function() {
-            var a = document.createElement("a");
+            var a = document.createElement("autobusuData");
             a.style.position = "absolute", a.className = this.classname, a.href = "#" + this.href, this.div_ = a, this.percentOpacity && (typeof a.style.filter == "string" && (a.style.filter = "alpha(opacity:" + this.percentOpacity + ")"), typeof a.style.KHTMLOpacity == "string" && (a.style.KHTMLOpacity = this.percentOpacity / 100), typeof a.style.MozOpacity == "string" && (a.style.MozOpacity = this.percentOpacity / 100), typeof a.style.opacity == "string" && (a.style.opacity = this.percentOpacity / 100));
             if (this.overlap) {
                 var b = 1e3 * (90 - this.point.lat());
@@ -4134,7 +4134,7 @@ pg.fTabShowMap_Click = function(a, b) {
                                 N += " width:9px; height:9px; top:" + (k.y - 4) + "px; left:" + (k.x - 4) + "px;\" class=\"cluster\" src=\"" + pg.imagesFolder + "cluster" + a + ".png\" title=\"" + D + "\" />"
                             } else {
                                 this.stopCluster[j.id] = [j.id], H && !pg.mapShowWifiStops && (H = !1), H && (N += " width:16px; height:17px; top:" + (k.y - 13) + "px; left:" + (k.x - 8) + "px;\" src=\"" + pg.imagesFolder + "stop_wifi.png\" title=\"" + D + "\" />" + (a ? N : ""));
-                                if (!a && D == "Stotis" && j.id.length > 4) N = (H ? N : "") + "<a id=\"specialstop\" href=\"#stop/" + C.join(",") + "/map\" style=\"display:block; cursor:pointer;border-radius:50%; border: 1px solid black; text-align: center; font-weight:bold; line-height: 12px; background-color:yellow;z-index:999; width:12px; height:12px; position:absolute; top:" + (k.y - 6) + "px; left:" + (k.x - 6) + "px;\">" + j.id.slice(-1).toUpperCase() + "</a>";
+                                if (!a && D == "Stotis" && j.id.length > 4) N = (H ? N : "") + "<autobusuData id=\"specialstop\" href=\"#stop/" + C.join(",") + "/map\" style=\"display:block; cursor:pointer;border-radius:50%; border: 1px solid black; text-align: center; font-weight:bold; line-height: 12px; background-color:yellow;z-index:999; width:12px; height:12px; position:absolute; top:" + (k.y - 6) + "px; left:" + (k.x - 6) + "px;\">" + j.id.slice(-1).toUpperCase() + "</autobusuData>";
                                 else if (!H || a) N += " width:8px; height:8px; top:" + (k.y - 4) + "px; left:" + (k.x - 4) + "px;\" src=\"" + pg.imagesFolder + "stop" + a + ".png\" title=\"" + D + "\" />"
                             }
                             d.push(N)
@@ -4148,9 +4148,9 @@ pg.fTabShowMap_Click = function(a, b) {
                         P = "";
                     if (j.img == "MarkerStart") {
                         var Q = pg.getStyle("transport_icon_" + j.transport);
-                        cfg.isMobilePage && (k.x = k.x + v3.iconClickField, k.y = k.y + v3.iconClickField), d.push("<a href=\"#" + j.href + "\" class=\"label_transport\" style=\"position:absolute; left:" + (k.x + 11) + "px; top:" + (k.y - 29) + "px;\"><img class=\"icon_narrow\" src=\"" + Q + "\" />" + (j.num && "<span class=\"transfer" + j.transport + "\" style=\"line-height:18px; vertical-align:top;\">" + j.num + "</span>&nbsp;") + (j.time ? "<span style=\"line-height:18px; vertical-align:top; border:0 none;\">&nbsp;" + j.time + "&nbsp;</span>" : "") + "<span" + (pg.mapShowStopsNames ? "" : " class=\"unhide\"") + " style=\"line-height:18px; vertical-align:top; border:0 none;\">" + j.name + "&nbsp;</span></a><img src=\"" + pg.imagesFolder + "tip.png\" class=\"tip\" style=\"position:absolute; z-index:105; left:" + (k.x + 4) + "px; top:" + (k.y - 11) + "px;\" />")
-                    } else j.img == "MarkerRed" ? d.push("<a class=\"mapStopOnRoute\" href=\"#" + j.href + "\" style=\"position:absolute; left:" + (k.x - 6) + "px; top:" + (k.y - 20) + "px;\">") : (j.img || "").indexOf("stopOnRoute") < 0 ? j.img && d.push("<a class=\"mapStop\" href=\"#" + j.href + "/map\" style=\"position:absolute; left:" + (k.x - 4) + "px; top:" + (k.y - 4) + "px;\">") : d.push("<a class=\"mapStopOnRoute\" href=\"#" + j.href + "\" style=\"position:absolute; left:" + (k.x - 5) + "px; top:" + (k.y - 5) + "px;\">");
-                    j.img != "MarkerStart" && (d.push("<img id=\"#" + j.href + "/map\" src=\"" + pg.imagesFolder + j.img + ".png\"" + D + " style=\"vertical-align:top;\" /></a>"), D || (cfg.isMobilePage && (k.x = k.x + v3.iconClickField, k.y = k.y + v3.iconClickField), d.push("<a href=\"#" + j.href + "\" style=\"position:absolute; left:" + (k.x + 4) + "px; top:" + (k.y - 4 - pg.mapLabelHeight) + "px;\" class=\"mapStopName" + (pg.mapShowStopsNames && !j.hidden ? "" : "Hidden") + "\">" + (j.time && j.img == "stop" ? j.time : "") + j.name + "</a>")))
+                        cfg.isMobilePage && (k.x = k.x + v3.iconClickField, k.y = k.y + v3.iconClickField), d.push("<autobusuData href=\"#" + j.href + "\" class=\"label_transport\" style=\"position:absolute; left:" + (k.x + 11) + "px; top:" + (k.y - 29) + "px;\"><img class=\"icon_narrow\" src=\"" + Q + "\" />" + (j.num && "<span class=\"transfer" + j.transport + "\" style=\"line-height:18px; vertical-align:top;\">" + j.num + "</span>&nbsp;") + (j.time ? "<span style=\"line-height:18px; vertical-align:top; border:0 none;\">&nbsp;" + j.time + "&nbsp;</span>" : "") + "<span" + (pg.mapShowStopsNames ? "" : " class=\"unhide\"") + " style=\"line-height:18px; vertical-align:top; border:0 none;\">" + j.name + "&nbsp;</span></autobusuData><img src=\"" + pg.imagesFolder + "tip.png\" class=\"tip\" style=\"position:absolute; z-index:105; left:" + (k.x + 4) + "px; top:" + (k.y - 11) + "px;\" />")
+                    } else j.img == "MarkerRed" ? d.push("<autobusuData class=\"mapStopOnRoute\" href=\"#" + j.href + "\" style=\"position:absolute; left:" + (k.x - 6) + "px; top:" + (k.y - 20) + "px;\">") : (j.img || "").indexOf("stopOnRoute") < 0 ? j.img && d.push("<autobusuData class=\"mapStop\" href=\"#" + j.href + "/map\" style=\"position:absolute; left:" + (k.x - 4) + "px; top:" + (k.y - 4) + "px;\">") : d.push("<autobusuData class=\"mapStopOnRoute\" href=\"#" + j.href + "\" style=\"position:absolute; left:" + (k.x - 5) + "px; top:" + (k.y - 5) + "px;\">");
+                    j.img != "MarkerStart" && (d.push("<img id=\"#" + j.href + "/map\" src=\"" + pg.imagesFolder + j.img + ".png\"" + D + " style=\"vertical-align:top;\" /></autobusuData>"), D || (cfg.isMobilePage && (k.x = k.x + v3.iconClickField, k.y = k.y + v3.iconClickField), d.push("<autobusuData href=\"#" + j.href + "\" style=\"position:absolute; left:" + (k.x + 4) + "px; top:" + (k.y - 4 - pg.mapLabelHeight) + "px;\" class=\"mapStopName" + (pg.mapShowStopsNames && !j.hidden ? "" : "Hidden") + "\">" + (j.time && j.img == "stop" ? j.time : "") + j.name + "</autobusuData>")))
                 }
                 if (cfg.city.bicycles && pg.mapShowBicyclesRent) {
                     var R = v <= 12 ? 12 : 16;
@@ -4193,7 +4193,7 @@ pg.fTabShowMap_Click = function(a, b) {
                         inputFinish: e,
                         hashForMap: "map"
                     }, !0);
-                g.push("<div class=\"a\" id=\"start-set\"><span class=\"icon icon_stopGreen\"></span>" + (e.indexOf(";") == -1 ? i18n.mapDirectionsFromStop : i18n.mapDirectionsFromHere) + "</div>"), g.push("<div class=\"a\" id=\"finish-set\"><span class=\"icon icon_stopRed\"></span>" + (e.indexOf(";") == -1 ? i18n.mapDirectionsToStop : i18n.mapDirectionsToThere) + "</div>")
+                g.push("<div class=\"autobusuData\" id=\"start-set\"><span class=\"icon icon_stopGreen\"></span>" + (e.indexOf(";") == -1 ? i18n.mapDirectionsFromStop : i18n.mapDirectionsFromHere) + "</div>"), g.push("<div class=\"autobusuData\" id=\"finish-set\"><span class=\"icon icon_stopRed\"></span>" + (e.indexOf(";") == -1 ? i18n.mapDirectionsToStop : i18n.mapDirectionsToThere) + "</div>")
             }
             g.push("</div>"), pg.$mapMenu.innerHTML = g.join(""), typeof e != "undefined" && (jq("#start-set").bind("click", function() {
                 pg.hideMapInfoWindow(), pg.inputStart = "", pg.loadedPlannerParams = "", pg.map.num = "", pg.optimalResults = null, pg.fUrlSet({
@@ -4307,7 +4307,10 @@ pg.fTabShowMap_Click = function(a, b) {
                     pg.mapOverlays.push(m)
                 }
             })
-        }, pg.stopLabelSelected = new ELabel(pg.GMap, new google.maps.LatLng(b.lat, b.lng), cfg.defaultCity, "map", "mapStopSelected", new google.maps.Size(4, -4)), pg.stopLabelSelected.setMap(pg.GMap), pg.stopLabelSelected.hide(), pg.mapMarkerStart = new google.maps.Marker({
+        }, pg.stopLabelSelected = new ELabel(pg.GMap, new google.maps.LatLng(b.lat, b.lng), cfg.defaultCity, "map", "mapStopSelected", new google.maps.Size(4, -4)),
+            pg.stopLabelSelected.setMap(pg.GMap),
+            pg.stopLabelSelected.hide(),
+            pg.mapMarkerStart = new google.maps.Marker({
             position: new google.maps.LatLng(0, 0),
             icon: pg.imagesFolder + "MarkerStart.png",
             title: i18n.mapDragToChangeStart,
@@ -4597,7 +4600,7 @@ jq(window).bind("resize", function(a) {
                 var k = h.dirType.split("-"),
                     l = k[0],
                     m = k[k.length - 1];
-                c.length > 1 && l !== "a" && m !== "b" ? l.charAt(0) === "b" || m.charAt(0) === "a" || l.charAt(0) !== "a" && m.charAt(0) !== "b" ? (h.dirNum = 2, j = "indented" + (j ? " " + j : "")) : h.dirNum = 1 : h.dirNum = 1;
+                c.length > 1 && l !== "autobusuData" && m !== "b" ? l.charAt(0) === "b" || m.charAt(0) === "autobusuData" || l.charAt(0) !== "autobusuData" && m.charAt(0) !== "b" ? (h.dirNum = 2, j = "indented" + (j ? " " + j : "")) : h.dirNum = 1 : h.dirNum = 1;
                 var n = pg.fUrlSet({
                         schedule: {
                             dirType: h.dirType
@@ -4610,7 +4613,7 @@ jq(window).bind("resize", function(a) {
                         },
                         hashForMap: !0
                     }, !0);
-                f[h.dirNum] += "<a href=\"#" + n + "\"" + (j ? " class=\"" + j + "\"" : "") + ">" + i + "</a>", typeof mobile != "undefined" && d.directions[h.dirNum].push({
+                f[h.dirNum] += "<autobusuData href=\"#" + n + "\"" + (j ? " class=\"" + j + "\"" : "") + ">" + i + "</autobusuData>", typeof mobile != "undefined" && d.directions[h.dirNum].push({
                     hash: n,
                     hashForMap: o,
                     name: i
@@ -4653,7 +4656,7 @@ jq(window).bind("resize", function(a) {
                         },
                         hashForMap: !0
                     }, !0);
-                q.push("<dt><a href=\"#" + n + "\" class=\"hover\">" + ((A.info || "").indexOf("wifi") < 0 ? "" : "<img style=\"margin:-2px 0 0-16px;\" src=\"" + pg.imagesFolder + "stop_wifi.png\" alt=\"wifi stop\" title=\"" + i18n.stopHasWiFi + "\" />") + (A.name == "Stotis" && /[a-zA-Z]/.test(A.id.slice(-1)) ? "<span style=\"display:inline-block; border-radius:50%; border: 1px solid black; text-align: center; font-size:12px; font-weight:bold; line-height: 13px; background-color:yellow;z-index:999; width:12px; height:12px; margin:0 1px 0 -15px;\">" + A.id.slice(-1).toUpperCase() + "</span>" : "") + (w ? ti.printTime(w[y - 1 + g * x], null, "&#x2007;") + "&nbsp;&nbsp;" : "") + A.name + (z[A.name] == A.street ? "" : " (" + A.street + ")") + "</a>"), z[A.name] = A.street, cfg.defaultCity == "latvia" && g < b.stops.length - 1 && q.push("<a class=\"draw\" target=\"_blank\" href=\"http://www.stops.lt/latviatest/latvia/editor.html#" + b.stops[g] + "," + b.stops[g + 1] + "\">draw</a>"), q.push("</dt>");
+                q.push("<dt><autobusuData href=\"#" + n + "\" class=\"hover\">" + ((A.info || "").indexOf("wifi") < 0 ? "" : "<img style=\"margin:-2px 0 0-16px;\" src=\"" + pg.imagesFolder + "stop_wifi.png\" alt=\"wifi stop\" title=\"" + i18n.stopHasWiFi + "\" />") + (A.name == "Stotis" && /[a-zA-Z]/.test(A.id.slice(-1)) ? "<span style=\"display:inline-block; border-radius:50%; border: 1px solid black; text-align: center; font-size:12px; font-weight:bold; line-height: 13px; background-color:yellow;z-index:999; width:12px; height:12px; margin:0 1px 0 -15px;\">" + A.id.slice(-1).toUpperCase() + "</span>" : "") + (w ? ti.printTime(w[y - 1 + g * x], null, "&#x2007;") + "&nbsp;&nbsp;" : "") + A.name + (z[A.name] == A.street ? "" : " (" + A.street + ")") + "</autobusuData>"), z[A.name] = A.street, cfg.defaultCity == "latvia" && g < b.stops.length - 1 && q.push("<autobusuData class=\"draw\" target=\"_blank\" href=\"http://www.stops.lt/latviatest/latvia/editor.html#" + b.stops[g] + "," + b.stops[g + 1] + "\">draw</autobusuData>"), q.push("</dt>");
                 if (typeof mobile != "undefined" && r == 1) {
                     var B = w ? ti.printTime(w[y - 1 + g * x], null, "&#x2007;") : "";
                     d.stops.push({
@@ -4685,7 +4688,7 @@ jq(window).bind("resize", function(a) {
                 name: s
             }), s.name.replace(/"/g, "&quote;").replace(/\s/, "&nbsp;"), t + 1 < u.length && s.name == u[t + 1].name && (s.stops += ", " + u[t + 1].stops, s.hash = s.hash || u[t + 1].hash, u[t + 1].name = null);
             var C = "";
-            for (t = 0; t < u.length; ++t) s = u[t], s.name && (C ? C += ", " : C = i18n.routeStreets + ": ", s.hash ? C += "<a href=\"#" + s.hash + "\" class=\"hover\" title=\"" + i18n.stops + ": " + s.stops.replace(/"/g, "") + "\">" + s.name + "</a>" : C += s.name, typeof mobile != "undefined" && d.streets.push(s));
+            for (t = 0; t < u.length; ++t) s = u[t], s.name && (C ? C += ", " : C = i18n.routeStreets + ": ", s.hash ? C += "<autobusuData href=\"#" + s.hash + "\" class=\"hover\" title=\"" + i18n.stops + ": " + s.stops.replace(/"/g, "") + "\">" + s.name + "</autobusuData>" : C += s.name, typeof mobile != "undefined" && d.streets.push(s));
             ($("divScheduleRoute") || {}).innerHTML = "<span class=\"icon icon_" + b.transport + "\"></span><span class=\"num num3 " + b.transport + "\">" + b.numHTML + "</span>&nbsp;&nbsp; " + C + "<div class=\"RouteDetails\"" + (pg.scheduleDetailsExpanded ? "" : " style=\"display:none;\"") + ">" + (cfg.defaultCity == "vilnius" ? "" : i18n.operator + ": ") + ti.fOperatorDetails(b.operator, b.transport) + "</div>";
             if (c.length <= 1) break;
             p = 3 - p;
@@ -4794,7 +4797,7 @@ jq(window).bind("resize", function(a) {
         b = pg.schedule.dirTypes[pg.schedule.dirType],
         c;
     for (var d = 1; d <= 2; d++) {
-        c = $("dlDirStops" + d).getElementsByTagName("a");
+        c = $("dlDirStops" + d).getElementsByTagName("autobusuData");
         for (var e = 0; e < c.length; ++e) {
             var f = c[e],
                 g = (f.className || "").replace("current", "");
@@ -4802,7 +4805,7 @@ jq(window).bind("resize", function(a) {
         }
     }
     if (a) {
-        c = $("dlDirStops" + (b || 1)).getElementsByTagName("a");
+        c = $("dlDirStops" + (b || 1)).getElementsByTagName("autobusuData");
         if (c && (c[0] || {}).href) {
             a = c[0].href.split("#")[1], pg.fUrlExecute(a);
             return
@@ -4849,7 +4852,7 @@ jq(window).bind("resize", function(a) {
             c = pg.fUrlSet({
                 schedule: n
             }, !0), j !== b.transport && (j = b.transport, l.push(" <span class=\"icon icon_narrow icon_" + b.transport + "\" data-transport=\"" + b.transport + "\"></span>&nbsp;"));
-            var o = "<a class=\"hover " + (f[e] ? "activetransfer " : "transfer") + j + "\" href=\"#" + c + "\" title=\"" + (b.name || "").replace(/"/g, "") + "\">" + h[d].numHTML.replace(/\s/g, "&nbsp;") + "</a> ";
+            var o = "<autobusuData class=\"hover " + (f[e] ? "activetransfer " : "transfer") + j + "\" href=\"#" + c + "\" title=\"" + (b.name || "").replace(/"/g, "") + "\">" + h[d].numHTML.replace(/\s/g, "&nbsp;") + "</autobusuData> ";
             typeof a == "function" && (i.transfers.push(c), i.transfers_routes.push(b)), l.push(o), f[e] && (k !== b.transport && (k = b.transport, o = " <span class=\"icon icon_narrow icon_" + b.transport + "\" data-transport=\"" + b.transport + "-remove\"></span>&nbsp;" + o), m.push(o), f[e].stopId = b.stopId)
         }
         l.push("<span style=\"display:inline-block; width:2px;\"></span>");
@@ -4858,7 +4861,7 @@ jq(window).bind("resize", function(a) {
         p[cfg.cities[pg.city].stopFareZone || "noFareZone"] && (q += ", " + i18n.fareZone + " " + p[cfg.cities[pg.city].stopFareZone]), q = q.length > 0 ? "<span class=\"details\"> (" + q.substring(2) + ")</span>" : "", ($("divScheduleStop") || {}).innerHTML = "<span class=\"stop-name\">" + i18n.stop + "</span><strong> " + p.name + "</strong>" + q + "&nbsp;&nbsp; " + l.join("");
         if (p.street) {
             var r = p.street.replace(/"/g, "&quote;").replace(/\s/, "&nbsp;"),
-                s = $("divScheduleRoute") && $("divScheduleRoute").getElementsByTagName("a");
+                s = $("divScheduleRoute") && $("divScheduleRoute").getElementsByTagName("autobusuData");
             if (s)
                 for (d = s.length; --d >= 0;) s[d].innerHTML.indexOf(r) < 0 ? s[d].className == "hover strong" && (s[d].className = "hover") : s[d].className = "hover strong"
         }
@@ -4881,14 +4884,14 @@ jq(window).bind("resize", function(a) {
                 C = B[0],
                 D = B[B.length - 1],
                 E = 2;
-            C === "a" || D === "b" ? E = 1 : C.charAt(0) !== "b" && D.charAt(0) !== "a" && (C.charAt(0) === "a" || D.charAt(0) === "b") && (E = 1);
+            C === "autobusuData" || D === "b" ? E = 1 : C.charAt(0) !== "b" && D.charAt(0) !== "autobusuData" && (C.charAt(0) === "autobusuData" || D.charAt(0) === "b") && (E = 1);
             var F = ti.toAscii(pg.schedule.route.name, !0);
             for (var d = ti.FLD_DIRS; d < A.length; d += 2) {
                 b = ti.fGetRoutes(A[d]);
                 if (b.city === n.city && b.transport === n.transport && ti.toAscii(b.num, !0) === n.num && b.times && (!pg.schedule.route.routeTag || pg.schedule.route.routeTag == "0" && !b.routeTag || b.id === pg.schedule.route.id || ti.toAscii(b.name, !0) === F)) {
                     B = b.dirType.split("-"), C = B[0], D = B[B.length - 1];
                     var G = 2;
-                    C === "a" || D === "b" ? G = 1 : C.charAt(0) !== "b" && D.charAt(0) !== "a" && (C.charAt(0) === "a" || D.charAt(0) === "b") && (G = 1);
+                    C === "autobusuData" || D === "b" ? G = 1 : C.charAt(0) !== "b" && D.charAt(0) !== "autobusuData" && (C.charAt(0) === "autobusuData" || D.charAt(0) === "b") && (G = 1);
                     if (E !== G) continue;
                     if (z[b.id]) continue;
                     z[b.id] = !0, b.tag = (!g && b.dirType != pg.schedule.dirType && ti.toAscii(b.name, !0) !== F ? "other" : "current") + ti.fGetDirTag(b.dirType);
@@ -5016,7 +5019,7 @@ jq(window).bind("resize", function(a) {
                     var bf = be.indexOf(" ");
                     bf != -1 && (be = be.substring(0, bf) + "*")
                 }
-                l.push("<a href=\"#" + c + "\" title=\"" + (g ? i18n.transport1[bd.transport] + (bd.num.length > 15 ? "" : " " + bd.numHTML) + " " + i18n.towards + " " : "") + bd.name.replace(/"/g, "") + "\"" + (Z.tag ? "class=\"" + Z.tag + "\"" : "") + ">" + (bb < 10 ? "0" : "") + bb + (g ? "<span class=\"departure" + bd.transport + "\">" + (cfg.defaultCity === "tallinna-linn" ? "" : "\\") + be + "</span>" : "") + (Z.bicycle ? "<img class=\"icon\" style=\"margin:0 1px;\" src=\"" + pg.imagesFolder + "bicycle.png\">" : "") + (g && cfg.defaultCity != "tallinna-linn" ? "</a>&#x200A;" : "</a>"));
+                l.push("<autobusuData href=\"#" + c + "\" title=\"" + (g ? i18n.transport1[bd.transport] + (bd.num.length > 15 ? "" : " " + bd.numHTML) + " " + i18n.towards + " " : "") + bd.name.replace(/"/g, "") + "\"" + (Z.tag ? "class=\"" + Z.tag + "\"" : "") + ">" + (bb < 10 ? "0" : "") + bb + (g ? "<span class=\"departure" + bd.transport + "\">" + (cfg.defaultCity === "tallinna-linn" ? "" : "\\") + be + "</span>" : "") + (Z.bicycle ? "<img class=\"icon\" style=\"margin:0 1px;\" src=\"" + pg.imagesFolder + "bicycle.png\">" : "") + (g && cfg.defaultCity != "tallinna-linn" ? "</autobusuData>&#x200A;" : "</autobusuData>"));
                 if (typeof a == "function") {
                     var bg = i.timetables[Y[t[d].workday]],
                         bh = bg[bg.length - 1];
@@ -5090,28 +5093,28 @@ jq(window).bind("resize", function(a) {
         }
         pg.stopsSuggestedForText != b && pg.inputStopText != pg.stopSuggestedForMap && (pg[pg.inputActive.id] = ""), pg.stopLastTyped = b, typeof ti.stops === "object" && (pg.stopsSuggestedForText = b);
         var d = [];
-        if (b.length < 2 || typeof ti.stops != "object") d.push("<a id=\"aMoreChars\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_info\"></span>" + (typeof ti.stops != "object" ? i18n.receivingData : i18n.typeSomeChars) + "</a>");
+        if (b.length < 2 || typeof ti.stops != "object") d.push("<autobusuData id=\"aMoreChars\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_info\"></span>" + (typeof ti.stops != "object" ? i18n.receivingData : i18n.typeSomeChars) + "</autobusuData>");
         else {
             var e = ti.fGetStopsByName(pg.stopSuggestedForMap || b);
-            if (e.length == 0) d.push("<a id=\"aMoreChars\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_info\"></span>" + i18n.noStopsFound + "</a>");
+            if (e.length == 0) d.push("<autobusuData id=\"aMoreChars\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_info\"></span>" + i18n.noStopsFound + "</autobusuData>");
             else {
                 var f = "," + pg[pg.inputActive.id] + ",";
                 for (var g = 0; g < e.length; g++) {
                     var h = e[g],
                         i = [];
-                    h.city && !cfg.cities[pg.city].skipStopCity && i.push(h.city), h.area && !cfg.cities[pg.city].skipStopArea && i.push(h.area), h.streets && i.push(h.streets), i = i.length > 0 ? "<span class=\"details\"> (" + i.join(", ") + ")</span>" : "", i = "<a id=\"" + h.id + "\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_map\" title=\"" + i18n.showInMap + "\"></span>" + (f.indexOf("," + h.id + ",") >= 0 ? "<strong>" + h.name + "</strong>" : h.name) + i + "</a>", !1 && f.indexOf("," + h.id + ",") >= 0 ? d.splice(0, 0, i) : d.push(i)
+                    h.city && !cfg.cities[pg.city].skipStopCity && i.push(h.city), h.area && !cfg.cities[pg.city].skipStopArea && i.push(h.area), h.streets && i.push(h.streets), i = i.length > 0 ? "<span class=\"details\"> (" + i.join(", ") + ")</span>" : "", i = "<autobusuData id=\"" + h.id + "\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_map\" title=\"" + i18n.showInMap + "\"></span>" + (f.indexOf("," + h.id + ",") >= 0 ? "<strong>" + h.name + "</strong>" : h.name) + i + "</autobusuData>", !1 && f.indexOf("," + h.id + ",") >= 0 ? d.splice(0, 0, i) : d.push(i)
                 }
             }
         }
-        b.length >= 3 && (pg.geocoder || typeof mobile != "undefined") && d.push("<div id=\"geocaching-results\"><span style=\"display:block; padding-left:10px;line-height:26px;\"><b>" + i18n.addressesAndPlaces + ":</b><br/>" + i18n.loading + "</span></div>"), d.push("<a id=\"aSuggestShowMap\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_stops\"></span>" + i18n.selectFromMap + "</a>"), typeof mobile != "undefined" && mobile.kautra && d.pop(), (c || {}).innerHTML = d.join("");
+        b.length >= 3 && (pg.geocoder || typeof mobile != "undefined") && d.push("<div id=\"geocaching-results\"><span style=\"display:block; padding-left:10px;line-height:26px;\"><b>" + i18n.addressesAndPlaces + ":</b><br/>" + i18n.loading + "</span></div>"), d.push("<autobusuData id=\"aSuggestShowMap\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_stops\"></span>" + i18n.selectFromMap + "</autobusuData>"), typeof mobile != "undefined" && mobile.kautra && d.pop(), (c || {}).innerHTML = d.join("");
         if (b && b.length >= 3) {
             if (typeof mobile != "undefined") mobile.searchPlaces(b, function(a) {
                 var b = $("geocaching-results");
                 if (b) {
                     var c = [];
-                    a.length ? c.push(["<span style=\"display:block; padding-left:10px;line-height:26px;\"><b>", i18n.addressesAndPlaces, ":</b></span>"].join("")) : c.push(["<a id=\"aMoreChars\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_info\"></span>", i18n.noAddressesAndPlacesFound, "</a>"].join("")), jQuery.each(a, function(a, b) {
-                        c.push(["<a id=\"", b.key, "\" onclick=\"return false;\" href=\"\">", b.name, "</a>"].join(""))
-                    }), b.innerHTML = c.join(""), jQuery("#geocaching-results a").bind("click", function() {
+                    a.length ? c.push(["<span style=\"display:block; padding-left:10px;line-height:26px;\"><b>", i18n.addressesAndPlaces, ":</b></span>"].join("")) : c.push(["<autobusuData id=\"aMoreChars\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_info\"></span>", i18n.noAddressesAndPlacesFound, "</autobusuData>"].join("")), jQuery.each(a, function(a, b) {
+                        c.push(["<autobusuData id=\"", b.key, "\" onclick=\"return false;\" href=\"\">", b.name, "</autobusuData>"].join(""))
+                    }), b.innerHTML = c.join(""), jQuery("#geocaching-results autobusuData").bind("click", function() {
                         mobile.geocoder.getPlaceId(jQuery(this).attr("id"), function(a) {
                             var b = mobile.geocoder.index[a];
                             b.indexOf(",") != -1 && (b = b.substring(0, b.indexOf(","))), pg.inputActive.value = b, pg.inputActive.className = "", pg.stopsSuggestedForText = b, pg[pg.inputActive.id] = a, pg.fSuggestedStopsHide(), pg.timerSuggestedStopsShow = !1, pg.inputSuggestedStops_KeyDown(null, -13)
@@ -5123,9 +5126,9 @@ jq(window).bind("resize", function(a) {
                 var b = $("geocaching-results");
                 if (b) {
                     var c = [];
-                    a.length ? c.push(["<span style=\"display:block; padding-left:10px;line-height:26px;\"><b>", i18n.addressesAndPlaces, ":</b></span>"].join("")) : c.push(["<a id=\"aMoreChars\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_info\"></span>", i18n.noAddressesAndPlacesFound, "</a>"].join("")), jQuery.each(a, function(a, b) {
-                        c.push(["<a id=\"", b.key, "\" onclick=\"return false;\" href=\"\">", b.name, "</a>"].join(""))
-                    }), b.innerHTML = c.join(""), jQuery("#geocaching-results a").bind("click", function() {
+                    a.length ? c.push(["<span style=\"display:block; padding-left:10px;line-height:26px;\"><b>", i18n.addressesAndPlaces, ":</b></span>"].join("")) : c.push(["<autobusuData id=\"aMoreChars\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_info\"></span>", i18n.noAddressesAndPlacesFound, "</autobusuData>"].join("")), jQuery.each(a, function(a, b) {
+                        c.push(["<autobusuData id=\"", b.key, "\" onclick=\"return false;\" href=\"\">", b.name, "</autobusuData>"].join(""))
+                    }), b.innerHTML = c.join(""), jQuery("#geocaching-results autobusuData").bind("click", function() {
                         pg.geocoder2.getPlaceId(jQuery(this).attr("id"), function(a) {
                             var b = pg.geocoder2.index[a];
                             b.indexOf(",") != -1 && (b = b.substring(0, b.indexOf(","))), pg.inputActive.value = b, pg.inputActive.className = "", pg.stopsSuggestedForText = b, pg[pg.inputActive.id] = a, pg.fSuggestedStopsHide(), pg.timerSuggestedStopsShow = !1, pg.inputSuggestedStops_KeyDown(null, -13)
@@ -5141,10 +5144,10 @@ jq(window).bind("resize", function(a) {
                     var b = $("geocaching-results");
                     if (b) {
                         var c = "";
-                        a.length ? c = "<span style=\"display:block; padding-left:10px;line-height:26px;\"><b>" + i18n.addressesAndPlaces + ":</b></span>" : c = "<a id=\"aMoreChars\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_info\"></span>" + i18n.noAddressesAndPlacesFound + "</a>";
+                        a.length ? c = "<span style=\"display:block; padding-left:10px;line-height:26px;\"><b>" + i18n.addressesAndPlaces + ":</b></span>" : c = "<autobusuData id=\"aMoreChars\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_info\"></span>" + i18n.noAddressesAndPlacesFound + "</autobusuData>";
                         for (var d = 0; d < a.length; d++) {
                             var e = a[d];
-                            c += "<a " + (e.key ? ["data-key=\"", e.key, "\""].join("") : ["id=\"", e.lat, ";", e.lng, "\""].join("")) + " onclick=\"return false;\" href=\"\"><span class=\"icon icon_map\" title=\"" + i18n.showInMap + "\"></span>" + e.name + "</a>"
+                            c += "<autobusuData " + (e.key ? ["data-key=\"", e.key, "\""].join("") : ["id=\"", e.lat, ";", e.lng, "\""].join("")) + " onclick=\"return false;\" href=\"\"><span class=\"icon icon_map\" title=\"" + i18n.showInMap + "\"></span>" + e.name + "</autobusuData>"
                         }
                         b.innerHTML = c, b.style.display = "block"
                     }
@@ -5262,7 +5265,7 @@ jq(window).bind("resize", function(a) {
 }, pg.fTabActivate = function() {
     var a = pg.city + "_" + pg.transport;
     pg.transport || (a = "city", cfg.cities[pg.city] && pg.city !== pg.fGetCity(pg.city) && (a = "region"));
-    var b = $("divNav") && $("divNav").getElementsByTagName("a");
+    var b = $("divNav") && $("divNav").getElementsByTagName("autobusuData");
     if (b)
         for (var c = b.length; --c >= 0;) b[c].id === a ? b[c].className = "active" : b[c].className.indexOf("active") >= 0 && (b[c].className = "");
     ($("dt_stop") || {}).className = pg.transport === "stop" ? "active" : "";
@@ -5286,7 +5289,7 @@ jq(window).bind("resize", function(a) {
     if (!cfg.isMobilePage) {
         cfg.programmedBy && a.push("<p id=\"programmedBy\" class=\"smalltext graytext\">" + (cfg.programmedBy[pg.language] || cfg.programmedBy.en || "") + "</p>");
         var c = cfg.cities[cfg.defaultCity].webcounter;
-        c && (a.push("<a id=\"webcounter\" href=\"http://whos.amung.us/stats/" + c + "\" target=\"_blank\" style=\"float:right; position:relative; bottom:20px; padding:10px;\">"), a.push("<img width=\"80\" height=\"15\" border=\"0\" title=\"web tracker\" alt=\"web tracker\" src=\"//whos.amung.us/swidget/" + c + ".gif\"></a>"))
+        c && (a.push("<autobusuData id=\"webcounter\" href=\"http://whos.amung.us/stats/" + c + "\" target=\"_blank\" style=\"float:right; position:relative; bottom:20px; padding:10px;\">"), a.push("<img width=\"80\" height=\"15\" border=\"0\" title=\"web tracker\" alt=\"web tracker\" src=\"//whos.amung.us/swidget/" + c + ".gif\"></autobusuData>"))
     }
     a.push("</div>");
     return a.join("")
@@ -5341,7 +5344,7 @@ jq(window).bind("resize", function(a) {
             var f = pg.fUrlSet({
                 hashForMap: "map"
             }, !0);
-            $("divContentDepartingRoutesHeader").style.display = "none", (c || {}).innerHTML = ("<p class=\"help\">" + i18n.searchDeparturesHelp + "<p/><p class=\"help\">" + i18n.tripPlannerHelpMap).replace(/<a>/g, "<a class=\"underlined map\" href=\"#" + f + "\">"), document.activeElement && document.activeElement.id !== "inputStop" && ($("inputStop").value = i18n.startStop, $("inputStop").className = "empty", setTimeout(function() {
+            $("divContentDepartingRoutesHeader").style.display = "none", (c || {}).innerHTML = ("<p class=\"help\">" + i18n.searchDeparturesHelp + "<p/><p class=\"help\">" + i18n.tripPlannerHelpMap).replace(/<a>/g, "<autobusuData class=\"underlined map\" href=\"#" + f + "\">"), document.activeElement && document.activeElement.id !== "inputStop" && ($("inputStop").value = i18n.startStop, $("inputStop").className = "empty", setTimeout(function() {
                 try {
                     $("inputStop").focus()
                 } catch (a) {}
@@ -5383,10 +5386,10 @@ jq(window).bind("resize", function(a) {
                     schedule: o
                 }, !0);
                 k !== m.transport && (k = m.transport, h.push(" <span class=\"icon icon_narrow icon_" + m.transport + "\" data-transport=\"" + m.transport + "\"></span>&nbsp;"));
-                var q = "<a class=\"hover transfer" + k + "\" href=\"#" + p + "\" title=\"" + (m.name || "").replace(/"/g, "") + "\">" + i[l].numHTML.replace(/\s/g, "&nbsp;") + "</a> ";
+                var q = "<autobusuData class=\"hover transfer" + k + "\" href=\"#" + p + "\" title=\"" + (m.name || "").replace(/"/g, "") + "\">" + i[l].numHTML.replace(/\s/g, "&nbsp;") + "</autobusuData> ";
                 h.push(q)
             }
-            h.push("<span style=\"display:inline-block; width:2px;\"></span>"), ($("spanContentDepartingRoutesStop") || {}).innerHTML = "<a href=\"#" + f + "\" class=\"icon icon_map\" title=\"" + i18n.showInMap + "\"></a>" + i18n.stop + " <strong>" + d.name + "</strong>" + g + h.join("") + "<br />"
+            h.push("<span style=\"display:inline-block; width:2px;\"></span>"), ($("spanContentDepartingRoutesStop") || {}).innerHTML = "<autobusuData href=\"#" + f + "\" class=\"icon icon_map\" title=\"" + i18n.showInMap + "\"></autobusuData>" + i18n.stop + " <strong>" + d.name + "</strong>" + g + h.join("") + "<br />"
         }
         h = [];
         var r = new Date,
@@ -5627,7 +5630,7 @@ jq(window).bind("resize", function(a) {
                         n = "<br/>No data available";
                     if (m) {
                         n = [];
-                        for (var h = 0; h < m.stops.length - 1; h += 2) n.push(ti.printTime((+m.stops[h + 1] + 30) / 60) + "&nbsp;&nbsp;<a href=\"#stop/" + m.stops[h] + "/map\">" + ti.fGetStopDetails(m.stops[h]).name) + "</a>";
+                        for (var h = 0; h < m.stops.length - 1; h += 2) n.push(ti.printTime((+m.stops[h + 1] + 30) / 60) + "&nbsp;&nbsp;<autobusuData href=\"#stop/" + m.stops[h] + "/map\">" + ti.fGetStopDetails(m.stops[h]).name) + "</autobusuData>";
                         n = n.join("</br>")
                     }
                     var o = pg.realTimeDepartures.vehicleTransport,
@@ -5811,7 +5814,7 @@ jq(window).bind("resize", function(a) {
             var g = pg.fUrlSet({
                 hashForMap: "map"
             }, !0);
-            ($("divContentPlannerResults") || {}).innerHTML = "<p class=\"help\">" + i18n.tripPlannerHelp + "</p><p class=\"help\">" + i18n.tripPlannerHelpMap.replace(/<a>/g, "<a class=\"underlined map\" href=\"#" + g + "\">") + "</p>", b && (c.errors.push({
+            ($("divContentPlannerResults") || {}).innerHTML = "<p class=\"help\">" + i18n.tripPlannerHelp + "</p><p class=\"help\">" + i18n.tripPlannerHelpMap.replace(/<a>/g, "<autobusuData class=\"underlined map\" href=\"#" + g + "\">") + "</p>", b && (c.errors.push({
                 text: i18n.tripPlannerHelp
             }), b(c));
             return
@@ -5880,10 +5883,10 @@ jq(window).bind("resize", function(a) {
                     for (var r = 0; r < l.stops.length; ++r) q += (r ? ", " : " ") + ti.printTime(l.stops[r].departure_time.minutes) + " " + l.stops[r].name;
                     q += "\""
                 }
-                i.push("<p class=\"results\"><span class=\"icon icon_" + l.route.transport + "\"></span><span class=\"num num" + Math.min(l.route.num.length, 4) + " " + l.route.transport + "\">" + l.route.numHTML + "</span>" + (cfg.searchOnly ? "" : "<a class=\"hover\" href=\"#" + o + "\" title=\"" + i18n.showSchedule + "\">") + i18n.transport1[l.route.transport] + " " + i18n.towards + "&nbsp;" + l.route.name + (cfg.searchOnly ? "" : "</a>") + " <br/><strong>" + (cfg.defaultCity == "xxxvilnius2" ? "" : ti.printTime(l.start_time)) + (l.online_data ? "(" + l.online_data.departureAsStr + ")" : "") + " " + l.start_stop.name + (l.start_platform && "(" + l.start_platform + ")" || "") + "</strong> &rarr; " + (cfg.defaultCity == "xxxvilnius2" ? "" : ti.printTime(l.finish_time)) + (l.online_data ? "(" + l.online_data.arrivalAsStr + ")" : "") + " " + l.finish_stop.name + (l.finish_platform && "(" + l.finish_platform + ")" || "") + (cfg.defaultCity == "xxxvilnius2" ? "" : "<span class=\"graytext\"" + q + "> (" + i18n.ride + " " + p + (cfg.city.has_trips_ids ? " trip ID=" + l.trip_id + (l.trip_date ? "(" + l.trip_date.yyyymmdd("-") + ")" : "") + ", trip num=" + l.trip_code + (l.online_data ? ", bezrindas trip ID=" + l.online_data.code : "") : "") + (cfg.city.has_trips_ids === 2 ? ", trip operator=" + l.trip_operator + ", trip group=" + l.trip_group : "") + ")</span>") + "</p>")
+                i.push("<p class=\"results\"><span class=\"icon icon_" + l.route.transport + "\"></span><span class=\"num num" + Math.min(l.route.num.length, 4) + " " + l.route.transport + "\">" + l.route.numHTML + "</span>" + (cfg.searchOnly ? "" : "<autobusuData class=\"hover\" href=\"#" + o + "\" title=\"" + i18n.showSchedule + "\">") + i18n.transport1[l.route.transport] + " " + i18n.towards + "&nbsp;" + l.route.name + (cfg.searchOnly ? "" : "</autobusuData>") + " <br/><strong>" + (cfg.defaultCity == "xxxvilnius2" ? "" : ti.printTime(l.start_time)) + (l.online_data ? "(" + l.online_data.departureAsStr + ")" : "") + " " + l.start_stop.name + (l.start_platform && "(" + l.start_platform + ")" || "") + "</strong> &rarr; " + (cfg.defaultCity == "xxxvilnius2" ? "" : ti.printTime(l.finish_time)) + (l.online_data ? "(" + l.online_data.arrivalAsStr + ")" : "") + " " + l.finish_stop.name + (l.finish_platform && "(" + l.finish_platform + ")" || "") + (cfg.defaultCity == "xxxvilnius2" ? "" : "<span class=\"graytext\"" + q + "> (" + i18n.ride + " " + p + (cfg.city.has_trips_ids ? " trip ID=" + l.trip_id + (l.trip_date ? "(" + l.trip_date.yyyymmdd("-") + ")" : "") + ", trip num=" + l.trip_code + (l.online_data ? ", bezrindas trip ID=" + l.online_data.code : "") : "") + (cfg.city.has_trips_ids === 2 ? ", trip operator=" + l.trip_operator + ", trip group=" + l.trip_group : "") + ")</span>") + "</p>")
             } else {
                 if (l.start_time == l.finish_time && parseInt(l.start_stop.id, 10) == parseInt(l.finish_stop.id, 10)) continue;
-                j.push("<span class=\"icon icon_narrow icon_walk\" title=\"" + i18n.walk + " " + (l.finish_time - l.start_time) + "&nbsp;" + i18n.minutesShort + "\"></span>"), i.push("<p class=\"results\"><span class=\"icon icon_walk\"></span><strong>" + (cfg.defaultCity == "xxxvilnius2" ? "" : ti.printTime(l.start_time)) + " " + l.start_stop.name + "</strong> &rarr; " + (cfg.defaultCity == "xxxvilnius2" ? "" : ti.printTime(l.finish_time)) + " " + l.finish_stop.name + "<span class=\"graytext\"> (" + i18n.walk + " " + (l.finish_time - l.start_time) + "&nbsp;" + i18n.minutesShort + ")</span></p></a>")
+                j.push("<span class=\"icon icon_narrow icon_walk\" title=\"" + i18n.walk + " " + (l.finish_time - l.start_time) + "&nbsp;" + i18n.minutesShort + "\"></span>"), i.push("<p class=\"results\"><span class=\"icon icon_walk\"></span><strong>" + (cfg.defaultCity == "xxxvilnius2" ? "" : ti.printTime(l.start_time)) + " " + l.start_stop.name + "</strong> &rarr; " + (cfg.defaultCity == "xxxvilnius2" ? "" : ti.printTime(l.finish_time)) + " " + l.finish_stop.name + "<span class=\"graytext\"> (" + i18n.walk + " " + (l.finish_time - l.start_time) + "&nbsp;" + i18n.minutesShort + ")</span></p></autobusuData>")
             }
             if (l.taxi)
                 for (var s = 0; s < l.taxi.length; ++s) {
@@ -5891,7 +5894,7 @@ jq(window).bind("resize", function(a) {
                     i.push((s ? "<br />" : "") + "km: " + t.km + ", " + t.name + ", phone: " + t.phone)
                 }
         }
-        e.push("<div" + (f % 2 ? "" : " class=\"grey\"") + " style=\"border-bottom: solid 1px gray; padding:5px 0 5px 5px;\"><table><tbody><tr><td><a href=\"\" onclick=\"return false;\" title=\"" + (f ? i18n.showDetails : i18n.hideDetails) + "\" class=\"" + (f ? "expand" : "collapse") + "\"><span class=\"icon\"></span><strong class=\"hover\">" + i18n.option + "&nbsp;" + (f + 1) + ".</strong></a> <a href=\"#" + pg.city + "/" + pg.transport + "/map,,," + (f + 1) + "\" class=\"icon icon_map\" title=\"" + i18n.showInMap + "\"></a> " + (cfg.defaultCity == "xxxvilnius2" ? "" : ti.printTime(g.start_time, null, "&#x2007;") + " &mdash; " + ti.printTime(g.finish_time, null, "&#x2007;")) + ",</td><td style=\"white-space:pre-wrap;\">" + (g.distance ? "atstumas&nbsp;" + Math.round(g.distance) / 1e3 + "&nbsp;km" : i18n.travelDuration + "&nbsp;<strong>" + ti.printTime(g.travel_time, ":", "duration")) + "</strong>  " + (typeof g.cost == "number" ? "kaina&nbsp;" + g.cost + "&euro;  " : "") + "<span style=\"white-space:nowrap;\">" + j.join("") + "</span></td></tr></tbody></table><div class=\"RouteDetails\" style=\"" + (f ? "display:none;" : "") + "\">"), e.push(i.join("") + "</a></div></div>")
+        e.push("<div" + (f % 2 ? "" : " class=\"grey\"") + " style=\"border-bottom: solid 1px gray; padding:5px 0 5px 5px;\"><table><tbody><tr><td><autobusuData href=\"\" onclick=\"return false;\" title=\"" + (f ? i18n.showDetails : i18n.hideDetails) + "\" class=\"" + (f ? "expand" : "collapse") + "\"><span class=\"icon\"></span><strong class=\"hover\">" + i18n.option + "&nbsp;" + (f + 1) + ".</strong></autobusuData> <autobusuData href=\"#" + pg.city + "/" + pg.transport + "/map,,," + (f + 1) + "\" class=\"icon icon_map\" title=\"" + i18n.showInMap + "\"></autobusuData> " + (cfg.defaultCity == "xxxvilnius2" ? "" : ti.printTime(g.start_time, null, "&#x2007;") + " &mdash; " + ti.printTime(g.finish_time, null, "&#x2007;")) + ",</td><td style=\"white-space:pre-wrap;\">" + (g.distance ? "atstumas&nbsp;" + Math.round(g.distance) / 1e3 + "&nbsp;km" : i18n.travelDuration + "&nbsp;<strong>" + ti.printTime(g.travel_time, ":", "duration")) + "</strong>  " + (typeof g.cost == "number" ? "kaina&nbsp;" + g.cost + "&euro;  " : "") + "<span style=\"white-space:nowrap;\">" + j.join("") + "</span></td></tr></tbody></table><div class=\"RouteDetails\" style=\"" + (f ? "display:none;" : "") + "\">"), e.push(i.join("") + "</autobusuData></div></div>")
     }
     if (d.length > 0) {
         pg.fTogglePlannerOptions(!1), b && document.body.className.indexOf("Map") >= 0 && (pg.mapShowAllStops = !1, pg.fUrlSetMap({
@@ -5900,7 +5903,7 @@ jq(window).bind("resize", function(a) {
         if (cfg.defaultCity === "latvia") {
             ti.TimeZoneOffset = 2;
             var u = "http://routelatvia.azurewebsites.net/?";
-            u += "origin=" + a.start_stops, u += "&destination=" + a.finish_stops, u += "&departure_time=" + ti.toUnixTime(a.date, a.start_time), e.push("<br/><a target=\"_blank\" href=\"" + u + "\">" + u + "</a>"), e.push("<div id=\"online_results\">"), a.online_query_url ? e.push("<a target=\"_blank\" href=\"" + a.online_query_url + "\">" + a.online_query_url + "</a>") : b || e.push("<br/>Calculating alternative routes...");
+            u += "origin=" + a.start_stops, u += "&destination=" + a.finish_stops, u += "&departure_time=" + ti.toUnixTime(a.date, a.start_time), e.push("<br/><autobusuData target=\"_blank\" href=\"" + u + "\">" + u + "</autobusuData>"), e.push("<div id=\"online_results\">"), a.online_query_url ? e.push("<autobusuData target=\"_blank\" href=\"" + a.online_query_url + "\">" + a.online_query_url + "</autobusuData>") : b || e.push("<br/>Calculating alternative routes...");
             if (a.online_results_JSON) {
                 var d = JSON.parse(a.online_results_JSON);
                 e.push("<div style=\"white-space:pre;\">", JSON.stringify(d, null, 4), "</div>")
@@ -5934,7 +5937,7 @@ jq(window).bind("resize", function(a) {
     }, !0), g = pg.fUrlSet({
         hashForMap: g + "," + a.dirType + "," + a.stopId
     }, !0));
-    var h = "<a style=\"display:inline-block\" href=\"#" + f + "\" title=\"" + i18n.showSchedule + "\">",
+    var h = "<autobusuData style=\"display:inline-block\" href=\"#" + f + "\" title=\"" + i18n.showSchedule + "\">",
         i = "";
     for (var j = 1; j <= 7; j++)
         if ((a.weekdays || "").indexOf(j) < 0) i += "<span class=\"blankday\" title=\"" + i18n["weekdays" + j] + ": " + i18n.routeNotOperate + "\">" + i18n.weekdaysShort[j] + "</span>";
@@ -5952,7 +5955,7 @@ jq(window).bind("resize", function(a) {
         notes: []
     };
     var n = "<span class=\"hover\">" + a.name + ((a.commercial || "").indexOf("E") >= 0 ? " (" + i18n.express + ")" : "") + "</span>";
-    i += pg.render_airport_icon(a.name, pg.routesFilter != "").replace("&nbsp;", ""), n = "<tr" + (b != "tblDepartingRoutes" && c % 2 != 0 ? " class=\"white\"" : "") + "><td class=\"routeName\"><a class=\"icon icon_map\" title=\"" + i18n.showInMap + "\" href=\"#" + g + "\"></a>" + l + n + "</a>", n += "</td><td class=\"weekdays\"><a href=\"#" + f + "\">" + i + "</a></td><td class=\"lastcol\"></td></tr>";
+    i += pg.render_airport_icon(a.name, pg.routesFilter != "").replace("&nbsp;", ""), n = "<tr" + (b != "tblDepartingRoutes" && c % 2 != 0 ? " class=\"white\"" : "") + "><td class=\"routeName\"><autobusuData class=\"icon icon_map\" title=\"" + i18n.showInMap + "\" href=\"#" + g + "\"></autobusuData>" + l + n + "</autobusuData>", n += "</td><td class=\"weekdays\"><autobusuData href=\"#" + f + "\">" + i + "</autobusuData></td><td class=\"lastcol\"></td></tr>";
     if (b === "tblDepartingRoutes") {
         if (cfg.city.doNotShowTimetables && cfg.city.doNotShowTimetables[a.transport] && a.departures.length && a.departures[0] >= 0)
             if (("," + pg.inputStop + ",").indexOf("," + a.stops[0] + ",") < 0) {
@@ -6003,7 +6006,7 @@ jq(window).bind("resize", function(a) {
         }, !0) : (d = "hash", e.language = pg.language, e.hashForMap || pg.hashForMap && (pg.city === e.city && pg.transport === e.transport ? e.hashForMap = pg.hashForMap : e.hashForMap = "map")) : d = pg.fUrlSet({
             hashForMap: e.hashForMap
         }, !0)) : (d = "collapse", b = f) : (d = "expand", b = f));
-        if ((f.tagName || "").toLowerCase() === "a") break;
+        if ((f.tagName || "").toLowerCase() === "autobusuData") break;
         if ((f.className || "").toLowerCase() === "departuresrow" && d === "expand") {
             d = "", f.className = "DeparturesRowFull";
             break
