@@ -1,5 +1,3 @@
-
-
 $.getJSON('http://api-ext.trafi.com/routes?start_lat=55.66542159999999&start_lng=21.176730799999973&end_lat=55.7284356&end_lng=21.125247100000024&is_arrival=false&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
     function(data) {
     // console.log(data);
@@ -30,6 +28,9 @@ $.getJSON('http://api-ext.trafi.com/departures?stop_id=idjkb_7-9%20Cawang%20UKI&
 var bus;
 var map;
 var autobusuData = [];
+var busMarkerArr = [];
+
+
 setTimeout(function busses() {
     $.get('http://stops.lt/klaipeda/gps.txt?'+Date.now() ,
         function(data) {
@@ -130,9 +131,8 @@ setTimeout(function busses() {
       addMarkersAsBuses(b)
   }
 
-  var busMarkerArr = [];
-  function addMarkersAsBuses(busArray)
-  {
+
+  function addMarkersAsBuses(busArray) {
       // if(busMarkerArr != null)
       // {
       //     for (var i = 0; i < busMarkerArr.length; i++ ) {
@@ -144,24 +144,15 @@ setTimeout(function busses() {
          // console.log(parseFloat(busArray[i][2]));
           var busCoordinates = new google.maps.LatLng(parseFloat(busArray[i][3]), parseFloat(busArray[i][2]));
           //console.log(parseFloat(busArray[i][2])+" - "+parseFloat(busArray[i][3]));
+          if (busMarkerArr[i] != null) {
+              busMarkerArr[i].setMap(null);
+          }
+
           busMarkerArr[i] = new google.maps.Marker({
               position: busCoordinates,
               map: map,
               title: ""+busArray[i][1]
           });
-        var marker = new google.maps.Marker ({
-            position: stopsCords,
-            map: map,
-            title: ""+dataFromServer[i].Name
-        });
-
-        var infowindow = new google.maps.InfoWindow({
-        content: ""+dataFromServer[i].Name
-        });
-
-        marker.addListener('click', function() {
-        infowindow.open(map, marker);
-        });
 
       }
       return busCoordinates;
