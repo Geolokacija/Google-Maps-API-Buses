@@ -83,22 +83,36 @@ $.getJSON('http://api-ext.trafi.com/locations?q=rumpiskes_st&region=klaipeda&api
 
 
   }
+var ast;
     // Places markers infowindow with name of the stop
   function addInfoWindow(marker, stopName, lat, lng, stopId, nextStop)
-
   {
+
+
+
       var infoWindow = new google.maps.InfoWindow({
               content: stopName +" "+ stopId
           });
 
+
       google.maps.event.addListener(marker, 'click', function(){
-          infoWindow.open(map, marker);
-          getStopCoordinates(lat, lng, stopId, nextStop);
+          $.getJSON('http://api-ext.trafi.com/departures?' +
+              'stop_id=' + stopId +
+              '&region=' + depRegion +
+              '&api_key=01f86ef81f0a2d7414bdd0bcfd9f3adc',
+              function (data) {
+                  ast = data;
+                  console.log(ast);
+                  infoWindow.content ='Stotele :'+ ast.Stop.Name+'\nAutobusas : '+ast.Schedules[0].Name+ ' Bus uz ' + ast.Schedules[0].Departures[0].RemainingMinutes + ' Min '+ 'Time at :'+ ast.Schedules[0].Departures[0].TimeLocal;
+                  infoWindow.open(map, marker);
+                  getStopCoordinates(lat, lng, stopId, nextStop);
+              });
+          //   console.log(ast);
+          // infoWindow.content = "a";
+          // infoWindow.open(map, marker);
+          // getStopCoordinates(lat, lng, stopId, nextStop);
       });
-      function updateContent(infowindow,busID) {
-          var info = busStopInfo(busID);
-          //infowindow.setContent(info.Schedules[0].Name);
-      }
+
   }
 
 
