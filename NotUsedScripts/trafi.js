@@ -64,7 +64,6 @@ $.getJSON('http://api-ext.trafi.com/locations?q=rumpiskes_st&region=klaipeda&api
   // Places all bus stop markers on the map
   function addNearBusStops(dataFromServer)
   {
-    console.log(dataFromServer);
       for (var i = 0; i < dataFromServer.length; i++) {
 
           var stopsCords = new google.maps.LatLng(dataFromServer[i].Coordinate.Lat, dataFromServer[i].Coordinate.Lng);
