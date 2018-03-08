@@ -3788,7 +3788,7 @@ pg.fTabShowMap_Click = function (a, b) {
         setTimeout(function () {
             google.maps.event.trigger(pg.GMap, "resize")
         }, 300)
-    } else pg.GMap === null ? (pg.GMap = !1, $("divMap").innerHTML = "<div style=\"margin:10px;\">" + i18n.loadingMap + "</div>", ($("preload") || {}).innerHTML = "<img src=\"" + pg.imagesFolder + "stop.png\" width=\"1\" height=\"1\" /><img src=\"" + pg.imagesFolder + "cluster.png\" width=\"1\" height=\"1\" /><img src=\"" + pg.imagesFolder + "stopGray.png\" width=\"1\" height=\"1\" /><img src=\"" + pg.imagesFolder + "stopGray.png\" width=\"1\" height=\"1\" />", pg.loadGoogleMapsScript(pg.GMapScriptLoadedMap)) : pg.GMap !== !1 && pg.GMapScriptLoadedMap()
+    } else pg.GMap === null ? (pg.GMap = !1, $("divMap").innerHTML = "<div style=\"margin:10px;\">" + i18n.loadingMap + "</div>", ($("preload") || {}).innerHTML = "<img src=" + pg.imagesFolder + "\"../pictures/stop.png\" width=\"1\" height=\"1\" /><img src=\"" + pg.imagesFolder + "cluster.png\" width=\"1\" height=\"1\" /><img src=\"" + pg.imagesFolder + "stopGray.png\" width=\"1\" height=\"1\" /><img src=\"" + pg.imagesFolder + "stopGray.png\" width=\"1\" height=\"1\" />", pg.loadGoogleMapsScript(pg.GMapScriptLoadedMap)) : pg.GMap !== !1 && pg.GMapScriptLoadedMap()
 }, pg.GMapScriptLoadedMap = function () {
     if (!google) {
         alert("Sorry, the Google Maps API is not compatible with this browser");
