@@ -142,6 +142,7 @@ setTimeout(function busses() {
       for (var i = 2; i < busArray.length; i++) {
          // console.log(parseFloat(busArray[i][2]));
           var busCoordinates = new google.maps.LatLng(parseFloat(busArray[i][3]), parseFloat(busArray[i][2]));
+          functionName(busCoordinates);
           //console.log(parseFloat(busArray[i][2])+" - "+parseFloat(busArray[i][3]));
           if (busMarkerArr[i] != null) {
               busMarkerArr[i].setMap(null);
