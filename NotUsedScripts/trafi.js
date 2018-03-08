@@ -21,13 +21,22 @@ $.getJSON('http://api-ext.trafi.com/locations?q=rumpiske&region=klaipeda&current
 });
  // Departure
 var depRegion = 'klaipeda',
-    depStop_ID = "idjkb_7-9 Cawang UKI";
-$.getJSON('http://api-ext.trafi.com/departures?' +
-    'stop_id='+ depStop_ID +
-    '&region='+ depRegion +
-    '&api_key=01f86ef81f0a2d7414bdd0bcfd9f3adc',
-    function(data) {
-});
+    depStop_ID = 'klp_1211';
+
+function busStopInfo(depStop_ID) {
+    if (depStop_ID ==  null){
+        depStop_ID = this.depStop_ID;
+    }
+    $.getJSON('http://api-ext.trafi.com/departures?' +
+        'stop_id=' + depStop_ID +
+        '&region=' + depRegion +
+        '&api_key=01f86ef81f0a2d7414bdd0bcfd9f3adc',
+        function (data) {
+        return data;
+        });
+}
+
+
 
 var markerArr = [];
 var index = 0;
@@ -61,6 +70,10 @@ var index = 0;
           infoWindow.open(map, marker);
           getStopCoordinates(stopCoordinates, stopId, nextStop);
       });
+      function updateContent(infowindow,busID) {
+          var info = busStopInfo(busID);
+          //infowindow.setContent(info.Schedules[0].Name);
+      }
   }
 
 
