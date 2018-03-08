@@ -61,10 +61,11 @@ function addNearBusStops(dataFromServer) {
 function addInfoWindow(marker, stopName, lat, lng, stopId, nextStop) {
 
     var infoWindow = new google.maps.InfoWindow({
-        content: stopName + " " + stopId
+        content: stopName
     });
 
     google.maps.event.addListener(marker, 'click', function () {
+
         $.getJSON('http://api-ext.trafi.com/departures?' +
             'stop_id=' + stopId +
             '&region=' + depRegion +
@@ -72,9 +73,13 @@ function addInfoWindow(marker, stopName, lat, lng, stopId, nextStop) {
             function (data) {
                 document.getElementById('busInfo').innerHTML =
                     'Stotele : ' + data.Stop.Name +
-                    ' Bus : ' + data.Schedules[0].Name +
-                    ' Bus arrive in : ' + data.Schedules[0].Departures[0].RemainingMinutes + ' min' +
-                    ' Time at :' + data.Schedules[0].Departures[0].TimeLocal;
+                    '<br>' +
+                    'Bus : ' + data.Schedules[0].Name +
+                    '<br>' +
+                    'Bus arrive in : ' + data.Schedules[0].Departures[0].RemainingMinutes + ' min ' +
+                    '<br>' +
+                    'Time at :' + data.Schedules[0].Departures[0].TimeLocal;
+
                 infoWindow.open(map, marker);
                 getStopCoordinates(lat, lng, stopId, nextStop);
             });
