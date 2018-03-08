@@ -81,7 +81,7 @@ function addMarkersAsBuses(busArray) {
             map: map,
             title: ""+busArray[i][1],
             icon: {
-            url: "http://www.directoryislamabad.com/wp-content/uploads/2017/07/transport.png",
+            url: "https://d30y9cdsu7xlg0.cloudfront.net/png/5551-200.png",
             scaledSize: new google.maps.Size(25, 25)
           }
         });
