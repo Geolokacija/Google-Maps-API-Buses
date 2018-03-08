@@ -7,7 +7,7 @@ $.getJSON('http://api-ext.trafi.com/routes?start_lat=55.66542159999999&start_lng
 $.getJSON('http://api-ext.trafi.com/stops/nearby?lat=55.703297&lng=21.144279&radius=50000&api_key=01f86ef81f0a2d7414bdd0bcfd9f3adc',
     function(data) {
     var jsObject = JSON.parse(JSON.stringify(data));
-    console.log(jsObject);
+    console.log(data);
     var dataFromServer = [];
     for (var i = 0; i < jsObject.Stops.length; i++) {
         dataFromServer[dataFromServer.length] = jsObject.Stops[i];
@@ -17,24 +17,23 @@ $.getJSON('http://api-ext.trafi.com/stops/nearby?lat=55.703297&lng=21.144279&rad
 
 $.getJSON('http://api-ext.trafi.com/locations?q=rumpiske&region=klaipeda&current_lat=55.703229&current_lng=21.148679000000016&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
     function(data) {
-      console.log(data);
 });
  // Departure
 var depRegion = 'klaipeda',
     depStop_ID = 'klp_1211';
 
-function busStopInfo(depStop_ID) {
-    if (depStop_ID ==  null){
-        depStop_ID = this.depStop_ID;
-    }
-    $.getJSON('http://api-ext.trafi.com/departures?' +
-        'stop_id=' + depStop_ID +
-        '&region=' + depRegion +
-        '&api_key=01f86ef81f0a2d7414bdd0bcfd9f3adc',
-        function (data) {
-        return data;
-        });
-}
+// function busStopInfo(depStop_ID) {
+//     if (depStop_ID ==  null){
+//         depStop_ID = this.depStop_ID;
+//     }
+//     $.getJSON('http://api-ext.trafi.com/departures?' +
+//         'stop_id=' + depStop_ID +
+//         '&region=' + depRegion +
+//         '&api_key=01f86ef81f0a2d7414bdd0bcfd9f3adc',
+//         function (data) {
+//         return data;
+//         });
+// }
 
 
 
@@ -56,19 +55,20 @@ var index = 0;
               scaledSize: new google.maps.Size(8, 8)
             }
           });
-          addInfoWindow(markerArr[i], dataFromServer[i].Name, stopsCords, dataFromServer[i].Id, dataFromServer[i].Direction)
+          addInfoWindow(markerArr[i], dataFromServer[i].Name, dataFromServer[i].Coordinate.Lat, dataFromServer[i].Coordinate.Lng, dataFromServer[i].Id, dataFromServer[i].Direction)
       }
   }
     // Places markers infowindow with name of the stop
-  function addInfoWindow(marker, message, stopCoordinates, stopId, nextStop)
+  function addInfoWindow(marker, stopName, lat, lng, stopId, nextStop)
+
   {
       var infoWindow = new google.maps.InfoWindow({
-              content: message +" "+ stopId
+              content: stopName +" "+ stopId
           });
 
       google.maps.event.addListener(marker, 'click', function(){
           infoWindow.open(map, marker);
-          getStopCoordinates(stopCoordinates, stopId, nextStop);
+          getStopCoordinates(lat, lng, stopId, nextStop);
       });
       function updateContent(infowindow,busID) {
           var info = busStopInfo(busID);
@@ -77,12 +77,18 @@ var index = 0;
   }
 
 
-  function getStopCoordinates  (stopCoordinates, stopId, nextStop) {
-    if (index < 2) {
-      console.log(stopId);
-      index++;
-    } else {
-      //clear previous route
-      index = 0;
-    }
+  function getStopCoordinates  (lat, lng, stopId, nextStop) {
+    //if (index < 2) {
+      $.getJSON('http://api-ext.trafi.com/departures?' +
+          'stop_id=' + stopId +
+          '&region=' + depRegion +
+          '&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
+          function (data) {
+            var jsObject2 = JSON.parse(JSON.stringify(data));
+            var dataFromServer2 = [];
+            for (var i = 0; i < jsObject2.Schedules.length; i++) {
+                dataFromServer2[dataFromServer2.length] = jsObject2.Schedules[i];
+            }
+            a(dataFromServer2);
+          });
   }
