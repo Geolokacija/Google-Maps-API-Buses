@@ -14,9 +14,9 @@ setTimeout(function busses() {
 
     setTimeout(function () {
         busses();
-    },5000)
+    },3000)
 
-},5000);
+},3000);
 
 var b = [];
 function createsBusObjects(arrayOfBusString)
