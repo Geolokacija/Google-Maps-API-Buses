@@ -11,7 +11,7 @@ setTimeout(function busses() {
 
             createsBusObjects(autobusuData);
         });
-    
+
     setTimeout(function () {
         busses();
     },5000)
@@ -47,7 +47,7 @@ function createsBusObjects(arrayOfBusString)
         //////////////
 
         stringY = b[i][3];
-        console.log(b[i][3]);
+        //console.log(b[i][3]);
         strLY = stringY.length;
         for(var a =0; a< strLY; a++)
         {
@@ -59,7 +59,7 @@ function createsBusObjects(arrayOfBusString)
             }
         }
         b[i][3] = temporaryY;
-        console.log(b[i][3]);
+        //console.log(b[i][3]);
         temporaryY = '';
     }
     addMarkersAsBuses(b)
@@ -81,7 +81,7 @@ function addMarkersAsBuses(busArray) {
             map: map,
             title: ""+busArray[i][1],
             icon: {
-            url: "http://www.directoryislamabad.com/wp-content/uploads/2017/07/transport.png",
+            url: "https://www.airportbus-muenchen.de/assets/img/bus-station-icon.svg",
             scaledSize: new google.maps.Size(25, 25)
           }
         });

@@ -15,12 +15,14 @@ $.getJSON('http://api-ext.trafi.com/stops/nearby?lat=55.703297&lng=21.144279&rad
         dataFromServer[dataFromServer.length] = jsObject.Stops[i];
     }
     addNearBusStops(dataFromServer);
+    busesBetweenStops(start, end, dataFromServer);
+
 });
 
 $.getJSON('http://api-ext.trafi.com/locations?q=rumpiskes_st&region=klaipeda&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
     function(data) {
 
-     console.log(data);
+     //console.log(data);
 
 });
  // Departure
@@ -63,4 +65,40 @@ var markerArr = [];
       google.maps.event.addListener(marker, 'click', function(){
           infoWindow.open(map, marker);
       });
+  }
+  var start ={Lat: 55.70315170288086, Lng: 21.14539909362793};
+  var end ={ Lat: 55.703861236572266, Lng: 21.14328956604004};
+  var startStop = null;
+  var endStop = null;
+
+  function busesBetweenStops(start, end, dataFromServer){
+
+    //Suranda dvi stoteles pagal ju koordinates.
+      for (var i = 0; i < dataFromServer.length; i++) {
+
+        if(dataFromServer[i].Coordinate.Lat == start.Lat && dataFromServer[i].Coordinate.Lng == start.Lng){
+          startStop = dataFromServer[i];
+        //  console.log(dataFromServer[i]);
+        }
+        else if(dataFromServer[i].Coordinate.Lat == end.Lat && dataFromServer[i].Coordinate.Lng == end.Lng){
+          endStop = dataFromServer[i];
+          //console.log(dataFromServer[i]);
+        }
+      }
+
+      //Jei  randamos stoteles nustatomi bendri autobusai.
+      if(startStop != null && endStop != null){
+        var startBuses = startStop.StopTooltip.SchedulesAtStop;
+        var endBuses = endStop.StopTooltip.SchedulesAtStop;
+        var commonBuses = [];
+        for (var i = 0; i < startBuses.length; i++) {
+          for (var j = 0; j < endBuses.length; j++){
+            if(startBuses[i].Name == endBuses[j].Name){
+              commonBuses.push(startBuses[i].Name);
+            }
+          }
+        }
+          console.log(commonBuses);
+      }
+
   }
