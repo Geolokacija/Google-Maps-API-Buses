@@ -30,34 +30,6 @@ $.getJSON('http://api-ext.trafi.com/locations?q=rumpiskes_st&region=klaipeda&api
     function (data) {
 
     });
-// Departure
-
-
-// function busStopInfo(depStop_ID) {
-//     if (depStop_ID ==  null){
-//         depStop_ID = this.depStop_ID;
-//     }
-//     $.getJSON('http://api-ext.trafi.com/departures?' +
-//         'stop_id=' + depStop_ID +
-//         '&region=' + depRegion +
-//         '&api_key=01f86ef81f0a2d7414bdd0bcfd9f3adc',
-//         function (data) {
-//         return data;
-//         });
-// }
-
-
-// $.getJSON('http://api-ext.trafi.com/departures?' +
-//     'stop_id=' + stopId +
-//     '&region=' + depRegion +
-//     '&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
-//     function (data) {
-//       var jsObject2 = JSON.parse(JSON.stringify(data));
-//       var dataFromServer2 = [];
-//       for (var i = 0; i < jsObject2.Schedules.length; i++) {
-//           dataFromServer2[dataFromServer2.length] = jsObject2.Schedules[i];
-//       }
-//     });
 
 
 // Places all bus stop markers on the map
