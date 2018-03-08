@@ -92,3 +92,9 @@ var index = 0;
             a(dataFromServer2);
           });
   }
+
+  function a(a) {
+    var b = a[0].Name;
+  console.log(b);
+  return b;
+  }
