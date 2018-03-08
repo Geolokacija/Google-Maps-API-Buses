@@ -72,9 +72,11 @@ function addInfoWindow(marker, stopName, lat, lng, stopId, nextStop) {
             function (data) {
                 document.getElementById('busInfo').innerHTML =
                     'Stotele : ' + data.Stop.Name +
-
+                    '<br>' +
                     'Bus : ' + data.Schedules[0].Name +
+                    '<br>' +
                     'Bus arrive in : ' + data.Schedules[0].Departures[0].RemainingMinutes + ' min ' +
+                    '<br>' +
                     'Time at :' + data.Schedules[0].Departures[0].TimeLocal;
                 infoWindow.open(map, marker);
                 getStopCoordinates(lat, lng, stopId, nextStop);
