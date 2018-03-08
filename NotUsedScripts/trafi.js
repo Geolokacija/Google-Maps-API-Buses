@@ -8,6 +8,7 @@ var depRegion = 'klaipeda',
     depStop_ID = 'klp_1211';
 var markerArr = [];
 var index = 0;
+var ast;
 
 $.getJSON('http://api-ext.trafi.com/routes?start_lat=55.66542159999999&start_lng=21.176730799999973&end_lat=55.7284356&end_lng=21.125247100000024&is_arrival=false&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
     function(data) {
@@ -23,13 +24,10 @@ $.getJSON('http://api-ext.trafi.com/stops/nearby?lat=55.703297&lng=21.144279&rad
         dataFromServer[dataFromServer.length] = jsObject.Stops[i];
     }
     addNearBusStops(dataFromServer);
-    stopsColor();
 });
 
 $.getJSON('http://api-ext.trafi.com/locations?q=rumpiskes_st&region=klaipeda&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
     function(data) {
-
-     //console.log(data);
 
 });
  // Departure
@@ -67,6 +65,9 @@ $.getJSON('http://api-ext.trafi.com/locations?q=rumpiskes_st&region=klaipeda&api
   {
       for (var i = 0; i < dataFromServer.length; i++) {
 
+        if(dataFromServer[i].StopTooltip.SchedulesAtStop.length > 0){
+          if (dataFromServer[i].StopTooltip.SchedulesAtStop[0].Color == '0073ac'){
+
           var stopsCords = new google.maps.LatLng(dataFromServer[i].Coordinate.Lat, dataFromServer[i].Coordinate.Lng);
 
           markerArr[i] = new google.maps.Marker({
@@ -79,21 +80,19 @@ $.getJSON('http://api-ext.trafi.com/locations?q=rumpiskes_st&region=klaipeda&api
             }
           });
           addInfoWindow(markerArr[i], dataFromServer[i].Name, dataFromServer[i].Coordinate.Lat, dataFromServer[i].Coordinate.Lng, dataFromServer[i].Id, dataFromServer[i].Direction)
+        }
       }
-
-
+    }
   }
-var ast;
+
+
     // Places markers infowindow with name of the stop
   function addInfoWindow(marker, stopName, lat, lng, stopId, nextStop)
   {
 
-
-
       var infoWindow = new google.maps.InfoWindow({
               content: stopName +" "+ stopId
           });
-
 
       google.maps.event.addListener(marker, 'click', function(){
           $.getJSON('http://api-ext.trafi.com/departures?' +
@@ -107,12 +106,7 @@ var ast;
                   infoWindow.open(map, marker);
                   getStopCoordinates(lat, lng, stopId, nextStop);
               });
-          //   console.log(ast);
-          // infoWindow.content = "a";
-          // infoWindow.open(map, marker);
-          // getStopCoordinates(lat, lng, stopId, nextStop);
       });
-
   }
 
 
@@ -127,6 +121,7 @@ var ast;
 
     //Jei turimos start ir end stotelės nustatomi bendri autobusai.
       if(start != null && end != null){
+        commonBuses = [];
         busesBetweenStops();
         start = null;
         end = null;
@@ -162,13 +157,4 @@ var ast;
         }
           console.log(commonBuses);
       }
-  }
-
-
-  function stopsColor(){
-      for (var i = 0; i < dataFromServer.length; i++) {
-        if(dataFromServer[i].StopTooltip.SchedulesAtStop.length > 0){
-    console.log(dataFromServer[i].StopTooltip.SchedulesAtStop[0].Color);
-  }
-  }
   }
