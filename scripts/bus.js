@@ -81,7 +81,7 @@ function addMarkersAsBuses(busArray) {
             map: map,
             title: ""+busArray[i][1],
             icon: {
-            url: "https://d30y9cdsu7xlg0.cloudfront.net/png/5551-200.png",
+            url: "https://www.airportbus-muenchen.de/assets/img/bus-station-icon.svg",
             scaledSize: new google.maps.Size(25, 25)
           }
         });
