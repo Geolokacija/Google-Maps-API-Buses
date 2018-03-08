@@ -3,6 +3,7 @@ var start =null;
 var end =null;
 var startStop = null;
 var endStop = null;
+var commonBuses = [];
 var depRegion = 'klaipeda',
     depStop_ID = 'klp_1211';
 var markerArr = [];
@@ -99,6 +100,8 @@ $.getJSON('http://api-ext.trafi.com/locations?q=rumpiskes_st&region=klaipeda&api
     //Jei turimos start ir end stotelės nustatomi bendri autobusai.
       if(start != null && end != null){
         busesBetweenStops(start, end, dataFromServer);
+        start = null;
+        end = null;
       }
   }
 
@@ -120,7 +123,7 @@ $.getJSON('http://api-ext.trafi.com/locations?q=rumpiskes_st&region=klaipeda&api
       if(startStop != null && endStop != null){
         var startBuses = startStop.StopTooltip.SchedulesAtStop;
         var endBuses = endStop.StopTooltip.SchedulesAtStop;
-        var commonBuses = [];
+        //var commonBuses = [];
         for (var i = 0; i < startBuses.length; i++) {
           for (var j = 0; j < endBuses.length; j++){
             if(startBuses[i].Name == endBuses[j].Name){
