@@ -23,6 +23,7 @@ $.getJSON('http://api-ext.trafi.com/stops/nearby?lat=55.703297&lng=21.144279&rad
         dataFromServer[dataFromServer.length] = jsObject.Stops[i];
     }
     addNearBusStops(dataFromServer);
+    stopsColor();
 });
 
 $.getJSON('http://api-ext.trafi.com/locations?q=rumpiskes_st&region=klaipeda&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
@@ -126,14 +127,14 @@ var ast;
 
     //Jei turimos start ir end stotelės nustatomi bendri autobusai.
       if(start != null && end != null){
-        busesBetweenStops(start, end, dataFromServer);
+        busesBetweenStops();
         start = null;
         end = null;
       }
   }
 
 
-  function busesBetweenStops(start, end, dataFromServer){
+  function busesBetweenStops(){
 
     //Suranda dvi stoteles pagal ju koordinates.
       for (var i = 0; i < dataFromServer.length; i++) {
@@ -161,5 +162,13 @@ var ast;
         }
           console.log(commonBuses);
       }
+  }
 
+
+  function stopsColor(){
+      for (var i = 0; i < dataFromServer.length; i++) {
+        if(dataFromServer[i].StopTooltip.SchedulesAtStop.length > 0){
+    console.log(dataFromServer[i].StopTooltip.SchedulesAtStop[0].Color);
+  }
+  }
   }
