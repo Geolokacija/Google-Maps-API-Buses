@@ -83,7 +83,6 @@ $.getJSON('http://api-ext.trafi.com/locations?q=rumpiskes_st&region=klaipeda&api
 
 
   }
-var ast;
     // Places markers infowindow with name of the stop
   function addInfoWindow(marker, stopName, lat, lng, stopId, nextStop)
   {
@@ -101,13 +100,16 @@ var ast;
               '&region=' + depRegion +
               '&api_key=01f86ef81f0a2d7414bdd0bcfd9f3adc',
               function (data) {
-                  ast = data;
-                  console.log(ast);
-                  infoWindow.content ='Stotele :'+ ast.Stop.Name+'\nAutobusas : '+ast.Schedules[0].Name+ ' Bus uz ' + ast.Schedules[0].Departures[0].RemainingMinutes + ' Min '+ 'Time at :'+ ast.Schedules[0].Departures[0].TimeLocal;
+                  document.getElementById('busInfo').innerHTML  =
+                      'Stotele : '+ data.Stop.Name+
+
+                      'Bus : '+data.Schedules[0].Name+
+                      'Bus arrive in : ' + data.Schedules[0].Departures[0].RemainingMinutes + ' min '+
+                      'Time at :'+ data.Schedules[0].Departures[0].TimeLocal;
                   infoWindow.open(map, marker);
                   getStopCoordinates(lat, lng, stopId, nextStop);
               });
-          //   console.log(ast);
+          //   console.log(data);
           // infoWindow.content = "a";
           // infoWindow.open(map, marker);
           // getStopCoordinates(lat, lng, stopId, nextStop);
