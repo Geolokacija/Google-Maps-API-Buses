@@ -1,3 +1,12 @@
+var dataFromServer = [];
+var start =null;
+var end =null;
+var startStop = null;
+var endStop = null;
+var depRegion = 'klaipeda',
+    depStop_ID = 'klp_1211';
+var markerArr = [];
+var index = 0;
 
 $.getJSON('http://api-ext.trafi.com/routes?start_lat=55.66542159999999&start_lng=21.176730799999973&end_lat=55.7284356&end_lng=21.125247100000024&is_arrival=false&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
     function(data) {
@@ -8,19 +17,21 @@ $.getJSON('http://api-ext.trafi.com/stops/nearby?lat=55.703297&lng=21.144279&rad
     function(data) {
     var jsObject = JSON.parse(JSON.stringify(data));
     console.log(data);
-    var dataFromServer = [];
+
     for (var i = 0; i < jsObject.Stops.length; i++) {
         dataFromServer[dataFromServer.length] = jsObject.Stops[i];
     }
     addNearBusStops(dataFromServer);
 });
 
-$.getJSON('http://api-ext.trafi.com/locations?q=rumpiske&region=klaipeda&current_lat=55.703229&current_lng=21.148679000000016&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
+$.getJSON('http://api-ext.trafi.com/locations?q=rumpiskes_st&region=klaipeda&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
     function(data) {
+
+     //console.log(data);
+
 });
  // Departure
-var depRegion = 'klaipeda',
-    depStop_ID = 'klp_1211';
+
 
 // function busStopInfo(depStop_ID) {
 //     if (depStop_ID ==  null){
@@ -37,8 +48,7 @@ var depRegion = 'klaipeda',
 
 
 
-var markerArr = [];
-var index = 0;
+
 
   // Places all bus stop markers on the map
   function addNearBusStops(dataFromServer)
@@ -78,17 +88,47 @@ var index = 0;
 
 
   function getStopCoordinates  (lat, lng, stopId, nextStop) {
-    //if (index < 2) {
-      $.getJSON('http://api-ext.trafi.com/departures?' +
-          'stop_id=' + stopId +
-          '&region=' + depRegion +
-          '&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
-          function (data) {
-            var jsObject2 = JSON.parse(JSON.stringify(data));
-            var dataFromServer2 = [];
-            for (var i = 0; i < jsObject2.Schedules.length; i++) {
-                dataFromServer2[dataFromServer2.length] = jsObject2.Schedules[i];
+
+    //Į stast ir end yra sudedamos pasirinktų stotelių koordinatės.
+      if(start == null){
+        start = {Lat: lat, Lng: lng};
+      }else if(end == null){
+        end = {Lat: lat, Lng: lng};
+      }
+
+    //Jei turimos start ir end stotelės nustatomi bendri autobusai.
+      if(start != null && end != null){
+        busesBetweenStops(start, end, dataFromServer);
+      }
+  }
+
+
+  function busesBetweenStops(start, end, dataFromServer){
+
+    //Suranda dvi stoteles pagal ju koordinates.
+      for (var i = 0; i < dataFromServer.length; i++) {
+
+        if(dataFromServer[i].Coordinate.Lat == start.Lat && dataFromServer[i].Coordinate.Lng == start.Lng){
+          startStop = dataFromServer[i];
+        }
+        else if(dataFromServer[i].Coordinate.Lat == end.Lat && dataFromServer[i].Coordinate.Lng == end.Lng){
+          endStop = dataFromServer[i];
+        }
+      }
+
+      //Jei  randamos stoteles nustatomi bendri autobusai.
+      if(startStop != null && endStop != null){
+        var startBuses = startStop.StopTooltip.SchedulesAtStop;
+        var endBuses = endStop.StopTooltip.SchedulesAtStop;
+        var commonBuses = [];
+        for (var i = 0; i < startBuses.length; i++) {
+          for (var j = 0; j < endBuses.length; j++){
+            if(startBuses[i].Name == endBuses[j].Name){
+              commonBuses.push(startBuses[i].Name);
             }
-            a(dataFromServer2);
-          });
+          }
+        }
+          console.log(commonBuses);
+      }
+
   }
