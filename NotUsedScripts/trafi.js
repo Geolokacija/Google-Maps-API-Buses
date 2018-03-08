@@ -23,6 +23,7 @@ $.getJSON('http://api-ext.trafi.com/stops/nearby?lat=55.703297&lng=21.144279&rad
         dataFromServer[dataFromServer.length] = jsObject.Stops[i];
     }
     addNearBusStops(dataFromServer);
+    stopsColor();
 });
 
 $.getJSON('http://api-ext.trafi.com/locations?q=rumpiskes_st&region=klaipeda&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
@@ -48,10 +49,25 @@ $.getJSON('http://api-ext.trafi.com/locations?q=rumpiskes_st&region=klaipeda&api
 // }
 
 
+// $.getJSON('http://api-ext.trafi.com/departures?' +
+//     'stop_id=' + stopId +
+//     '&region=' + depRegion +
+//     '&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
+//     function (data) {
+//       var jsObject2 = JSON.parse(JSON.stringify(data));
+//       var dataFromServer2 = [];
+//       for (var i = 0; i < jsObject2.Schedules.length; i++) {
+//           dataFromServer2[dataFromServer2.length] = jsObject2.Schedules[i];
+//       }
+//     });
+
+
   // Places all bus stop markers on the map
   function addNearBusStops(dataFromServer)
   {
+    console.log(dataFromServer);
       for (var i = 0; i < dataFromServer.length; i++) {
+
           var stopsCords = new google.maps.LatLng(dataFromServer[i].Coordinate.Lat, dataFromServer[i].Coordinate.Lng);
 
           markerArr[i] = new google.maps.Marker({
@@ -65,6 +81,8 @@ $.getJSON('http://api-ext.trafi.com/locations?q=rumpiskes_st&region=klaipeda&api
           });
           addInfoWindow(markerArr[i], dataFromServer[i].Name, dataFromServer[i].Coordinate.Lat, dataFromServer[i].Coordinate.Lng, dataFromServer[i].Id, dataFromServer[i].Direction)
       }
+
+
   }
 var ast;
     // Places markers infowindow with name of the stop
@@ -110,14 +128,14 @@ var ast;
 
     //Jei turimos start ir end stotelės nustatomi bendri autobusai.
       if(start != null && end != null){
-        busesBetweenStops(start, end, dataFromServer);
+        busesBetweenStops();
         start = null;
         end = null;
       }
   }
 
 
-  function busesBetweenStops(start, end, dataFromServer){
+  function busesBetweenStops(){
 
     //Suranda dvi stoteles pagal ju koordinates.
       for (var i = 0; i < dataFromServer.length; i++) {
@@ -139,10 +157,19 @@ var ast;
           for (var j = 0; j < endBuses.length; j++){
             if(startBuses[i].Name == endBuses[j].Name){
               commonBuses.push(startBuses[i].Name);
+              document.getElementById('availableBuses').innerHTML = commonBuses;
             }
           }
         }
           console.log(commonBuses);
       }
+  }
 
+
+  function stopsColor(){
+      for (var i = 0; i < dataFromServer.length; i++) {
+        if(dataFromServer[i].StopTooltip.SchedulesAtStop.length > 0){
+    console.log(dataFromServer[i].StopTooltip.SchedulesAtStop[0].Color);
+  }
+  }
   }
