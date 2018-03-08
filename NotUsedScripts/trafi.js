@@ -64,7 +64,9 @@ $.getJSON('http://api-ext.trafi.com/locations?q=rumpiskes_st&region=klaipeda&api
   // Places all bus stop markers on the map
   function addNearBusStops(dataFromServer)
   {
+    console.log(dataFromServer);
       for (var i = 0; i < dataFromServer.length; i++) {
+
           var stopsCords = new google.maps.LatLng(dataFromServer[i].Coordinate.Lat, dataFromServer[i].Coordinate.Lng);
 
           markerArr[i] = new google.maps.Marker({
@@ -78,6 +80,8 @@ $.getJSON('http://api-ext.trafi.com/locations?q=rumpiskes_st&region=klaipeda&api
           });
           addInfoWindow(markerArr[i], dataFromServer[i].Name, dataFromServer[i].Coordinate.Lat, dataFromServer[i].Coordinate.Lng, dataFromServer[i].Id, dataFromServer[i].Direction)
       }
+
+
   }
     // Places markers infowindow with name of the stop
   function addInfoWindow(marker, stopName, lat, lng, stopId, nextStop)
@@ -138,6 +142,7 @@ $.getJSON('http://api-ext.trafi.com/locations?q=rumpiskes_st&region=klaipeda&api
           for (var j = 0; j < endBuses.length; j++){
             if(startBuses[i].Name == endBuses[j].Name){
               commonBuses.push(startBuses[i].Name);
+              document.getElementById('availableBuses').innerHTML = commonBuses;
             }
           }
         }
