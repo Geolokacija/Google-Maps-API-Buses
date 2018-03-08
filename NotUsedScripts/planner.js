@@ -107,29 +107,30 @@ var ti = {
     },
     wordSeparators: "–—̶­˗“”„ _-.()'\""
 };
-ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.defaultCity == "klaipeda" && (ti.transportRoutes = function(a, b) {
+ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.defaultCity == "klaipeda" && (ti.transportRoutes = function (a, b) {
     if (a.slice(-1).toLowerCase() == "e") return "expressbus";
     if (b == "nightbus" || a == "N1" || a == "66" || a == "88" || a == "170") return "nightbus";
     if (a == "31" || a == "32") return "minibus";
     return "bus"
 }), typeof window == "object" && typeof console == "undefined" && (window.console = {
-    log: function() {}
-}), String.prototype.trim = function() {
+    log: function () {
+    }
+}), String.prototype.trim = function () {
     return this.replace(/^\s\s*/, "").replace(/\s\s*$/, "")
-}, ti.dateToMinutes = function(a, b) {
+}, ti.dateToMinutes = function (a, b) {
     var c = +a / 6e4;
     b || (c = Math.floor(c)), c -= a.getTimezoneOffset();
     return c
-}, ti.dateToDays = function(a) {
+}, ti.dateToDays = function (a) {
     return Math.floor(ti.dateToMinutes(a) / 1440)
-}, ti.printTime = function(a, b, c) {
+}, ti.printTime = function (a, b, c) {
     if (a < 0) return "";
     !b && b !== "" && (b = ":");
     var d = ~~a,
         e = ~~(d / 60);
     c == "duration" ? c = "" : typeof cfg == "object" && cfg.defaultCity != "intercity" && (e %= 24), d = d % 60;
     return (c && e < 10 ? c : "") + e + b + (d < 10 ? "0" : "") + d
-}, ti.toMinutes = function(a) {
+}, ti.toMinutes = function (a) {
     if (typeof a != "string") return 0;
     var b = a.trim(),
         c = b.length,
@@ -141,54 +142,60 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
     var e = a.split(":");
     d = parseInt(e[0], 10) * 60 + parseInt(e[1], 10), e[2] && parseInt(e[2], 10) >= 30 && ++d;
     return d
-}, ti.fDownloadUrl = function(a, b, c, d) {
+}, ti.fdivContentPlannerResults = function (a, b, c, d) {
     if (a && b && c) {
         if (ti.SERVER === !0) {
-            http.get(b, function(a) {
+            http.get(b, function (a) {
                 a.setEncoding("utf8");
                 var b = "";
-                a.on("data", function(a) {
+                a.on("data", function (a) {
                     b += a
-                }), a.on("end", function() {
+                }), a.on("end", function () {
                     c(b)
-                }), a.on("error", function() {})
-            }).on("error", function(a) {});
+                }), a.on("error", function () {
+                })
+            }).on("error", function (a) {
+            });
             return
         }
         var e;
         if (!window.XMLHttpRequest || window.location.protocol === "file:" && window.ActiveXObject) {
             try {
                 e = new ActiveXObject("MSXML2.XMLHTTP.6.0")
-            } catch (f) {}
+            } catch (f) {
+            }
             if (!e) try {
                 e = new ActiveXObject("MSXML2.XMLHTTP")
-            } catch (f) {}
+            } catch (f) {
+            }
             if (!e) try {
                 e = new ActiveXObject("Microsoft.XMLHTTP")
-            } catch (f) {}
-        } else e = new XMLHttpRequest, (d || b.indexOf("http") == 0) && !("withCredentials" in e) && typeof XDomainRequest != "undefined" && (e = new XDomainRequest, e.open(a, b), e.onload = function() {
+            } catch (f) {
+            }
+        } else e = new XMLHttpRequest, (d || b.indexOf("http") == 0) && !("withCredentials" in e) && typeof XDomainRequest != "undefined" && (e = new XDomainRequest, e.open(a, b), e.onload = function () {
             c(e.responseText)
         });
-        e.open(a, b, !0), e.onreadystatechange = function() {
+        e.open(a, b, !0), e.onreadystatechange = function () {
             if (e.readyState == 4)
                 if (e.status == 200 || e.status == 0) typeof e.responseText == "string" ? c(e.responseText) : typeof e.responseXML == "string" ? c(e.responseXML) : c(e.responseText)
         };
         try {
             e.send(null)
-        } catch (g) {}
+        } catch (g) {
+        }
     }
-}, ti.toAscii = function(a, b, c) {
+}, ti.toAscii = function (a, b, c) {
     var d = (a || "").toLowerCase(),
         e = d.split(""),
         f, g = ti.accent_map;
     for (var h = e.length; --h >= 0;) c && e[h] == "ž" ? (e[h] = "zh", d = !1) : (f = g[e[h]]) ? (e[h] = f === !0 ? "" : f, d = !1) : b === !0 && e[h] === " " && (e[h] = "", d = !1);
     b === 2 && (d = e.join("").trim().replace(/\s+-/g, "-").replace(/-\s+/g, "-"));
     return d || e.join("")
-}, ti.cloneObject = function(a) {
+}, ti.cloneObject = function (a) {
     var b = a instanceof Array ? [] : {};
     for (var c in a) a[c] && typeof a[c] == "object" ? b[c] = a[c].clone() : b[c] = a[c];
     return b
-}, ti.naturalSort = function(a, b) {
+}, ti.naturalSort = function (a, b) {
     var c = /(^-?[0-9]+(\.?[0-9]*)[df]?e?[0-9]?$|^0x[0-9a-f]+$|[0-9]+)/gi,
         d = /(^[ ]*|[ ]*$)/g,
         e = /(^([\w ]+,?[\w ]+)?[\w ]+,?[\w ]+\d+:\d+(:\d+)?[\w ]?|^\d{1,4}[\/\-]\d{1,4}[\/\-]\d{1,4}|^\w+, \w+ \d+, \d{4})/,
@@ -212,13 +219,13 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
         if (oFxNcL > oFyNcL) return 1
     }
     return 0
-}, ti.loadData = function() {
+}, ti.loadData = function () {
     if (typeof cfg === "object" && cfg.city && cfg.city.datadir) {
         var a = new Date;
         location.pathname.indexOf("test.html") < 0 ? a = a.setHours(a.getHours() - 2, 0, 0, 0) : a = a.getTime(), cfg.city.datadir.indexOf(".php") < 0 ? (ti.fDownloadUrl("get", cfg.city.datadir + "/routes.txt?" + a, ti.loadRoutes), ti.fDownloadUrl("get", cfg.city.datadir + "/stops.txt?" + a, ti.loadStops)) : (ti.fDownloadUrl("get", cfg.city.datadir + "routes.txt&timestamp=" + a, ti.loadRoutes, !0), ti.fDownloadUrl("get", cfg.city.datadir + "stops.txt&timestamp=" + a, ti.loadStops, !0))
     } else ti.fDownloadUrl("get", "routes.txt", ti.loadRoutes), ti.fDownloadUrl("get", "stops.txt", ti.loadStops);
     cfg.defaultCity === "latvia" && ti.fDownloadUrl("get", "taxi.txt", ti.loadTaxi)
-}, ti.loadStops = function(a, b) {
+}, ti.loadStops = function (a, b) {
     a = a.split(b || "\n");
     var c = "",
         d = "",
@@ -264,7 +271,7 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
             };
             ti.SERVER && (w.routes = [], w.neighbours = u ? u.split(",") : []), j[s] = w, l.push(w)
         }
-    ti.stops = null, ti.stops = j, ti.asciiStops = k, l.sort(function(a, b) {
+    ti.stops = null, ti.stops = j, ti.asciiStops = k, l.sort(function (a, b) {
         return a.lat < b.lat ? -1 : a.lat > b.lat ? 1 : 0
     });
     for (p = l.length; --p > 0;)
@@ -277,10 +284,10 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
                 A > -.015 && A < .015 && (l[p].neighbours.push(l[y].id), l[y].neighbours.push(l[p].id))
             }
         }
-    typeof ti.routes == "string" && (ti.SERVER === !0 ? ti.loadRoutes(ti.routes) : window.setTimeout(function() {
+    typeof ti.routes == "string" && (ti.SERVER === !0 ? ti.loadRoutes(ti.routes) : window.setTimeout(function () {
         ti.loadRoutes(ti.routes)
     }, 10))
-}, ti.loadRoutes = function(a, b) {
+}, ti.loadRoutes = function (a, b) {
     if (typeof ti.stops !== "object") ti.routes = a;
     else {
         a = a.split(b || "\n");
@@ -334,7 +341,8 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
                     for (var J = -1, K = F.length; ++J < K;) F[J] && (G = +F[J]), H += G, I ? ti.specialWeekdays[H] = +x[t.WEEKDAYS] : E[H] = !0;
                     I || (ti.specialDates[x[t.ROUTENUM]] = E);
                     continue
-                }++r;
+                }
+                ++r;
                 if (D = x[t.ROUTENUM]) f = D === "0" ? "" : D, r = 1;
                 if (D = x[t.ROUTENAME]) g = D;
                 if (D = x[t.CITY]) i = D === "0" ? "" : D, l = i + "_" + k, r = 1;
@@ -349,7 +357,8 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
                 if (f.indexOf("разв") >= 0) {
                     ++u;
                     continue
-                }++v;
+                }
+                ++v;
                 var M = ti.toAscii(x[t.ROUTESTOPS], !0, !0).split(","),
                     N = !1;
                 for (var O = 0, P = M.length; O < P; ++O) {
@@ -383,7 +392,7 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
             for (var Q in d) !e[Q] && Q.charAt(0) != "a" && (d[Q].name = "");
         if (typeof cfg === "object" && cfg.defaultCity == "latvia")
             for (var Q in d) d[Q].city = ti.toAscii(d[Q].city);
-        typeof window === "object" && typeof pg === "object" && (pg.fCreateNavigation(), pg.fTabActivate(), pg.loadGoogleMapsScript(function() {
+        typeof window === "object" && typeof pg === "object" && (pg.fCreateNavigation(), pg.fTabActivate(), pg.loadGoogleMapsScript(function () {
             cfg.defaultCity != "rrrostov" && (cfg.city.areaBounds ? pg.geocoder = {
                 bounds: new google.maps.LatLngBounds(new google.maps.LatLng(cfg.city.areaBounds.southWest.lat, cfg.city.areaBounds.southWest.lng), new google.maps.LatLng(cfg.city.areaBounds.northEast.lat, cfg.city.areaBounds.northEast.lng)),
                 places: new google.maps.places.PlacesService($("divMapForPlaces")),
@@ -391,12 +400,12 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
                 index: {},
                 interval: 300,
                 timer: null,
-                getPlaceId: function(a, b) {
+                getPlaceId: function (a, b) {
                     var c = this,
                         d = {
                             placeId: a.slice(1)
                         };
-                    this.places.getDetails(d, function(a, d) {
+                    this.places.getDetails(d, function (a, d) {
                         if (d == google.maps.places.PlacesServiceStatus.OK) {
                             var e = Math.round(a.geometry.location.lat() * 1e5) / 1e5,
                                 f = Math.round(a.geometry.location.lng() * 1e5) / 1e5,
@@ -405,16 +414,16 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
                         }
                     })
                 },
-                search: function(a, b) {
+                search: function (a, b) {
                     var c = this;
-                    this.timer !== null && (window.clearTimeout(this.timer), this.timer = null), this.timer = window.setTimeout(function() {
+                    this.timer !== null && (window.clearTimeout(this.timer), this.timer = null), this.timer = window.setTimeout(function () {
                         c.autocomplete.getPlacePredictions({
                             input: a,
                             bounds: c.bounds,
                             componentRestrictions: {
                                 country: cfg.defaultLanguage
                             }
-                        }, function(a, c) {
+                        }, function (a, c) {
                             if (c == google.maps.places.PlacesServiceStatus.OK) {
                                 var d = [];
                                 for (var e = 0, f; f = a[e]; e++) {
@@ -441,10 +450,10 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
                 timer: null,
                 cache: {},
                 index: {},
-                search: function(a, b) {
+                search: function (a, b) {
                     a = (a || "").trim();
                     if (a.length < 3) return [];
-                    this.previousInput = a, this.timer !== null && (window.clearTimeout(this.timer), this.timer = null), a in this.cache ? b(this.cache[a]) : this.timer = window.setTimeout(function() {
+                    this.previousInput = a, this.timer !== null && (window.clearTimeout(this.timer), this.timer = null), a in this.cache ? b(this.cache[a]) : this.timer = window.setTimeout(function () {
                         pg.geocoder.g.geocode({
                             address: a,
                             region: cfg.defaultLanguage,
@@ -452,7 +461,7 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
                                 country: cfg.defaultLanguage,
                                 locality: cfg.defaultCity == "intercity" ? "Lithuania" : cfg.defaultCity
                             }
-                        }, function(c, d) {
+                        }, function (c, d) {
                             if (d == google.maps.GeocoderStatus.OK) {
                                 c.length && c[0].formatted_address.indexOf("Riga, ") == 0 && (c = []), c.length && c[0].formatted_address.indexOf("Vilnius, ") == 0 && (c = []);
                                 var e = [];
@@ -477,7 +486,7 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
             })
         }))
     }
-}, ti.loadTaxi = function(a, b) {
+}, ti.loadTaxi = function (a, b) {
     ti.taxi = [], a = a.split(b || "\n");
     var c = a.length,
         d = a[0].toUpperCase().split(";"),
@@ -495,7 +504,7 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
                 };
             h.radius *= h.radius, ti.taxi.push(h)
         }
-}, ti.fGetStopsByName = function(a, b) {
+}, ti.fGetStopsByName = function (a, b) {
     if (typeof ti.stops !== "object") return [];
     var c = ti.toAscii(a);
     if (!c) return [];
@@ -508,7 +517,7 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
     i && typeof cfg == "object" && cfg.defaultCity == "krasnodar" && f.push(ti.stops[a]);
     for (var j in h) {
         var k = -1;
-        for (;;) {
+        for (; ;) {
             k = j.indexOf(c, k + 1);
             if (k < 0) break;
             if (k === 0 || g.indexOf(j.charAt(k - 1)) >= 0) {
@@ -540,7 +549,7 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
         var q = r[o];
         q ? q.id += "," + i.id : (r[o] = i, s.push(i))
     }
-    s.sort(function(a, b) {
+    s.sort(function (a, b) {
         if (typeof cfg == "object" && cfg.defaultCity == "intercity") {
             if (a.info && !b.info) return -1;
             if (!a.info && b.info) return 1;
@@ -566,7 +575,7 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
         return 0
     });
     return s
-}, ti.fGetAnyStopDetails = function(a, b) {
+}, ti.fGetAnyStopDetails = function (a, b) {
     if (!a) {
         if (b) {
             b({});
@@ -576,7 +585,7 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
     }
     if (typeof ti.stops !== "object") {
         if (b) {
-            setTimeout(function() {
+            setTimeout(function () {
                 ti.fGetAnyStopDetails(a, b)
             }, 200);
             return
@@ -593,7 +602,7 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
     g && (d.latAvg = e / g, d.lngAvg = f / g);
     if (b) b(d || {});
     else return d || {}
-}, ti.fGetStopDetails = function(a) {
+}, ti.fGetStopDetails = function (a) {
     if (typeof ti.stops !== "object" || !a) return {};
     var b = ti.stops[a],
         c;
@@ -626,14 +635,14 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
         raw_data: b.raw_data
     };
     return c
-}, ti.fGetTransfersAtStop = function(a, b, c) {
+}, ti.fGetTransfersAtStop = function (a, b, c) {
     var d = ti.stops,
         e = [a],
         f = parseInt(a, 10);
     if (f && "" + f !== "" + a && cfg.defaultCity !== "druskininkai" && cfg.defaultCity !== "riga")
         for (var g in d) f == parseInt(g, 10) && e.push(g);
     return ti.fGetRoutesAtStop(e, !1, b, c)
-}, ti.fGetRoutesAtStop = function(a, b, c, d) {
+}, ti.fGetRoutesAtStop = function (a, b, c, d) {
     var e = d && d.dirType || "-",
         f = d && d.id || null,
         g = [],
@@ -654,13 +663,13 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
             (s || c) && (b || !r.routeTag || r.id === f) && (r.stopId = h[n], e && (r.dirType.indexOf(e) < 0 && e.indexOf(r.dirType) < 0 && r.dirType.indexOf("-d") < 0 && j !== k && (r.dirType.indexOf(k) == 0 || r.dirType.indexOf(j) == r.dirType.length - 1 || r.dirType.indexOf("-" + m) < 0 && r.dirType.indexOf(j + "-") < 0 && r.dirType.indexOf(l + "-") < 0 && (r.dirType.indexOf("c") < 0 || r.dirType.indexOf("c") >= r.dirType.length - 2))) ? r.sortKey = "1" : r.sortKey = "0", r.sortKey = [cfg.transportOrder[r.transport] || "Z", ("000000" + parseInt(r.num, 10)).slice(-6), ("000000" + parseInt(r.num.substr(1), 10)).slice(-6), (r.num + "00000000000000000000").substr(0, 20), n === 0 ? "0" : "1", s ? "0" : "1", r.sortKey, ("000000" + r.order).slice(-6)].join(""), g.push(r))
         }
     }
-    g.sort(function(a, b) {
+    g.sort(function (a, b) {
         if (a.sortKey < b.sortKey) return -1;
         if (a.sortKey > b.sortKey) return 1;
         return 0
     });
     return g
-}, ti.fGetRoutes = function(a, b, c, d, e, f) {
+}, ti.fGetRoutes = function (a, b, c, d, e, f) {
     var g = [],
         h = {},
         i = -1,
@@ -735,27 +744,28 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
                 sortKey: C,
                 raw_data: l.raw_data
             }), n && (h[n] = g[g.length - 1])
-        }++i
+        }
+        ++i
     }
     if (!j) return g[0];
-    g.sort(function(a, b) {
+    g.sort(function (a, b) {
         if (a.sortKey < b.sortKey) return -1;
         if (a.sortKey > b.sortKey) return 1;
         return ti.naturalSort(a.num, b.num) || (a.order < b.order ? -1 : a.order > b.order ? 1 : 0)
     });
     return g
-}, ti.fOperatorDetails = function(a, b) {
+}, ti.fOperatorDetails = function (a, b) {
     var c = cfg.operators[a || b];
     if (!c) return a;
     c = b && c[b] || c;
     return c[pg.language] || c.en || c
-}, ti.encodeNumber = function(a) {
+}, ti.encodeNumber = function (a) {
     a = a << 1, a < 0 && (a = ~a);
     var b = "";
     while (a >= 32) b += String.fromCharCode((32 | a & 31) + 63), a >>= 5;
     b += String.fromCharCode(a + 63);
     return b
-}, ti.explodeTimes = function(a) {
+}, ti.explodeTimes = function (a) {
     var b = [],
         c = [],
         d = [],
@@ -781,13 +791,15 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
             w = l[++m];
         w === "" ? (w = j - u, o = 0) : w = +w;
         while (w-- > 0) d[u++] = v
-    }--m;
+    }
+    --m;
     for (var u = 0, o = l.length; ++m < o;) {
         var v = +l[m],
             w = l[++m];
         w === "" ? (w = j - u, o = 0) : w = +w;
         while (w-- > 0) e[u++] = v
-    }--m;
+    }
+    --m;
     for (var u = 0, o = l.length; ++m < o;) {
         var x = l[m],
             w = l[++m];
@@ -814,8 +826,10 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
                 if (l[m] === "") break;
                 h[u] = l[m], ++u
             }
-        }++m
-    }--m, k = 1;
+        }
+        ++m
+    }
+    --m, k = 1;
     for (var u = j, y = j, z = 5, o = l.length; ++m < o;) {
         z += +l[m] - 5;
         var w = l[++m];
@@ -835,7 +849,7 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
         trip_groups: i
     };
     return final_data
-}, ti.fGetDirTag = function(a) {
+}, ti.fGetDirTag = function (a) {
     if (a.indexOf("-d") >= 0) return "0";
     if (a.indexOf("2") >= 0) return "2";
     if (a.indexOf("3") >= 0) return "3";
@@ -845,7 +859,7 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
         if (c < 0 || c > b) return "1"
     }
     return ""
-}, ti.parseParams = function(a) {
+}, ti.parseParams = function (a) {
     var b = {};
     if (!a) {
         b.status = "UNDEFINED";
@@ -918,7 +932,7 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
         }
     }
     return b
-}, ti.printParameters = function(a) {
+}, ti.printParameters = function (a) {
     if (!a.date) {
         var b = new Date;
         a.date = new Date(b.getFullYear(), b.getMonth(), b.getDate())
@@ -949,11 +963,11 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
         d && (c.transport = d.substring(2))
     }
     return c
-}, ti.toUnixTime = function(a, b) {
+}, ti.toUnixTime = function (a, b) {
     var c = new Date(a.getFullYear(), a.getMonth(), a.getDate(), Math.floor((b || 0) / 60), (b || 0) % 60);
     ti.TimeZoneOffset = -c.getTimezoneOffset() / 60, c = +c / 1e3, ti.TimeZoneOffset || (ti.TimeZoneOffset = 3, a > new Date(2017, 9, 29, 3, 0, 0) && (ti.TimeZoneOffset = 2), c -= ti.TimeZoneOffset * 3600);
     return c
-}, Date.prototype.yyyymmdd = function(a) {
+}, Date.prototype.yyyymmdd = function (a) {
     var b = this.getFullYear().toString(),
         c = (this.getMonth() + 1).toString(),
         d = this.getDate().toString();
@@ -993,7 +1007,7 @@ ti.SERVER = typeof window == "object" ? 1 : !0, typeof cfg == "object" && cfg.de
     800: "TROLLEYBUS",
     1e3: "WATER_TRANSPORT",
     1100: "AIR"
-}, ti.ToGoogleFormat = function(a) {
+}, ti.ToGoogleFormat = function (a) {
     if (!a || !a.status) {
         var b = {
             status: "UNDEFINED",
@@ -1246,6 +1260,7 @@ function SHA1(a) {
         }
         return b
     }
+
     var f, g, h, i = new Array(80),
         j = 1732584193,
         k = 4023233417,
@@ -1292,7 +1307,8 @@ function DoTest() {
         b = ti.ENtoLngLat(582346.92226, 6062885.2678);
     return
 }
-ti.ENtoLatLng = function(a, b) {
+
+ti.ENtoLatLng = function (a, b) {
     var c = 3.14159265,
         d = 6378137,
         e = 6356752.3141,
@@ -1324,7 +1340,7 @@ ti.ENtoLatLng = function(a, b) {
         E = s / (5040 * Math.pow(u, 7)) * (61 + 662 * Math.pow(t, 2) + 1320 * Math.pow(t, 4) + 720 * Math.pow(t, 6)),
         F = 180 / c * (l + q * B - Math.pow(q, 3) * C + Math.pow(q, 5) * D - Math.pow(q, 7) * E);
     return [A, F]
-}, ti.LatLngToEN = function(a, b) {
+}, ti.LatLngToEN = function (a, b) {
     var c = 3.14159265,
         d = 6378137,
         e = 6356752.3141,
@@ -1359,15 +1375,15 @@ ti.ENtoLatLng = function(a, b) {
         G = s / 120 * Math.pow(y, 5) * (5 - 18 * (z * z) + Math.pow(z, 4) + 14 * u - 58 * (z * z) * u);
     X = h + v * E + Math.pow(v, 3) * F + Math.pow(v, 5) * G, X = Math.round(X);
     return [X, Y]
-}, ti.InitialLat = function(a, b, c, d, e, f) {
+}, ti.InitialLat = function (a, b, c, d, e, f) {
     var g = (a - b) / c + d,
         h = ti.Marc(f, e, d, g),
         i = (a - b - h) / c + g;
     while (Math.abs(a - b - h) > 1e-5) i = (a - b - h) / c + g, h = ti.Marc(f, e, d, i), g = i;
     return i
-}, ti.Marc = function(a, b, c, d) {
+}, ti.Marc = function (a, b, c, d) {
     return a * ((1 + b + 1.25 * (b * b) + 1.25 * (b * b * b)) * (d - c) - (3 * b + 3 * (b * b) + 21 / 8 * (b * b * b)) * Math.sin(d - c) * Math.cos(d + c) + (15 / 8 * (b * b) + 15 / 8 * (b * b * b)) * Math.sin(2 * (d - c)) * Math.cos(2 * (d + c)) - 35 / 24 * (b * b * b) * Math.sin(3 * (d - c)) * Math.cos(3 * (d + c)))
-}, ti.distance = function(a, b, c, d) {
+}, ti.distance = function (a, b, c, d) {
     if (!(a && b && c && d)) return 0;
     var e = 6378137,
         f = Math.PI / 180,
@@ -1379,13 +1395,13 @@ ti.ENtoLatLng = function(a, b) {
         l = 2 * Math.atan2(Math.sqrt(k), Math.sqrt(1 - k)),
         m = e * l;
     return m
-}, ti.encodeNumber = function(a) {
+}, ti.encodeNumber = function (a) {
     a = a << 1, a < 0 && (a = ~a);
     var b = "";
     while (a >= 32) b += String.fromCharCode((32 | a & 31) + 63), a >>= 5;
     b += String.fromCharCode(a + 63);
     return b
-}, ti.stringToFields = function(a, b, c) {
+}, ti.stringToFields = function (a, b, c) {
     var d = a.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/);
     if (d.length < b.length) return {
         error: "Missing data, fields found; " + d.length + ", required: " + b.length
@@ -1406,30 +1422,30 @@ if (typeof module !== "undefined" && module.exports) {
     module.exports = ti;
     var http = require("http")
 }
-var Hash = function() {
+var Hash = function () {
     var a = this,
         b = document.documentMode,
         c = a.history,
         d = a.location,
-        e, f, g, h = function() {
+        e, f, g, h = function () {
             var a = d.href.indexOf("#");
             return a == -1 ? "" : decodeURI(d.href.substr(a + 1))
         },
-        i = function() {
+        i = function () {
             var b = h();
             b != f && (f = b, e(b, !1), pg.timeOfActivity = (new Date).getTime(), typeof _gaq != "undefined" && _gaq.push(["_trackPageview", "/" + a.location.hash]))
         },
-        j = function(a) {
+        j = function (a) {
             try {
                 var b = g.contentWindow.document;
                 b.open(), b.write("<html><body>" + a + "</body></html>"), b.close(), f = a
             } catch (c) {
-                setTimeout(function() {
+                setTimeout(function () {
                     j(a)
                 }, 10)
             }
         },
-        k = function() {
+        k = function () {
             try {
                 g.contentWindow.document
             } catch (a) {
@@ -1438,19 +1454,20 @@ var Hash = function() {
             }
             j(f);
             var b = f;
-            setInterval(function() {
+            setInterval(function () {
                 var a, c;
                 try {
                     a = g.contentWindow.document.body.innerText, a != b ? (b = a, d.hash = f = a, e(a, !0)) : (c = h(), c != f && j(c))
-                } catch (i) {}
+                } catch (i) {
+                }
             }, 50)
         };
     return {
         getHash: h,
-        init: function(d, j) {
+        init: function (d, j) {
             e || (e = d, f = h(), d(f, !0), a.ActiveXObject ? !b || b < 8 ? (g = j, k()) : a.attachEvent("onhashchange", i) : (c.navigationMode && (c.navigationMode = "compatible"), setInterval(i, 50)))
         },
-        go: function(a) {
+        go: function (a) {
             if (a != f) {
                 if (top !== self && (typeof cfg != "object" || cfg.defaultCity != "jelgava")) {
                     top.location.replace(self.location.href.split("#")[0] + "#" + a);
@@ -1466,7 +1483,7 @@ if (typeof module !== "undefined" && module.exports) {
         ti = require(fs.existsSync(__dirname + "/ti.js") ? __dirname + "/ti.js" : "../JS/ti.js");
     module.exports = ti
 }
-var pikasRoute = ti.pikasRoute = function(a, b) {
+var pikasRoute = ti.pikasRoute = function (a, b) {
     a.mode == "vintra" && typeof cfg != "undefined" && (cfg.defaultCity = "vilnius"), a = a || {
         origin: "3540",
         destination: "54.68561;25.28670",
@@ -1474,7 +1491,7 @@ var pikasRoute = ti.pikasRoute = function(a, b) {
         walk_max: "1000"
     };
     var c = ti.parseParams(a);
-    c.callback = function(a) {
+    c.callback = function (a) {
         var c = "";
         a.search_duration && (c += "Search took " + a.search_duration + "ms<br /><br />"), c += "Optimal routes:";
         var d = a.results || [];
@@ -1490,7 +1507,7 @@ var pikasRoute = ti.pikasRoute = function(a, b) {
         b === "JSON" || b === "json" ? document.body.innerHTML = JSON.stringify(ti.ToGoogleFormat(a), null, 4) : typeof b === "string" ? document.body.innerHTML = c : typeof b === "function" ? (d = ti.ToGoogleFormat(a), d.text = c, d.version = "2017-09-17", b(d)) : window.JSClassObject.receiveResult(JSON.stringify(ti.ToGoogleFormat(a), null, 4))
     }, ti.findTrips(c)
 };
-ti.findTrips = function(args) {
+ti.findTrips = function (args) {
     ti.args = args, ti.distances = ti.distances || {}, ti.walking_responses = ti.walking_responses || [];
     if (args && args.callback) {
         if (args.status && args.status != "OK") {
@@ -1538,7 +1555,7 @@ ti.findTrips = function(args) {
                         distance = dx * dx + dy * dy;
                     distance <= walk_max_km2 && nearest_stops.push([-999, start_point])
                 }
-                nearest_stops.sort(function(a, b) {
+                nearest_stops.sort(function (a, b) {
                     return a[0] - b[0]
                 });
                 for (var i = 0; i < 10; i++) {
@@ -1553,11 +1570,11 @@ ti.findTrips = function(args) {
                             p2 = ti.LatLngToEN(stop.lat, stop.lng);
                         url = url.replace("$x1", p1[0]), url = url.replace("$y1", p1[1]), url = url.replace("$x2", p2[0]), url = url.replace("$y2", p2[1]), url.replace("esriNAOutputLineTrueShape", "esriNAOutputLineNone")
                     }
-                    var handler = function() {
+                    var handler = function () {
                         var curr_shape_name = shape_name,
                             curr_url = url,
                             curr_time = +(new Date);
-                        return function(lines) {
+                        return function (lines) {
                             shape_name.indexOf(";start_point;") < 0 && args.distances_missing--;
                             if (lines.indexOf("DOCTYPE") < 0) {
                                 !ti.timeout_for_finding_distances && ti.print_log == "function" && ti.print_log("WARNING: late response in " + (+(new Date) - curr_time) + "ms from " + curr_url);
@@ -1575,7 +1592,7 @@ ti.findTrips = function(args) {
                 }
             }
             if (args.distances_missing) {
-                ti.timeout_for_finding_distances = setTimeout(function() {
+                ti.timeout_for_finding_distances = setTimeout(function () {
                     args.distances_missing = 0, ti.findTrips(args)
                 }, cfg.timeout_for_geometry || 1e3);
                 return
@@ -1687,18 +1704,18 @@ ti.findTrips = function(args) {
                     host: "bezrindas.lv",
                     port: 80,
                     path: query_url
-                }, function(a) {
+                }, function (a) {
                     a.setEncoding("utf8");
                     var b = "";
-                    a.on("data", function(a) {
+                    a.on("data", function (a) {
                         b += a
-                    }), a.on("end", function() {
+                    }), a.on("end", function () {
                         if (b) {
                             var a = JSON.parse(b);
                             a.contents && (a = a.contents), a && a.length && args.online_results.push.apply(args.online_results, [].concat(a)), --args.online_results_required_count == 0 && ti.findTrips(args)
                         }
                     })
-                }) : (query_url = "http://bezrindas.lv" + query_url, args.online_query_url = query_url, query_url = "http://www.stops.lt/latviatest/proxy.php?url=" + encodeURIComponent(query_url), ($("online_results") || {}).innerHTML = "<br/>Waiting data from bezrindas.lv for stops pairs: " + args.online_results_required_count, ti.fDownloadUrl("get", query_url, function(a) {
+                }) : (query_url = "http://bezrindas.lv" + query_url, args.online_query_url = query_url, query_url = "http://www.stops.lt/latviatest/proxy.php?url=" + encodeURIComponent(query_url), ($("online_results") || {}).innerHTML = "<br/>Waiting data from bezrindas.lv for stops pairs: " + args.online_results_required_count, ti.fDownloadUrl("get", query_url, function (a) {
                     if (a) {
                         args.online_results_JSON = a;
                         var b = JSON.parse(a);
@@ -1710,7 +1727,7 @@ ti.findTrips = function(args) {
         }
         ti.args = args, ti.returnSearchResults()
     }
-}, ti.returnSearchResults = function() {
+}, ti.returnSearchResults = function () {
     ti.timeout_for_search_results && (clearTimeout(ti.timeout_for_search_results), ti.timeout_for_search_results = null);
     var a = ti.args;
     a.results = ti.finalizeSearchResults(a, a.online_results), a.transport = a.transportOriginal, typeof pg === "object" && (pg.optimalSearchRunning = !1);
@@ -1720,7 +1737,7 @@ ti.findTrips = function(args) {
         if (typeof window == "object") document.body.innerHTML = JSON.stringify(a.results);
         else return a
     }
-}, ti.applyShapes = function(bDownloadShapes) {
+}, ti.applyShapes = function (bDownloadShapes) {
     if (ti.args && ti.args.results && ti.args.results.length) {
         var shapes_missing = 0,
             shape_name;
@@ -1757,11 +1774,11 @@ ti.findTrips = function(args) {
                             p2 = ti.LatLngToEN(lat2, lng2);
                         url = url.replace("$x1", p1[0]), url = url.replace("$y1", p1[1]), url = url.replace("$x2", p2[0]), url = url.replace("$y2", p2[1])
                     }
-                    var handler = function() {
+                    var handler = function () {
                         var a = shape_name,
                             b = url,
                             c = +(new Date);
-                        return function(d) {
+                        return function (d) {
                             d.indexOf("DOCTYPE") < 0 ? (ti.shapes[a] = d, ti.applyShapes(), !ti.timeout_for_search_results && ti.print_log == "function" && ti.print_log("WARNING: late response in " + (+(new Date) - c) + "ms from " + b)) : ti.print_log == "function" && ti.print_log("WARNING: response from walking path service for requested shape " + a + " is not JSON data:\n" + d)
                         }
                     }();
@@ -1924,14 +1941,14 @@ function dijkstra(a, b, c, d) {
     a.finish_stops || (k = !1);
     var bm = +(new Date),
         bn, bo = 0,
-        bp = function() {
-            for (var b = 0;;) {
+        bp = function () {
+            for (var b = 0; ;) {
                 for (var e; !(e = bd[m]) || !e.length;)
                     if (++m > d) {
                         if (!bc.length) {
                             a.results = [];
                             if (i) return [];
-                            a.callback2 ? window.setTimeout(a.callback2, 10) : typeof window === "object" ? window.setTimeout(function() {
+                            a.callback2 ? window.setTimeout(a.callback2, 10) : typeof window === "object" ? window.setTimeout(function () {
                                 ti.findTrips(a)
                             }, 10) : ti.findTrips(a);
                             return
@@ -1943,7 +1960,7 @@ function dijkstra(a, b, c, d) {
                 e = e.pop();
                 if (e.time < m || e.changes < 0) continue;
                 if (++b == 3e3 && !i && typeof window == "object") {
-                    +(new Date) - bm > 3e4 ? (a.results = [], window.setTimeout(function() {
+                    +(new Date) - bm > 3e4 ? (a.results = [], window.setTimeout(function () {
                         ti.findTrips(a)
                     }, 10)) : window.setTimeout(bp, 100);
                     return
@@ -2397,7 +2414,7 @@ function dijkstra(a, b, c, d) {
                 }
             }
             if (!k) {
-                bc.sort(function(a, b) {
+                bc.sort(function (a, b) {
                     if (a.route.sortKey < b.route.sortKey) return -1;
                     if (a.route.sortKey > b.route.sortKey) return 1;
                     if (a.start_time < b.start_time) return -1;
@@ -2471,24 +2488,26 @@ function dijkstra(a, b, c, d) {
                             if (c == 1 && ck.finish_time <= W.finish_time || c != 1 && ck.start_time >= W.start_time) {
                                 if (ck.walk_time + ck.travel_time <= W.walk_time + W.travel_time && cj.length >= ck.code.length) break
                             } else !ck.direct_trip && ck.walk_time + ck.travel_time >= W.walk_time + W.travel_time && ci.splice(J, 1)
-                    }(J < 0 || W.direct_trip) && ci.push(W)
+                    }
+                    (J < 0 || W.direct_trip) && ci.push(W)
                 }
                 for (var J = ci.length; --J >= 0;) {
                     var W = ci[J];
                     a.reverseOriginal == -1 ? W.code = W.code + "T" + W.legs[W.legs.length - 1].finish_time : W.code = W.legs[0].start_time + "T" + W.code
                 }
-                a.results = ci, typeof window === "object" ? window.setTimeout(function() {
+                a.results = ci, typeof window === "object" ? window.setTimeout(function () {
                     ti.findTrips(a)
                 }, 10) : ti.findTrips(a)
             }
         };
     return bp()
 }
-ti.filterSearchResults = function(a, b, c) {
+
+ti.filterSearchResults = function (a, b, c) {
     if (ti.args.time_window) {
-        b == -1 ? a.sort(function(a, b) {
+        b == -1 ? a.sort(function (a, b) {
             return -(a.finish_time - b.finish_time)
-        }) : a.sort(function(a, b) {
+        }) : a.sort(function (a, b) {
             return a.start_time - b.start_time
         });
         for (var d = a.length; --d >= 1;) {
@@ -2514,7 +2533,7 @@ ti.filterSearchResults = function(a, b, c) {
                     m.fares = {};
                     var o = 0,
                         p, q = "";
-                    for (var r = 1;; ++r) {
+                    for (var r = 1; ; ++r) {
                         var s = n.route_id || ti.toAscii([n.city, n.transport == "eventbus" ? "bus" : n.transport, n.num].join("_"), !0),
                             t = [s, r, m.start_stop.id, m.finish_stop.id].join("#"),
                             u = ti.fare_rules[t];
@@ -2630,15 +2649,15 @@ ti.filterSearchResults = function(a, b, c) {
     }
     a = [];
     for (var H in F) a.push(F[H]);
-    a.sort(function(a, b) {
+    a.sort(function (a, b) {
         return a.penalty_time - b.penalty_time
     });
     if (ti.args && ti.args.optimization.indexOf("shortest") >= 0) return a;
     var I = Number.POSITIVE_INFINITY;
     for (var d = a.length; --d >= 0;) a[d].ok = d < 5 ? 1 : 0, I > a[d].travel_time && (I = a[d].travel_time);
-    a.sort(function(a, b) {
+    a.sort(function (a, b) {
         return a.finish_time - b.finish_time
-    }), b == -1 && a.sort(function(a, b) {
+    }), b == -1 && a.sort(function (a, b) {
         return -(a.start_time - b.start_time)
     });
     if (cfg.defaultCity != "intercity" && !c) {
@@ -2653,7 +2672,7 @@ ti.filterSearchResults = function(a, b, c) {
             else if (a[d].walk_time > I && J > I && d >= 2) a[d].ok = 0;
             else if (d < 3 || cfg.defaultCity == "latvia" || ti.args.mode == "vintra") a[d].ok = 1
         }
-        a.sort(function(a, b) {
+        a.sort(function (a, b) {
             return b.ok - a.ok
         });
         for (var d = a.length; --d > 0;)
@@ -2662,13 +2681,13 @@ ti.filterSearchResults = function(a, b, c) {
                 break
             }
     }
-    a.sort(function(a, b) {
+    a.sort(function (a, b) {
         return a.finish_time - b.finish_time
-    }), b == -1 && a.sort(function(a, b) {
+    }), b == -1 && a.sort(function (a, b) {
         return -(a.start_time - b.start_time)
     });
     return a
-}, ti.finalizeSearchResults = function(a, b) {
+}, ti.finalizeSearchResults = function (a, b) {
     var c = a.results || [],
         d = Array(c.length);
     for (var e = 0; e < c.length; e++) {
@@ -2793,7 +2812,7 @@ ti.filterSearchResults = function(a, b, c) {
                         }))
                     }
                     if (t.taxi) {
-                        t.taxi.sort(function(a, b) {
+                        t.taxi.sort(function (a, b) {
                             return a.km - b.km
                         });
                         var K = t.taxi[0].km;
@@ -2807,29 +2826,29 @@ ti.filterSearchResults = function(a, b, c) {
             d[e].legs.push(t), k.route && (i = k.finish_time)
         }
     }
-    typeof cfg === "object" && cfg.defaultCity === "intercity" ? (d.sort(function(a, b) {
+    typeof cfg === "object" && cfg.defaultCity === "intercity" ? (d.sort(function (a, b) {
         return a.start_time - b.start_time
-    }), a.reverse == -1 && d.sort(function(a, b) {
+    }), a.reverse == -1 && d.sort(function (a, b) {
         return -(a.finish_time - b.finish_time)
-    })) : (d.sort(function(a, b) {
+    })) : (d.sort(function (a, b) {
         return a.finish_time - b.finish_time
-    }), a.reverse == -1 && d.sort(function(a, b) {
+    }), a.reverse == -1 && d.sort(function (a, b) {
         return -(a.start_time - b.start_time)
-    })), typeof ti.args == "object" && ti.args.optimization && (ti.args && ti.args.optimization.indexOf("short") >= 0 ? d.sort(function(b, c) {
+    })), typeof ti.args == "object" && ti.args.optimization && (ti.args && ti.args.optimization.indexOf("short") >= 0 ? d.sort(function (b, c) {
         if (b.distance < c.distance) return -1;
         if (b.distance > c.distance) return 1;
         return a.reverse == -1 ? -(b.start_time - c.start_time) : b.finish_time - c.finish_time
-    }) : ti.args && ti.args.optimization.indexOf("fast") >= 0 ? d.sort(function(b, c) {
+    }) : ti.args && ti.args.optimization.indexOf("fast") >= 0 ? d.sort(function (b, c) {
         if (b.travel_time < c.travel_time) return -1;
         if (b.travel_time > c.travel_time) return 1;
         return a.reverse == -1 ? -(b.start_time - c.start_time) : b.finish_time - c.finish_time
-    }) : ti.args && ti.args.optimization.indexOf("cheap") >= 0 && d.sort(function(b, c) {
+    }) : ti.args && ti.args.optimization.indexOf("cheap") >= 0 && d.sort(function (b, c) {
         if (b.cost < c.cost) return -1;
         if (b.cost > c.cost) return 1;
         return a.reverse == -1 ? -(b.start_time - c.start_time) : b.finish_time - c.finish_time
     }));
     return d
-}, ti.splitShape = function(a, b, c, d, e) {
+}, ti.splitShape = function (a, b, c, d, e) {
     var f;
     ti.SERVER === !0 ? f = a : f = a.split("\n");
     var g = [],
@@ -2847,6 +2866,7 @@ ti.filterSearchResults = function(a, b, c) {
 function $(a) {
     return document.getElementById(a)
 }
+
 var pg = {
     urlPrevious: "",
     urlLoaded: "",
@@ -2882,7 +2902,7 @@ var pg = {
     translationFolder: "translation/",
     browserVersion: 999
 };
-pg.startVisibilityTest = function() {
+pg.startVisibilityTest = function () {
     var a = "hidden";
     a in document ? document.addEventListener("visibilitychange", b) : (a = "mozHidden") in document ? document.addEventListener("mozvisibilitychange", b) : (a = "webkitHidden") in document ? document.addEventListener("webkitvisibilitychange", b) : (a = "msHidden") in document ? document.addEventListener("msvisibilitychange", b) : "onfocusin" in document ? document.onfocusin = document.onfocusout = b : window.onpageshow = window.onpagehide = window.onfocus = window.onblur = b;
 
@@ -2899,14 +2919,15 @@ pg.startVisibilityTest = function() {
             };
         b = b || window.event, pg.visibility = d, b.type in e ? pg.visibility = e[b.type] : pg.visibility = this[a] ? "hidden" : "visible"
     }
+
     b({
         type: "focus"
     })
-}, pg.addCSS = function(a) {
+}, pg.addCSS = function (a) {
     var b = document.createElement("style");
     b.type = "text/css", b.styleSheet ? b.styleSheet.cssText = a : b.appendChild(document.createTextNode(a)), document.getElementsByTagName("head")[0].appendChild(b)
 };
-var ej = function(a) {
+var ej = function (a) {
     var b = [],
         c = [],
         d = [],
@@ -2944,13 +2965,15 @@ var ej = function(a) {
             E = l[++m];
         E === "" ? (E = j - C, o = 0) : E = +E;
         while (E-- > 0) d[C++] = D
-    }--m;
+    }
+    --m;
     for (var C = 0, o = l.length; ++m < o;) {
         var D = +l[m],
             E = l[++m];
         E === "" ? (E = j - C, o = 0) : E = +E;
         while (E-- > 0) e[C++] = D
-    }--m;
+    }
+    --m;
     for (var C = 0, o = l.length; ++m < o;) {
         var F = l[m],
             E = l[++m];
@@ -2977,8 +3000,10 @@ var ej = function(a) {
                 if (l[m] === "") break;
                 h[C] = l[m], ++C
             }
-        }++m
-    }--m, k = 1;
+        }
+        ++m
+    }
+    --m, k = 1;
     for (var C = j, G = j, H = 5, o = l.length; ++m < o;) {
         H += +l[m] - 5;
         var E = l[++m];
@@ -2999,7 +3024,7 @@ var ej = function(a) {
     };
     return final_data
 };
-(function() {
+(function () {
     navigator.appVersion.indexOf("MSIE") >= 0 && (pg.browserVersion = parseFloat(navigator.appVersion.split("MSIE")[1])), typeof document.body.style.transform != "undefined" ? pg.transformCSS = "transform" : typeof document.body.style.MozTransform != "undefined" ? pg.transformCSS = "-moz-transform" : typeof document.body.style.webkitTransform != "undefined" ? pg.transformCSS = "-webkit-transform" : typeof document.body.style.msTransform != "undefined" ? pg.transformCSS = "-ms-transform" : typeof document.body.style.OTransform != "undefined" && (pg.transformCSS = "-o-transform"), cfg.defaultCity == "tallinna-linn" && (pg.translationFolder = "tallinn/translation/");
     if (window.location.host.indexOf("soiduplaan.tallinn.ee") < 0) {
         var a = ["stops.lt", "ridebus.org", "marsruty.ru"];
@@ -3038,13 +3063,13 @@ var ej = function(a) {
         c += "." + b + "{ background-color:" + d + "; }", typeof mobile != "undefined" && (c += ".nav-transport ." + b + " span, .nav-transport ." + b + " autobusuData, .icon.icon-" + b + "{ background-image:url(" + cfg.transport_icons[b] + "); }", c += ".icon-" + b + "{ width:18px; height:18px;}", c += ".label-" + b + " {background-color:" + d + ";}"), cfg.city.defaultTransport != "tablo" && (c += ".icon.icon_" + b + "{ background-image:url(" + cfg.transport_icons[b] + ");}"), c += ".transfer" + b + ",autobusuData.transfer" + b + "{ color:" + d + "; font-weight:bold; }", c += ".departure" + b + "{ color:" + d + "; font-size:smaller; font-style:normal; }"
     }
     cfg.city.custom_css && (cfg.city.custom_css = cfg.city.custom_css.replace(new RegExp("_images/", "g"), pg.imagesFolder), c += cfg.city.custom_css || ""), pg.addCSS(c)
-})(), pg.bodyKeyDown = function(a, b) {
+})(), pg.bodyKeyDown = function (a, b) {
     b || (b = window.event ? window.event.keyCode : a.keyCode);
     if (b == 27) {
         var c = $("ulScheduleDirectionsList");
         c && c.style && c.style.display != "none" ? c.style.display = "none" : pg.schedule && pg.aScheduleClose_Click(a)
     }
-}, pg.fLang_Click = function(a) {
+}, pg.fLang_Click = function (a) {
     var b = a && (a.target || a.srcElement);
     if (b && (b.tagName || "").toLowerCase() == "autobusuData") {
         if (b.innerHTML.length < 10) {
@@ -3062,13 +3087,13 @@ var ej = function(a) {
         return pg.cancelEvent(a)
     }
     return !1
-}, pg.divHeader_Click = function(a) {
+}, pg.divHeader_Click = function (a) {
     a = a || window.event;
     var b = a.target || a.srcElement;
     while (b && b.nodeName.toLowerCase() !== "a") b = b.parentNode;
     if (b && b.href && b.href.indexOf("http:") >= 0) return !0;
     pg.aScheduleClose_Click(a)
-}, pg.aScheduleClose_Click = function(a) {
+}, pg.aScheduleClose_Click = function (a) {
     a = a || window.event;
     if (pg.schedule)
         if (pg.urlUnderSchedulePane == "") pg.city = "nothing", pg.fUrlSet({
@@ -3081,15 +3106,16 @@ var ej = function(a) {
             b.language != pg.language && (b.language = pg.language, pg.city = "nothing"), b.schedule = null, pg.fUrlSet(b)
         }
     return pg.cancelEvent(a)
-}, pg.fCreateLanguagesBar = function() {
+}, pg.fCreateLanguagesBar = function () {
     var a = $("divLang"),
         b = "",
         c = cfg.city.languages.split(",");
     for (var d = 0; d < c.length; d++) {
         var e = c[d];
         cfg.city.languageFlags ? b += "<autobusuData title=\"" + cfg.languages[e] + "\"><img src=\"" + e + ".png\" style=\"width:32px; height:26px; padding:0 5px;\"></autobusuData>" : (b += "<autobusuData title=\"" + cfg.languages[e] + "\" class=\"underlined\">" + e + "</autobusuData>", cfg.city.navigation === "riga" && d % 3 === 2 ? b += " " : b += "&nbsp;")
-    }(a || {}).innerHTML = b
-}, pg.fTranslateStaticTexts = function() {
+    }
+    (a || {}).innerHTML = b
+}, pg.fTranslateStaticTexts = function () {
     if (cfg.defaultCity === "chelyabinsk" && (pg.language === "ru" || pg.language === "" && cfg.defaultLanguage === "ru")) {
         i18n.transport.minibus = i18n.transport1.minibus = cfg.city.minibus;
         var a = i18n.lowFloorVehicles.lastIndexOf(",");
@@ -3105,16 +3131,17 @@ var ej = function(a) {
     for (var a = 2; a <= 31; a++) {
         var c = new Date(b.getFullYear(), b.getMonth(), b.getDate() + a);
         ($("inputDate" + a) || {}).text = pg.formatDate(c), ($("inputDepartureDate" + a) || {}).text = pg.formatDate(c)
-    }($("labelHandicapped") || {}).title = i18n.checkHandicapped, ($("aExtendedOptions") || {}).innerHTML = ($("divContentPlannerOptionsExtended") || {
+    }
+    ($("labelHandicapped") || {}).title = i18n.checkHandicapped, ($("aExtendedOptions") || {}).innerHTML = ($("divContentPlannerOptionsExtended") || {
         style: {}
     }).style.display ? i18n.extendedOptions : i18n.extendedOptionsHide, ($("labelRoutes") || {}).innerHTML = i18n.rideOnlyRoutes + "", ($("labelChangeTimeText") || {}).innerHTML = i18n.timeForConnection + "", ($("labelWalkMaxText") || {}).innerHTML = i18n.walkingMax + "", ($("labelWalkSpeedText") || {}).innerHTML = i18n.walkingSpeed + "";
     var d = $("inputStop");
     d && (d.title = i18n.typeStartStop, d.className == "empty" && (d.value = i18n.startStop)), d = $("inputStart"), d && (d.title = i18n.typeStartStop, d.className == "empty" && (d.value = i18n.startStop)), d = $("inputFinish"), d && (d.title = i18n.typeFinishStop, d.className == "empty" && (d.value = i18n.finishStop)), d = $("inputRoutes"), d && (d.title = i18n.typeRouteNameOrNumber, d.className == "empty" && (d.value = i18n.typeRouteNameOrNumber)), ($("labelInputRoutes") || {}).innerHTML = i18n.filter + ":"
-}, pg.fGetCity = function(a) {
+}, pg.fGetCity = function (a) {
     for (var b in cfg.cities)
         if (cfg.cities[b].region === a) return b;
     return a
-}, pg.fCreateNavigation = function(a) {
+}, pg.fCreateNavigation = function (a) {
     if (typeof mobile == "undefined" || typeof a != "undefined") {
         var b = "<dt class=\"splitter\"></dt><!-- -->",
             c = pg.fGetCity(pg.city),
@@ -3175,42 +3202,44 @@ var ej = function(a) {
                     var c = r[m];
                     f += "<dt><autobusuData id=\"" + c + "_bus\" href=\"#" + c + "/bus\"><span class=\"hover\">" + cfg.cities[c].name[pg.language] + "</span></autobusuData></dt>"
                 }
-            }($("listTransports") || {}).innerHTML = f, ($("divContentPlannerOptionsTransport") || {}).innerHTML = i18n.optionsTransport + "&nbsp;" + g
+            }
+            ($("listTransports") || {}).innerHTML = f, ($("divContentPlannerOptionsTransport") || {}).innerHTML = i18n.optionsTransport + "&nbsp;" + g
         }
         cfg.transportOrder.commercialbus && cfg.transportOrder.regionalbus && (cfg.transportOrder.commercialbus = cfg.transportOrder.regionalbus), a && a(e)
     }
-}, pg.fLoadPage = function() {
+}, pg.fLoadPage = function () {
     cfg.city.languages = cfg.city.languages || "en,ru", cfg.defaultLanguage = cfg.city.defaultLanguage || cfg.city.languages.split(",")[0], pg.showDeparturesWithNumbers !== !0 && pg.showDeparturesWithNumbers !== !1 && (pg.showDeparturesWithNumbers = cfg.city.showDeparturesWithNumbers, pg.toggleClass($("divScheduleContentInner"), "HideNumbers", !pg.showDeparturesWithNumbers)), pg.fTranslateStaticTexts(), pg.fCreateLanguagesBar(), pg.loadedRoutesHash = null, pg.loadedDepartingRoutes = null, pg.loadedPlannerParams = null, pg.fCreateNavigation(), pg.fTabActivate();
     pg.schedule && pg.fScheduleLoad()
-}, pg.fLoadLanguageScript = function(a, b) {
+}, pg.fLoadLanguageScript = function (a, b) {
     var c = $("scriptLanguage");
     c && document.getElementsByTagName("head")[0].removeChild(c);
     var d = document.createElement("script");
-    d.setAttribute("id", "scriptLanguage"), d.setAttribute("type", "text/javascript"), d.setAttribute("src", pg.translationFolder + a + ".js"), b && d.addEventListener("load", function(a) {
+    d.setAttribute("id", "scriptLanguage"), d.setAttribute("type", "text/javascript"), d.setAttribute("src", pg.translationFolder + a + ".js"), b && d.addEventListener("load", function (a) {
         b(a)
     }, !1), document.getElementsByTagName("head")[0].appendChild(d)
-}, pg.fTogglePlannerOptions = function(a) {
+}, pg.fTogglePlannerOptions = function (a) {
     var b = $("divContentPlannerOptionsExtended");
     b.style.display && a !== !1 ? (b.style.display = "", ($("aExtendedOptions") || {}).innerHTML = i18n.extendedOptionsHide) : (b.style.display = "none", ($("aExtendedOptions") || {}).innerHTML = i18n.extendedOptions);
     if (a) return pg.cancelEvent(a)
-}, pg.storeMyLocation = function(a) {
+}, pg.storeMyLocation = function (a) {
     var b = a.coords.latitude = Math.round(a.coords.latitude * 1e6) / 1e6,
         c = a.coords.longitude = Math.round(a.coords.longitude * 1e6) / 1e6;
     pg.myLocation = b + ";" + c
-}, pg.replaceHtml = function(a, b) {
+}, pg.replaceHtml = function (a, b) {
     if (a) {
         var c = a.nextSibling,
             d = a.parentNode;
         d.removeChild(a), a.innerHTML = b, c ? d.insertBefore(a, c) : d.appendChild(a)
     }
-}, pg.storeStyles = function() {
+}, pg.storeStyles = function () {
     pg.styles = {};
     var a = document.styleSheets || [];
     for (var b = 0; b < a.length; ++b) {
         var c = [];
         try {
             c = a[b].rules || a[b].cssRules || []
-        } catch (d) {}
+        } catch (d) {
+        }
         for (var e = c.length; --e >= 0;) {
             var f = c[e].selectorText;
             if (f) {
@@ -3220,9 +3249,9 @@ var ej = function(a) {
             }
         }
     }
-}, pg.getProtocol = function() {
+}, pg.getProtocol = function () {
     return location.protocol == "https:" ? "https:" : "http:"
-}, pg.getStyle = function(a) {
+}, pg.getStyle = function (a) {
     if (a && a.indexOf("transport_icon_") == 0) {
         var b = a.substring("transport_icon_".length),
             c = (pg.styles[".icon.icon_" + b] || pg.styles[".icon_" + b + ".icon"] || pg.styles[".icon-" + b] || {
@@ -3232,7 +3261,7 @@ var ej = function(a) {
         return c
     }
     return pg.styles[a]
-}, pg.styleRGBtoHex = function(a) {
+}, pg.styleRGBtoHex = function (a) {
     if (a == "green") return "008000";
     if (a == "purple") return "800080";
     if (a == "orange") return "FFA500";
@@ -3241,15 +3270,15 @@ var ej = function(a) {
         c = b.split(",");
     b = ((1 << 24) + (+c[0] << 16) + (+c[1] << 8) + +c[2]).toString(16).slice(1);
     return b
-}, pg.toggleClass = function(a, b, c) {
+}, pg.toggleClass = function (a, b, c) {
     if (a) {
         var d = " " + (a.className || "") + " ";
         c && d.indexOf(" " + b + " ") < 0 ? a.className = (d + b).trim() : !c && d.indexOf(" " + b + " ") >= 0 && (a.className = d.replace(" " + b + " ", "").trim())
     }
-}, pg.cancelEvent = function(a) {
+}, pg.cancelEvent = function (a) {
     a && (a.cancelBubble = !0, a.returnValue = !1, a.preventDefault && a.preventDefault(), a.stopPropagation && a.stopPropagation());
     return !1
-}, pg.formatDate = function(a, b) {
+}, pg.formatDate = function (a, b) {
     typeof a == "number" && (a = new Date(a * 1e3 * 60 * 60 * 24));
     var c = a.getDate(),
         d = 1 + a.getMonth(),
@@ -3257,14 +3286,14 @@ var ej = function(a) {
     if (typeof b != "undefined" || (pg.language == "ru" || pg.language == "ee")) e = c, c = a.getFullYear();
     var f = (e < 10 ? "0" : "") + e + (d < 10 ? "-0" : "-") + d + (c < 10 ? "-0" : "-") + c;
     return b ? f.replace(/-/g, b) : f
-}, pg.nonEmptyCount = function(a) {
+}, pg.nonEmptyCount = function (a) {
     var b = 0;
     for (var c in a) a.hasOwnProperty(c) && a[c] && ++b;
     return b
-}, pg.render_airport_icon = function(a, b) {
+}, pg.render_airport_icon = function (a, b) {
     if (a && a.length >= 9 && a.toLowerCase().indexOf("ro uostas") >= (b ? a.length - 9 : 0)) return "&nbsp;<img style=\"vertical-align:text-top;\" height=\"16\" width=\"16\" src=\"" + pg.imagesFolder + "airport_gray_36.png\" alt=\"airport\" title=\"\" />";
     return ""
-}, pg.fUrlSet = function(a, b) {
+}, pg.fUrlSet = function (a, b) {
     if (a) {
         a.schedule && pg.schedule && (typeof a.schedule.city == "undefined" && (a.schedule.city = pg.schedule.city), typeof a.schedule.transport == "undefined" && (a.schedule.transport = pg.schedule.transport), typeof a.schedule.num == "undefined" && (a.schedule.num = pg.schedule.num), typeof a.schedule.dirType == "undefined" && (a.schedule.dirType = pg.schedule.dirType), typeof a.schedule.stopId == "undefined" && (a.schedule.stopId = pg.schedule.stopId));
         var c = ["city", "transport", "inputStop", "inputStart", "inputFinish", "hashForMap", "language"];
@@ -3281,12 +3310,12 @@ var ej = function(a) {
     if (b) return e;
     Hash.go(e);
     return e
-}, pg.fUrlSetMap = function(a, b) {
+}, pg.fUrlSetMap = function (a, b) {
     var c = pg.hashForMap || "map";
     a ? (typeof a != "object" && (a = {}), a.optimalRoute && (c = "map,,," + a.optimalRoute), a.maximized && c.indexOf(",max") < 0 && (c += ",max"), a.maximized === !1 && (c = c.replace(",max", "")), a.clusters && c.indexOf(",stops") < 0 && (c += ",stops"), a.clusters === !1 && (c = c.replace(",stops", ""))) : c = "";
     if (b) return c;
     pg.hashForMap = c, c = pg.fUrlSet(null, !0), c != Hash.getHash() ? Hash.go(c) : pg.fMapShow()
-}, pg.fUrlParse = function(a) {
+}, pg.fUrlParse = function (a) {
     a = decodeURI(a);
     var b = {},
         c = a.indexOf("#");
@@ -3300,7 +3329,7 @@ var ej = function(a) {
         dirUrl: a[2] || ""
     }));
     return b
-}, pg.fUrlExecute = function(a) {
+}, pg.fUrlExecute = function (a) {
     var b = pg.fUrlParse(a),
         c = pg.language;
     pg.language = b.language;
@@ -3310,7 +3339,7 @@ var ej = function(a) {
     pg.hashForMap = b.hashForMap, pg.transport = b.transport, pg.inputStop = b.inputStop || pg.inputStop, pg.inputStart = b.inputStart || pg.inputStart, pg.inputFinish = b.inputFinish || pg.inputFinish, pg.urlPrevious = pg.urlLoaded, pg.urlLoaded = a, b.schedule ? pg.fScheduleShow(b.schedule) : (pg.fScheduleHide(), pg.fTabActivate()), c != pg.language && (c || pg.language != cfg.defaultLanguage) && pg.fLoadLanguageScript(pg.language), d !== pg.city && cfg.defaultCity != "pskov" && (cfg.cities[d] || {
         region: ""
     }).region !== pg.city && pg.fLoadPage(), pg.hashForMap ? (e !== pg.hashForMap, pg.fMapShow()) : document.body.className.indexOf("Map") >= 0 && pg.fMapHide(), typeof mobile != "undefined" && (b.hash = a, mobile.render(b))
-}, typeof jq == "undefined" && (jq = function(a) {
+}, typeof jq == "undefined" && (jq = function (a) {
     var b = null;
     if (typeof a == "string") {
         var c = a.charAt(0);
@@ -3318,29 +3347,29 @@ var ej = function(a) {
     } else b = a;
     return {
         el: b,
-        hasClass: function(a) {
+        hasClass: function (a) {
             return this.el.className.match(new RegExp("(\\s|^)" + a + "(\\s|$)"))
         },
-        addClass: function(a) {
+        addClass: function (a) {
             this.hasClass(a) || (this.el.className += " " + a);
             return this
         },
-        removeClass: function(a) {
+        removeClass: function (a) {
             this.el.className = this.el.className.replace(new RegExp("\\b" + a + "\\b"), "");
             return this
         },
-        toggleClass: function(a) {
+        toggleClass: function (a) {
             var b = this.el.className.split(" "),
                 c = b.indexOf(a);
             c != -1 ? b.splice(c, 1) : b.push(a), this.el.className = b.join(" ")
         },
-        bind: function(a, b) {
+        bind: function (a, b) {
             this.el && ("addEventListener" in this.el ? this.el.addEventListener(a, b, !1) : this.el.attachEvent && this.el.attachEvent("on" + a, b))
         },
-        html: function(a) {
+        html: function (a) {
             this.el.innerHTML = a
         },
-        remove: function() {
+        remove: function () {
             this.el.parentNode.removeChild(this.el)
         }
     }
@@ -3348,17 +3377,18 @@ var ej = function(a) {
 var v3 = {
     ready: !1,
     iconClickField: 7,
-    setMap: function(a) {
+    setMap: function (a) {
         this.map = a;
         var b = new google.maps.OverlayView;
-        b.draw = function() {}, b.onAdd = function() {
+        b.draw = function () {
+        }, b.onAdd = function () {
             v3.ready = !0
         }, b.setMap(a), this.overlay = b
     },
-    getPanes: function() {
+    getPanes: function () {
         return this.overlay.getPanes()
     },
-    getZoomByBounds: function(a) {
+    getZoomByBounds: function (a) {
         var b = this.map.mapTypes.get(this.map.getMapTypeId()),
             c = b.maxZoom || 21,
             d = b.minZoom || 0,
@@ -3371,7 +3401,7 @@ var v3 = {
             if (g * (1 << j) + 2 * i < this.map.getDiv().clientWidth && h * (1 << j) + 2 * i < this.map.getDiv().clientHeight) return j;
         return 0
     },
-    decodeLevels: function(a) {
+    decodeLevels: function (a) {
         var b = [];
         for (var c = 0; c < a.length; ++c) {
             var d = a.charCodeAt(c) - 63;
@@ -3379,25 +3409,25 @@ var v3 = {
         }
         return b
     },
-    fromLatLngToDivPixel: function(a, b) {
+    fromLatLngToDivPixel: function (a, b) {
         var c = this.map.getProjection().fromLatLngToPoint(a),
             d = Math.pow(2, b),
             e = new google.maps.Point(c.x * d, c.y * d);
         return e
     },
-    fromDivPixelToLatLng: function(a, b) {
+    fromDivPixelToLatLng: function (a, b) {
         var c = Math.pow(2, b),
             d = new google.maps.Point(a.x / c, a.y / c),
             e = this.map.getProjection().fromPointToLatLng(d);
         return e
     },
-    fromLatLngToContainerPixel: function(a) {
+    fromLatLngToContainerPixel: function (a) {
         return this.overlay.getProjection().fromLatLngToContainerPixel(a)
     },
-    fromLatLngToDivPixel2: function(a) {
+    fromLatLngToDivPixel2: function (a) {
         return this.overlay.getProjection().fromLatLngToDivPixel(a)
     },
-    findClosestCluster: function(a, b) {
+    findClosestCluster: function (a, b) {
         var c = b.slice(),
             d = a,
             e = b[0],
@@ -3419,15 +3449,15 @@ var v3 = {
         }
     }
 };
-pg.fTabShowMap_Click = function(a, b) {
+pg.fTabShowMap_Click = function (a, b) {
     b == "traffic" ? (pg.fShowTraffic(!0), pg.mapShowAllStops = !1) : b == "vehicles" ? pg.fToggleVehicles(2) : (pg.fShowTraffic(!1), pg.mapShowAllStops = typeof mobile == "undefined"), pg.hashForMap == "map" && b != "mylocation" ? pg.fMapShow() : (pg.hashForMap = "map", b == "mylocation" && (pg.hashForMap = "map,mylocation"), pg.fUrlSet());
     return pg.cancelEvent(a)
-}, pg.fTabDrive_Click = function(a) {
+}, pg.fTabDrive_Click = function (a) {
     pg.mapShowAllStops = !1, pg.hashForMap === "map" ? (pg.hashForMap = "map,drive", pg.fMapShow()) : (pg.hashForMap = "map,drive", pg.fUrlSet());
     return pg.cancelEvent(a)
-}, pg.fMapHide = function() {
+}, pg.fMapHide = function () {
     pg.mapShowVehiclesInterval && (clearInterval(pg.mapShowVehiclesInterval), pg.mapShowVehiclesInterval = 0), pg.schedule && (document.body.className = "ScheduleDisplayed"), pg.browserVersion <= 7 && ($("divContent").innerHTML = $("divContent").innerHTML), jq("body").removeClass("ScheduleMapDisplayed").removeClass("MapDisplayed").removeClass("MapDisplayedMax")
-}, pg.loadGoogleMapsScript = function(a) {
+}, pg.loadGoogleMapsScript = function (a) {
     if (!1 && typeof google == "object") pg._googleMapsStatus = 2, a();
     else {
         if (pg._googleMapsStatus === 0) {
@@ -3439,7 +3469,7 @@ pg.fTabShowMap_Click = function(a, b) {
             return
         }
         if (pg._googleMapsStatus == 1) {
-            window.setTimeout(function() {
+            window.setTimeout(function () {
                 pg.loadGoogleMapsScript(a)
             }, 300);
             return
@@ -3451,22 +3481,22 @@ pg.fTabShowMap_Click = function(a, b) {
         c = c == "ee" ? "et" : c, b.src = "https://maps.googleapis.com/maps/api/js?" + (cfg.city.googleAPIkey ? "key=" + cfg.city.googleAPIkey + "&" : "") + "v=3.31&libraries=geometry,places&callback=pg.GMapScriptLoaded&language=" + c;
         if (b.onprogress) {
             var d = "";
-            b.onprogress = function() {
+            b.onprogress = function () {
                 d += ".", $("divMap").innerHTML = "<div style=\"margin:10px;\">" + i18n.loadingMap + d + "</div>"
             }
         }
-        var e = function() {
+        var e = function () {
             typeof google != "object" && (pg._googleMapsStatus = 0, $("divMap").innerHTML = "<div style=\"margin:10px;\">" + i18n.failedMap + "</div>", pg.GMap = null), b.onload = b.onreadystatechange = b.onerror = null
         };
-        b.onreadystatechange = function() {
+        b.onreadystatechange = function () {
             (this.readyState == "complete" || this.readyState == "loaded") && setTimeout(e, 10)
-        }, b.onload = b.onerror = e, document.getElementsByTagName("head")[0].appendChild(b), window.setTimeout(function() {
+        }, b.onload = b.onerror = e, document.getElementsByTagName("head")[0].appendChild(b), window.setTimeout(function () {
             pg.loadGoogleMapsScript(a)
         }, 300)
     }
-}, pg.GMapScriptLoaded = function() {
+}, pg.GMapScriptLoaded = function () {
     pg._googleMapsStatus = 2
-}, pg.fMapShow = function() {
+}, pg.fMapShow = function () {
     cfg.isMobilePage && pg.urlPrevious && pg.urlPrevious.indexOf("map") == -1 && (pg.urlUnderMobileMap = pg.urlPrevious);
     var a = pg.hashForMap.split(","),
         b, c = !1;
@@ -3505,11 +3535,11 @@ pg.fTabShowMap_Click = function(a, b) {
                                 weekday: l,
                                 transport: {},
                                 walk_max: 500,
-                                callback2: function() {
+                                callback2: function () {
                                     pg.clusterManager.refresh()
                                 }
                             };
-                        setTimeout(function() {
+                        setTimeout(function () {
                             dijkstra(m, 720, 1)
                         }, 100)
                     }
@@ -3534,7 +3564,7 @@ pg.fTabShowMap_Click = function(a, b) {
                 if (f && pg.optimalResults && pg.optimalResults.length) {
                     if (typeof mobile == "undefined" && cfg.defaultCity == "tallinna-linn") {
                         var u = jQuery(jQuery("#planner .results .option header"));
-                        jQuery.each(u, function(a, b) {
+                        jQuery.each(u, function (a, b) {
                             var c = jQuery(b);
                             c.hasClass("active") ? a != f - 1 && c.click() : a == f - 1 && c.click()
                         })
@@ -3699,7 +3729,7 @@ pg.fTabShowMap_Click = function(a, b) {
                         }
                         if (cfg.defaultCity === "latvia" && z.stops) {
                             var P = "http://routelatvia.azurewebsites.net/?shape=" + z.stops.join(",");
-                            P = "http://www.stops.lt/latviatest/proxy.php?url=" + encodeURIComponent(P), ti.fDownloadUrl("get", P, function(a) {
+                            P = "http://www.stops.lt/latviatest/proxy.php?url=" + encodeURIComponent(P), ti.fDownloadUrl("get", P, function (a) {
                                 var b = JSON.parse(a);
                                 b.contents && (b = b.contents), b = b.split(",");
                                 var c = [];
@@ -3733,7 +3763,7 @@ pg.fTabShowMap_Click = function(a, b) {
                         } else pg.loadPolyline(d, e, f, D)
                 }
             }
-            pg.$mapRoutesDropdown && (r ? (r = "<div id=\"mapDropDownHeader\" style=\"float:left;\"><autobusuData href=\"#\" aria-haspopup=\"true\">" + s + "&nbsp;<span class=\"arrow-down\"></span><span id=\"mapRemoveRoute\"></span><!--[if gte IE 7]><!--></autobusuData><!--<![endif]--><div id=\"mapDropDownContent\" class=\"dropdown2\">" + r + "<autobusuData id=\"mapShowStopsNames\" href=\"#map\" style=\"border-top:solid 1px #CCCCCC; margin-top:3px;\"><span class=\"icon icon_narrow stopsnames" + (pg.mapShowStopsNames ? " icon_checked" : "") + "\"></span>" + i18n.mapShowRouteStopsNames + "</autobusuData>" + (pg.schedule && typeof mobile == "undefined" ? "" : "<autobusuData href=\"#map\"><span class=\"icon icon_narrow\"></span>" + i18n.mapClearRoute + "</autobusuData>") + "</div><!--[if lte IE 6]></autobusuData><![endif]--></div>", pg.$mapRoutesDropdown.innerHTML = r, pg.$mapRoutesDropdown.style.display = "", resizeDropDown()) : pg.$mapRoutesDropdown.style.display = "none"), f && pg.clusterManager.hideMarkers(), f && google.maps.event.addDomListenerOnce(pg.GMap, "resize", function() {
+            pg.$mapRoutesDropdown && (r ? (r = "<div id=\"mapDropDownHeader\" style=\"float:left;\"><autobusuData href=\"#\" aria-haspopup=\"true\">" + s + "&nbsp;<span class=\"arrow-down\"></span><span id=\"mapRemoveRoute\"></span><!--[if gte IE 7]><!--></autobusuData><!--<![endif]--><div id=\"mapDropDownContent\" class=\"dropdown2\">" + r + "<autobusuData id=\"mapShowStopsNames\" href=\"#map\" style=\"border-top:solid 1px #CCCCCC; margin-top:3px;\"><span class=\"icon icon_narrow stopsnames" + (pg.mapShowStopsNames ? " icon_checked" : "") + "\"></span>" + i18n.mapShowRouteStopsNames + "</autobusuData>" + (pg.schedule && typeof mobile == "undefined" ? "" : "<autobusuData href=\"#map\"><span class=\"icon icon_narrow\"></span>" + i18n.mapClearRoute + "</autobusuData>") + "</div><!--[if lte IE 6]></autobusuData><![endif]--></div>", pg.$mapRoutesDropdown.innerHTML = r, pg.$mapRoutesDropdown.style.display = "", resizeDropDown()) : pg.$mapRoutesDropdown.style.display = "none"), f && pg.clusterManager.hideMarkers(), f && google.maps.event.addDomListenerOnce(pg.GMap, "resize", function () {
                 if (n == o && p == q) pg.GMap.panTo(new google.maps.LatLng(n, p));
                 else {
                     var a = new google.maps.LatLngBounds(new google.maps.LatLng(n, p), new google.maps.LatLng(o, q));
@@ -3751,15 +3781,15 @@ pg.fTabShowMap_Click = function(a, b) {
                 info: j.info,
                 img: "stopOnRoute",
                 name: j.name
-            }, i = new google.maps.LatLng(j.lat, j.lng)) : i = null, i ? window.setTimeout(function() {
+            }, i = new google.maps.LatLng(j.lat, j.lng)) : i = null, i ? window.setTimeout(function () {
                 pg.GMap.panTo(i)
             }, 300) : pg.clusterManager.refresh()
         }
-        setTimeout(function() {
+        setTimeout(function () {
             google.maps.event.trigger(pg.GMap, "resize")
         }, 300)
     } else pg.GMap === null ? (pg.GMap = !1, $("divMap").innerHTML = "<div style=\"margin:10px;\">" + i18n.loadingMap + "</div>", ($("preload") || {}).innerHTML = "<img src=\"" + pg.imagesFolder + "stop.png\" width=\"1\" height=\"1\" /><img src=\"" + pg.imagesFolder + "cluster.png\" width=\"1\" height=\"1\" /><img src=\"" + pg.imagesFolder + "stopGray.png\" width=\"1\" height=\"1\" /><img src=\"" + pg.imagesFolder + "stopGray.png\" width=\"1\" height=\"1\" />", pg.loadGoogleMapsScript(pg.GMapScriptLoadedMap)) : pg.GMap !== !1 && pg.GMapScriptLoadedMap()
-}, pg.GMapScriptLoadedMap = function() {
+}, pg.GMapScriptLoadedMap = function () {
     if (!google) {
         alert("Sorry, the Google Maps API is not compatible with this browser");
         return !1
@@ -3807,18 +3837,19 @@ pg.fTabShowMap_Click = function(a, b) {
             };
         v3.mapTypeIds = [];
         for (var e in google.maps.MapTypeId) v3.mapTypeIds.push(google.maps.MapTypeId[e]);
-        b.streetMap.indexOf("OSM") >= 0 && (v3.mapTypeIds.push("OSM"), d.mapTypeControlOptions.mapTypeIds = v3.mapTypeIds, d.mapTypeId = "OSM"), google.maps.Map.prototype.panToWithOffset = function(a, b, c) {
+        b.streetMap.indexOf("OSM") >= 0 && (v3.mapTypeIds.push("OSM"), d.mapTypeControlOptions.mapTypeIds = v3.mapTypeIds, d.mapTypeId = "OSM"), google.maps.Map.prototype.panToWithOffset = function (a, b, c) {
             var d = this,
                 e = new google.maps.OverlayView;
-            e.onAdd = function() {
+            e.onAdd = function () {
                 var e = this.getProjection(),
                     f = e.fromLatLngToContainerPixel(a);
                 f.x = f.x + b, f.y = f.y + c, d.panTo(e.fromContainerPixelToLatLng(f))
-            }, e.draw = function() {}, e.setMap(this)
+            }, e.draw = function () {
+            }, e.setMap(this)
         };
         var f = pg.GMap = new google.maps.Map($("divMap"), d);
         b.streetMap.indexOf("OSM") >= 0 && f.mapTypes.set("OSM", new google.maps.ImageMapType({
-            getTileUrl: function(a, b) {
+            getTileUrl: function (a, b) {
                 return "http://tile.openstreetmap.org/" + b + "/" + a.x + "/" + a.y + ".png"
             },
             tileSize: new google.maps.Size(256, 256),
@@ -3829,17 +3860,17 @@ pg.fTabShowMap_Click = function(a, b) {
             var g;
             cfg.isMobilePage && (pg.mapShowVehicles = 2)
         }
-        typeof mobile != "undefined" && (pg.$mapClose = document.createElement("div"), pg.$mapClose.id = "divMapHide", pg.$mapClose.className = "map_hide", pg.$mapClose.style.left = "5px", pg.$mapClose.style.top = "5px", pg.$mapClose.innerHTML = ["<autobusuData onclick=\"return true;\" alt=\"", i18n.btnBack, "\" title=\"", i18n.btnBack, "\" class=\"btn btn-back pull-left\"></autobusuData>"].join(""), f.getDiv().appendChild(pg.$mapClose), jq(pg.$mapClose).bind("click", function(a) {
+        typeof mobile != "undefined" && (pg.$mapClose = document.createElement("div"), pg.$mapClose.id = "divMapHide", pg.$mapClose.className = "map_hide", pg.$mapClose.style.left = "5px", pg.$mapClose.style.top = "5px", pg.$mapClose.innerHTML = ["<autobusuData onclick=\"return true;\" alt=\"", i18n.btnBack, "\" title=\"", i18n.btnBack, "\" class=\"btn btn-back pull-left\"></autobusuData>"].join(""), f.getDiv().appendChild(pg.$mapClose), jq(pg.$mapClose).bind("click", function (a) {
             pg.divMapHide_Click(a)
         }));
         var h = typeof mobile == "undefined" ? 30 : 0,
             j = 48;
-        pg.$mapRoutesDropdown = document.createElement("div"), pg.$mapRoutesDropdown.id = "mapDropDown", pg.$mapRoutesDropdown.className = "dropdown", pg.$mapRoutesDropdown.style.display = "none", f.getDiv().appendChild(pg.$mapRoutesDropdown), pg.$mapShowAllStops = document.createElement("div"), pg.$mapShowAllStops.id = "divMapShowAllStops", pg.$mapShowAllStops.style.right = "0", pg.$mapShowAllStops.style.top = h + "px", h += j, pg.$mapShowAllStops.className = "map_button", pg.$mapShowAllStops.innerHTML = "<div id=\"mapShowAllStops\" class=\"map_button_icon\" title=\"" + i18n.mapShowAllStops + "\"></div>", f.getDiv().appendChild(pg.$mapShowAllStops), typeof pg.mapShowAllStops == "undefined" && (pg.mapShowAllStops = !1), cfg.city.showWifiStops && (pg.$mapShowWifiStops = document.createElement("div"), pg.$mapShowWifiStops.id = "divMapShowWifiStops", pg.$mapShowWifiStops.style.right = "0", pg.$mapShowWifiStops.style.top = h + "px", h += j, pg.$mapShowWifiStops.className = "map_button", pg.$mapShowWifiStops.innerHTML = "<div id=\"mapShowWifiStops\" class=\"map_button_icon\" title=\"" + i18n.mapShowWifiStops + "\"></div>", f.getDiv().appendChild(pg.$mapShowWifiStops), pg.$mapShowWifiStops = !1), cfg.city.bicycles && (pg.$mapShowBicyclesRent = document.createElement("div"), pg.$mapShowBicyclesRent.id = "divMapShowBicyclesRent", pg.$mapShowBicyclesRent.style.right = "0", pg.$mapShowBicyclesRent.style.top = h + "px", h += j, pg.$mapShowBicyclesRent.className = "map_button", pg.$mapShowBicyclesRent.innerHTML = "<div id=\"mapShowBicyclesRent\" class=\"map_button_icon\" title=\"" + i18n.mapShowBicyclesRent + "\"></div>", f.getDiv().appendChild(pg.$mapShowBicyclesRent), pg.mapShowBicyclesRent = !1), b.streetMap != "OSMlocal" && (cfg.city.showTraffic && (pg.$mapShowTraffic = document.createElement("div"), pg.$mapShowTraffic.id = "divMapShowTraffic", pg.$mapShowTraffic.style.right = "0", pg.$mapShowTraffic.style.top = h + "px", h += j, pg.$mapShowTraffic.className = "map_button", pg.$mapShowTraffic.innerHTML = "<div id=\"mapShowTraffic\" class=\"map_button_icon\" title=\"" + i18n.mapShowTraffic + "\"></div>", f.getDiv().appendChild(pg.$mapShowTraffic)), cfg.city.urlGPS && (pg.$mapShowVehicles = document.createElement("div"), pg.$mapShowVehicles.id = "divMapShowVehicles", pg.$mapShowVehicles.style.right = "0", pg.$mapShowVehicles.style.top = h + "px", h += j, pg.$mapShowVehicles.className = "map_button", pg.$mapShowVehicles.innerHTML = "<div id=\"mapShowVehicles\" class=\"map_button_icon\" title=\"" + i18n.mapShowVehicles + "\"></div>", f.getDiv().appendChild(pg.$mapShowVehicles), jq(pg.$mapShowVehicles).bind("click", function(a) {
+        pg.$mapRoutesDropdown = document.createElement("div"), pg.$mapRoutesDropdown.id = "mapDropDown", pg.$mapRoutesDropdown.className = "dropdown", pg.$mapRoutesDropdown.style.display = "none", f.getDiv().appendChild(pg.$mapRoutesDropdown), pg.$mapShowAllStops = document.createElement("div"), pg.$mapShowAllStops.id = "divMapShowAllStops", pg.$mapShowAllStops.style.right = "0", pg.$mapShowAllStops.style.top = h + "px", h += j, pg.$mapShowAllStops.className = "map_button", pg.$mapShowAllStops.innerHTML = "<div id=\"mapShowAllStops\" class=\"map_button_icon\" title=\"" + i18n.mapShowAllStops + "\"></div>", f.getDiv().appendChild(pg.$mapShowAllStops), typeof pg.mapShowAllStops == "undefined" && (pg.mapShowAllStops = !1), cfg.city.showWifiStops && (pg.$mapShowWifiStops = document.createElement("div"), pg.$mapShowWifiStops.id = "divMapShowWifiStops", pg.$mapShowWifiStops.style.right = "0", pg.$mapShowWifiStops.style.top = h + "px", h += j, pg.$mapShowWifiStops.className = "map_button", pg.$mapShowWifiStops.innerHTML = "<div id=\"mapShowWifiStops\" class=\"map_button_icon\" title=\"" + i18n.mapShowWifiStops + "\"></div>", f.getDiv().appendChild(pg.$mapShowWifiStops), pg.$mapShowWifiStops = !1), cfg.city.bicycles && (pg.$mapShowBicyclesRent = document.createElement("div"), pg.$mapShowBicyclesRent.id = "divMapShowBicyclesRent", pg.$mapShowBicyclesRent.style.right = "0", pg.$mapShowBicyclesRent.style.top = h + "px", h += j, pg.$mapShowBicyclesRent.className = "map_button", pg.$mapShowBicyclesRent.innerHTML = "<div id=\"mapShowBicyclesRent\" class=\"map_button_icon\" title=\"" + i18n.mapShowBicyclesRent + "\"></div>", f.getDiv().appendChild(pg.$mapShowBicyclesRent), pg.mapShowBicyclesRent = !1), b.streetMap != "OSMlocal" && (cfg.city.showTraffic && (pg.$mapShowTraffic = document.createElement("div"), pg.$mapShowTraffic.id = "divMapShowTraffic", pg.$mapShowTraffic.style.right = "0", pg.$mapShowTraffic.style.top = h + "px", h += j, pg.$mapShowTraffic.className = "map_button", pg.$mapShowTraffic.innerHTML = "<div id=\"mapShowTraffic\" class=\"map_button_icon\" title=\"" + i18n.mapShowTraffic + "\"></div>", f.getDiv().appendChild(pg.$mapShowTraffic)), cfg.city.urlGPS && (pg.$mapShowVehicles = document.createElement("div"), pg.$mapShowVehicles.id = "divMapShowVehicles", pg.$mapShowVehicles.style.right = "0", pg.$mapShowVehicles.style.top = h + "px", h += j, pg.$mapShowVehicles.className = "map_button", pg.$mapShowVehicles.innerHTML = "<div id=\"mapShowVehicles\" class=\"map_button_icon\" title=\"" + i18n.mapShowVehicles + "\"></div>", f.getDiv().appendChild(pg.$mapShowVehicles), jq(pg.$mapShowVehicles).bind("click", function (a) {
             pg.mapShowVehicles > 0 ? pg.hashForMap == "map" ? pg.fToggleVehicles(-1) : pg.fToggleVehicles(0) : pg.hashForMap == "map" ? pg.fToggleVehicles(2) : pg.fToggleVehicles(1);
             return pg.cancelEvent(a)
         }))), pg.$mapMenu = document.createElement("div"), pg.$mapMenu.style.display = "none", pg.$mapMenu.style.position = "absolute", pg.$mapMenu.style.zIndex = 1e3, pg.$mapMenu.className = "mapMenu", f.getDiv().appendChild(pg.$mapMenu), pg.mapShowTraffic && pg.fShowTraffic(!0), pg.mapShowVehicles > 0 && pg.fToggleVehicles(pg.mapShowVehicles);
         var k;
-        google.maps.event.addDomListener(f, "rightclick", function(a) {
+        google.maps.event.addDomListener(f, "rightclick", function (a) {
             k = null, $("divSuggestedStops").style.display = "none", a || (a = window.event);
             var b = a && (a.target || a.srcElement);
             if (!b || b.className == "map_button") return pg.cancelEvent(a);
@@ -3851,51 +3882,52 @@ pg.fTabShowMap_Click = function(a, b) {
             d ? k = b : k = {}
         });
         var l = f.getStreetView();
-        google.maps.event.addListener(l, "visible_changed", function() {
+        google.maps.event.addListener(l, "visible_changed", function () {
             var a = ["divMapShowAllStops", "divMapShowWifiStops", "divMapShowBicyclesRent", "divMapShowTraffic", "divMapShowVehicles", "divMapYouAreHere"],
                 b = l.getVisible() ? "none" : "block";
             pg.$mapRoutesDropdown.style.visibility = l.getVisible() ? "hidden" : "visible";
-            for (var c = 0; c < a.length; ++c)($(a[c]) || {
+            for (var c = 0; c < a.length; ++c) ($(a[c]) || {
                 style: {}
             }).style.display = b
         });
-        var m = function(a) {
+        var m = function (a) {
             var b = a.pixel.x,
                 c = a.pixel.y,
                 d = Math.round(1e6 * a.latLng.lat()) / 1e6 + ";" + Math.round(1e6 * a.latLng.lng()) / 1e6;
             pg.openMapInfoWindow(b, c, "", "", d, a.latLng)
         };
-        google.maps.event.addListener(f, "rightclick", m), cfg.defaultCity === "tallinna-linn" && typeof mobile == "undefined" && google.maps.event.addListener(f, "click", function(a) {
+        google.maps.event.addListener(f, "rightclick", m), cfg.defaultCity === "tallinna-linn" && typeof mobile == "undefined" && google.maps.event.addListener(f, "click", function (a) {
             jQuery(pg.$mapMenu).is(":visible") ? pg.hideMapInfoWindow() : m(a)
         });
 
         function n(a, b) {
             this.length_ = b;
             var c = this;
-            c.map_ = a, c.timeoutId_ = null, google.maps.event.addListener(a, "mousedown", function(a) {
+            c.map_ = a, c.timeoutId_ = null, google.maps.event.addListener(a, "mousedown", function (a) {
                 c.onMouseDown_(a)
-            }), google.maps.event.addListener(a, "mouseup", function(a) {
+            }), google.maps.event.addListener(a, "mouseup", function (a) {
                 c.onMouseUp_(a)
-            }), google.maps.event.addListener(a, "drag", function(a) {
+            }), google.maps.event.addListener(a, "drag", function (a) {
                 c.onMapDrag_(a)
             })
         }
-        n.prototype.onMouseUp_ = function(a) {
+
+        n.prototype.onMouseUp_ = function (a) {
             clearTimeout(this.timeoutId_)
-        }, n.prototype.onMouseDown_ = function(a) {
+        }, n.prototype.onMouseDown_ = function (a) {
             pg.hideMapInfoWindow(), clearTimeout(this.timeoutId_);
             var b = this.map_,
                 c = a;
-            this.timeoutId_ = setTimeout(function() {
+            this.timeoutId_ = setTimeout(function () {
                 google.maps.event.trigger(b, "longpress", c)
             }, this.length_)
-        }, n.prototype.onMapDrag_ = function(a) {
+        }, n.prototype.onMapDrag_ = function (a) {
             pg.hideMapInfoWindow(), clearTimeout(this.timeoutId_)
         };
         if (cfg.defaultCity !== "tallinna-linn" || typeof mobile != "undefined") new n(f, 500), google.maps.event.addListener(f, "longpress", m);
-        google.maps.event.addListenerOnce(f, "idle", function() {
+        google.maps.event.addListenerOnce(f, "idle", function () {
             typeof jQuery == "function" && jQuery(window).trigger("resize")
-        }), google.maps.event.addDomListener(f.getDiv(), "click", function(a) {
+        }), google.maps.event.addDomListener(f.getDiv(), "click", function (a) {
             pg.timeOfActivity = (new Date).getTime(), pg.inputSuggestedStops_Blur(), a = a || window.event;
             var b = a && (a.target || a.srcElement);
             pg.realTimeDepartures.vehicleID = b && b.getAttribute && b.getAttribute("data-vehicle-id");
@@ -3995,7 +4027,7 @@ pg.fTabShowMap_Click = function(a, b) {
                 }
             } else g.transport == "plan" ? (pg.hashForMap = g.hashForMap, pg.map = {}, pg.optimalResults = null, pg.fTabPlanner_Click(g.inputStart, g.inputFinish)) : (pg.hashForMap = g.hashForMap, pg.hashForMap == "map" && (pg.mapShowAllStops = !0), typeof mobile != "unknown" && (pg.schedule = null), cfg.defaultCity == "tallinna-linn" && g.hashForMap == "map" && (pg.inputStart = "", pg.inputStop = "", pg.inputFinish = ""), pg.fUrlSet(pg));
             return pg.cancelEvent(a)
-        }), google.maps.event.addDomListener(f.getDiv(), "mouseout", function(a) {
+        }), google.maps.event.addDomListener(f.getDiv(), "mouseout", function (a) {
             a || (a = window.event);
             var b = a && (a.target || a.srcElement),
                 c = f.getDiv();
@@ -4004,9 +4036,9 @@ pg.fTabShowMap_Click = function(a, b) {
                 if (b === c) return;
                 b = b.parentNode
             }
-        }), ELabel = function(a, b, c, d, e, f, g, h) {
+        }), ELabel = function (a, b, c, d, e, f, g, h) {
             this.div_ = null, this.map_ = a, this.point = b, this.html = c, this.href = d, this.classname = e || "", this.pixelOffset = f || new google.maps.Size(0, 0), g && (g < 0 && (g = 0), g > 100 && (g = 100)), this.percentOpacity = g, this.overlap = h || !1, this.hidden = !1, this._ready = !1
-        }, ELabel.prototype = new google.maps.OverlayView, ELabel.prototype.onAdd = function() {
+        }, ELabel.prototype = new google.maps.OverlayView, ELabel.prototype.onAdd = function () {
             var a = document.createElement("autobusuData");
             a.style.position = "absolute", a.className = this.classname, a.href = "#" + this.href, this.div_ = a, this.percentOpacity && (typeof a.style.filter == "string" && (a.style.filter = "alpha(opacity:" + this.percentOpacity + ")"), typeof a.style.KHTMLOpacity == "string" && (a.style.KHTMLOpacity = this.percentOpacity / 100), typeof a.style.MozOpacity == "string" && (a.style.MozOpacity = this.percentOpacity / 100), typeof a.style.opacity == "string" && (a.style.opacity = this.percentOpacity / 100));
             if (this.overlap) {
@@ -4016,39 +4048,39 @@ pg.fTabShowMap_Click = function(a, b) {
             this.hidden && this.hide();
             var c = this.getPanes();
             c.overlayMouseTarget.style.zIndex = 102, c.overlayMouseTarget.appendChild(a), this._ready = !0
-        }, ELabel.prototype.onRemove = function() {
+        }, ELabel.prototype.onRemove = function () {
             this.div_.parentNode.removeChild(this.div_)
-        }, ELabel.prototype.draw = function(a) {
+        }, ELabel.prototype.draw = function (a) {
             var b = this.getProjection(),
                 c = b.fromLatLngToDivPixel(this.point),
                 d = parseInt(this.div_.clientHeight);
             this.div_.style.left = c.x + this.pixelOffset.width + "px", this.div_.style.top = c.y + this.pixelOffset.height - d + "px"
-        }, ELabel.prototype.show = function() {
+        }, ELabel.prototype.show = function () {
             this.div_ && (this.div_.style.display = "", this.draw()), this.hidden = !1
-        }, ELabel.prototype.hide = function() {
+        }, ELabel.prototype.hide = function () {
             this.div_ && (this.div_.style.display = "none"), this.hidden = !0
-        }, ELabel.prototype.copy = function() {
+        }, ELabel.prototype.copy = function () {
             return new ELabel(this.point, this.html, this.classname, this.pixelOffset, this.percentOpacity, this.overlap)
-        }, ELabel.prototype.isHidden = function() {
+        }, ELabel.prototype.isHidden = function () {
             return this.hidden
-        }, ELabel.prototype.supportsHide = function() {
+        }, ELabel.prototype.supportsHide = function () {
             return !0
-        }, ELabel.prototype.setContents = function(a, b) {
+        }, ELabel.prototype.setContents = function (a, b) {
             this.div_.innerHTML = this.html = a, typeof b != "undefined" && (this.div_.href = "#" + b), this.draw(!0)
-        }, ELabel.prototype.setPoint = function(a) {
+        }, ELabel.prototype.setPoint = function (a) {
             this.point = a;
             if (this.overlap) {
                 var b = GOverlay.getZIndex(this.point.lat());
                 this.div_.style.zIndex = b
             }
             this.draw(!0)
-        }, ELabel.prototype.setOpacity = function(a) {
+        }, ELabel.prototype.setOpacity = function (a) {
             a && (a < 0 && (a = 0), a > 100 && (a = 100)), this.percentOpacity = a, this.percentOpacity && (typeof this.div_.style.filter == "string" && (this.div_.style.filter = "alpha(opacity:" + this.percentOpacity + ")"), typeof this.div_.style.KHTMLOpacity == "string" && (this.div_.style.KHTMLOpacity = this.percentOpacity / 100), typeof this.div_.style.MozOpacity == "string" && (this.div_.style.MozOpacity = this.percentOpacity / 100), typeof this.div_.style.opacity == "string" && (this.div_.style.opacity = this.percentOpacity / 100))
-        }, ELabel.prototype.getPoint = function() {
+        }, ELabel.prototype.getPoint = function () {
             return this.point
-        }, ClusterManager = function(a, b) {
+        }, ClusterManager = function (a, b) {
             this._map = a, this._mapMarkers = [], this._markersHidden = !1, this._ready = !1, this.stopCluster = {}, b = b || {}, this.fitMapToMarkers = b.fitMapToMarkers === !0, b.fitMapMaxZoom && (this.fitMapMaxZoom = b.fitMapMaxZoom), this.clusterMaxZoom = b.clusterMaxZoom ? b.clusterMaxZoom : 99, b.markers && (this._mapMarkers = b.markers), this.borderPadding = b.borderPadding || 256, this.intersectPadding = b.intersectPadding || 0, this.clusteringEnabled = b.clusteringEnabled !== !1, this.ZoomLevel = this._map.getZoom()
-        }, ClusterManager.prototype = new google.maps.OverlayView, ClusterManager.prototype.onAdd = function() {
+        }, ClusterManager.prototype = new google.maps.OverlayView, ClusterManager.prototype.onAdd = function () {
             typeof this._div == "undefined" && (this._div = document.createElement("div"), this._div.id = "ClusterManagerStopsPane", this.getPanes().overlayMouseTarget.style.zIndex = 103, this.getPanes().overlayMouseTarget.appendChild(this._div));
             var a = this._mapMarkers;
             for (var b = a.length; --b >= 0;) {
@@ -4056,14 +4088,14 @@ pg.fTabShowMap_Click = function(a, b) {
                     d = v3.fromLatLngToDivPixel(new google.maps.LatLng(c.lat, c.lng), 19);
                 c._x = d.x, c._y = d.y
             }
-            a.sort(function(a, b) {
+            a.sort(function (a, b) {
                 return b._y - a._y
             }), this._mapMarkers = a, this._ready = !0
-        }, ClusterManager.prototype.showLayer = function() {
+        }, ClusterManager.prototype.showLayer = function () {
             this._div && (this._div.style.display = "block")
-        }, ClusterManager.prototype.hideLayer = function() {
+        }, ClusterManager.prototype.hideLayer = function () {
             this._div && (this._div.style.display = "none")
-        }, ClusterManager.prototype.refresh = function() {
+        }, ClusterManager.prototype.refresh = function () {
             if (this._ready) {
                 pg.timeOfActivity = (new Date).getTime(), pg.toggleClass($("divMapShowAllStops"), "pressed", pg.mapShowAllStops), pg.toggleClass($("divMapShowWifiStops"), "pressed", pg.mapShowWifiStops), pg.toggleClass($("divMapShowBicyclesRent"), "pressed", pg.mapShowBicyclesRent);
                 var a = this._markersHidden ? "Gray" : "",
@@ -4162,25 +4194,25 @@ pg.fTabShowMap_Click = function(a, b) {
                     }
                 }
                 this._div.innerHTML = d.join("")
-            } else window.setTimeout(function() {
+            } else window.setTimeout(function () {
                 pg.clusterManager.refresh()
             }, 100)
-        }, ClusterManager.prototype.onRemove = function() {
+        }, ClusterManager.prototype.onRemove = function () {
             this._div.innerHTML = "", this._mapMarkers = []
-        }, ClusterManager.prototype.hideMarkers = function() {
+        }, ClusterManager.prototype.hideMarkers = function () {
             this._markersHidden || (this._markersHidden = !0, this.refresh())
-        }, ClusterManager.prototype.draw = function() {
+        }, ClusterManager.prototype.draw = function () {
             this._markersHidden !== !1 && (this._markersHidden = !1, this.refresh())
-        }, pg.hideMapInfoWindow = function() {
+        }, pg.hideMapInfoWindow = function () {
             pg.$mapMenu && (pg.$mapMenu.style.display = "none")
-        }, pg.openStreetView = function(a, b) {
+        }, pg.openStreetView = function (a, b) {
             pg.hideMapInfoWindow();
             var c = pg.GMap.getStreetView();
             c.setPosition(new google.maps.LatLng(a, b)), c.setPov({
                 heading: 0,
                 pitch: 0
             }), c.setVisible(!0)
-        }, pg.openMapInfoWindow = function(a, b, c, d, e, f) {
+        }, pg.openMapInfoWindow = function (a, b, c, d, e, f) {
             var g = ["<div class=\"content\">", c ? "<div class=\"hide\" onclick=\"pg.hideMapInfoWindow();\"></div><span class=\"baloon_title\">" + c + "</span><br/>" : "", "<div id=\"streetview\" style=\"display:none;width:250px;height:70px;\"><img onclick=\"pg.openStreetView(" + f.lat() + "," + f.lng() + ")\"", " style=\"width:250px;height:70px;cursor:pointer;\" width=\"250\" height=\"70\" src=//maps.googleapis.com/maps/api/streetview?", cfg.city.googleAPIkey ? "key=" + cfg.city.googleAPIkey + "&" : "", "size=250x70&location=", f.lat(), ",", f.lng(), "&fov=120&heading=0&pitch=0></div>", d];
             if (typeof e != "undefined") {
                 var h = pg.fUrlSet({
@@ -4195,12 +4227,12 @@ pg.fTabShowMap_Click = function(a, b) {
                     }, !0);
                 g.push("<div class=\"autobusuData\" id=\"start-set\"><span class=\"icon icon_stopGreen\"></span>" + (e.indexOf(";") == -1 ? i18n.mapDirectionsFromStop : i18n.mapDirectionsFromHere) + "</div>"), g.push("<div class=\"autobusuData\" id=\"finish-set\"><span class=\"icon icon_stopRed\"></span>" + (e.indexOf(";") == -1 ? i18n.mapDirectionsToStop : i18n.mapDirectionsToThere) + "</div>")
             }
-            g.push("</div>"), pg.$mapMenu.innerHTML = g.join(""), typeof e != "undefined" && (jq("#start-set").bind("click", function() {
+            g.push("</div>"), pg.$mapMenu.innerHTML = g.join(""), typeof e != "undefined" && (jq("#start-set").bind("click", function () {
                 pg.hideMapInfoWindow(), pg.inputStart = "", pg.loadedPlannerParams = "", pg.map.num = "", pg.optimalResults = null, pg.fUrlSet({
                     transport: "plan",
                     inputStart: e
                 })
-            }), jq("#finish-set").bind("click", function() {
+            }), jq("#finish-set").bind("click", function () {
                 pg.hideMapInfoWindow(), pg.inputFinish = "", pg.loadedPlannerParams = "", pg.map.num = "", pg.optimalResults = null, pg.fUrlSet({
                     transport: "plan",
                     inputFinish: e
@@ -4224,21 +4256,21 @@ pg.fTabShowMap_Click = function(a, b) {
                 if (v3.yandex) pg.loadYandexPanorama(f);
                 else {
                     var p = document.createElement("script");
-                    p.onload = function() {
-                        ymaps.ready(function() {
+                    p.onload = function () {
+                        ymaps.ready(function () {
                             v3.yandex = !0, pg.loadYandexPanorama(f)
                         })
                     }, p.src = "https://api-maps.yandex.ru/2.1/?lang=en_RU&load=panorama.isSupported,panorama.locate,panorama.createPlayer,panorama.Player", document.head.appendChild(p)
                 }
-            else(new google.maps.StreetViewService).getPanoramaByLocation(f, 50, function(a, b) {
+            else (new google.maps.StreetViewService).getPanoramaByLocation(f, 50, function (a, b) {
                 if (b == google.maps.StreetViewStatus.OK) {
                     $("streetview").style.display = "block";
                     var c = pg.$mapMenu.offsetTop;
                     c < 0 && (pg.GMap.panToWithOffset(pg.GMap.getCenter(), 0, c), pg.$mapMenu.style.top = "0px", pg.$mapMenu.style.bottom = "auto")
                 }
             })
-        }, pg.loadYandexPanorama = function(a) {
-            typeof ymaps != "undefined" && ymaps.panorama.isSupported() && ymaps.panorama.locate([a.lat(), a.lng()]).done(function(a) {
+        }, pg.loadYandexPanorama = function (a) {
+            typeof ymaps != "undefined" && ymaps.panorama.isSupported() && ymaps.panorama.locate([a.lat(), a.lng()]).done(function (a) {
                 if (a.length > 0) {
                     $("streetview").innerHTML = "", $("streetview").style.display = "block", $("streetview").style.height = "150px";
                     var b = new ymaps.panorama.Player("streetview", a[0], {
@@ -4247,10 +4279,10 @@ pg.fTabShowMap_Click = function(a, b) {
                         c = pg.$mapMenu.offsetTop;
                     c < 0 && (pg.GMap.panToWithOffset(pg.GMap.getCenter(), 0, c), pg.$mapMenu.style.top = "0px", pg.$mapMenu.style.bottom = "auto")
                 }
-            }, function(a) {
+            }, function (a) {
                 alert(a.message)
             })
-        }, pg.splitEncodedPolyline = function(a, b, c, d, e, f) {
+        }, pg.splitEncodedPolyline = function (a, b, c, d, e, f) {
             var g = a.length,
                 h = 0,
                 i = [],
@@ -4282,9 +4314,9 @@ pg.fTabShowMap_Click = function(a, b) {
                 points: y.join(""),
                 levels: z
             }
-        }, pg.loadPolyline = function(a, b, c, d, e, f, g, h) {
+        }, pg.loadPolyline = function (a, b, c, d, e, f, g, h) {
             var i = cfg.city.datadir + "/" + ti.toAscii([a, b == "eventbus" || cfg.defaultCity == "klaipeda" ? "bus" : b, c].join("_"), !0) + ".txt";
-            ti.fDownloadUrl("get", i, function(a) {
+            ti.fDownloadUrl("get", i, function (a) {
                 a.indexOf("\r\n") < 0 ? a = a.split("\n") : a = a.split("\r\n");
                 var c = pg.getStyle("." + b),
                     i = .8;
@@ -4311,42 +4343,42 @@ pg.fTabShowMap_Click = function(a, b) {
             pg.stopLabelSelected.setMap(pg.GMap),
             pg.stopLabelSelected.hide(),
             pg.mapMarkerStart = new google.maps.Marker({
-            position: new google.maps.LatLng(0, 0),
-            icon: pg.imagesFolder + "MarkerStart.png",
-            title: i18n.mapDragToChangeStart,
-            draggable: !0,
-            dragCrossMove: !1,
-            bouncy: !1,
-            zIndexProcess: function(a, b) {
-                return 104
-            }
-        }), pg.mapMarkerFinish = new google.maps.Marker({
+                position: new google.maps.LatLng(0, 0),
+                icon: pg.imagesFolder + "MarkerStart.png",
+                title: i18n.mapDragToChangeStart,
+                draggable: !0,
+                dragCrossMove: !1,
+                bouncy: !1,
+                zIndexProcess: function (a, b) {
+                    return 104
+                }
+            }), pg.mapMarkerFinish = new google.maps.Marker({
             position: new google.maps.LatLng(0, 0),
             icon: pg.imagesFolder + "MarkerFinish.png",
             title: i18n.mapDragToChangeFinish,
             draggable: !0,
             dragCrossMove: !1,
             bouncy: !1,
-            zIndexProcess: function(a, b) {
+            zIndexProcess: function (a, b) {
                 return 104
             }
-        }), pg.mapMarkerStart.setMap(null), pg.mapMarkerFinish.setMap(null), google.maps.event.addListener(pg.mapMarkerStart, "dragend", function() {
+        }), pg.mapMarkerStart.setMap(null), pg.mapMarkerFinish.setMap(null), google.maps.event.addListener(pg.mapMarkerStart, "dragend", function () {
             pg.map = {}, pg.optimalResults = null;
             var a = pg.mapMarkerStart.getPosition(),
                 b = o(a),
                 c = b.length ? b.join(",") : a.toUrlValue().replace(",", ";");
             pg.fTabPlanner_Click(c, pg.inputFinish, "map")
-        }), google.maps.event.addListener(pg.mapMarkerFinish, "dragend", function() {
+        }), google.maps.event.addListener(pg.mapMarkerFinish, "dragend", function () {
             pg.map = {}, pg.optimalResults = null;
             var a = pg.mapMarkerFinish.getPosition(),
                 b = o(a),
                 c = b.length ? b.join(",") : a.toUrlValue().replace(",", ";");
             pg.fTabPlanner_Click(pg.inputStart, c, "map")
-        }), google.maps.event.addListener(pg.mapMarkerStart, "dragstart", function() {
-            pg.mapShowAllStops || (pg.mapShowAllStops = !0, setTimeout(function() {
+        }), google.maps.event.addListener(pg.mapMarkerStart, "dragstart", function () {
+            pg.mapShowAllStops || (pg.mapShowAllStops = !0, setTimeout(function () {
                 pg.clusterManager.refresh()
             }, 100))
-        }), google.maps.event.addListener(pg.mapMarkerFinish, "dragstart", function() {
+        }), google.maps.event.addListener(pg.mapMarkerFinish, "dragstart", function () {
             pg.mapShowAllStops || (pg.mapShowAllStops = !0, pg.clusterManager.refresh())
         });
 
@@ -4369,6 +4401,7 @@ pg.fTabShowMap_Click = function(a, b) {
             }
             return k
         }
+
         var p = [],
             q = ti.stops;
         for (var s in q) p.push(q[s]);
@@ -4395,26 +4428,26 @@ pg.fTabShowMap_Click = function(a, b) {
         }), pg.youAreHereInfowindow = new google.maps.InfoWindow({
             content: i18n.dragMarkerText,
             disableAutoPan: !0
-        }), v3.directionsService = new google.maps.DirectionsService, v3.directionsDisplay = new google.maps.DirectionsRenderer, pg.hashForMap && pg.hashForMap.indexOf("mylocation") != -1 && window.gps ? pg.renderMyLocation(jQuery("#divContentRoutes"), window.gps) : typeof pg.updateMyLocationMarker == "function" && window.gps ? pg.updateMyLocationMarker(window.gps) : typeof mobile != "undefined" && typeof mobile.updateMyLocationMarker == "function" && window.gps && mobile.updateMyLocationMarker(window.gps), google.maps.event.addListener(f, "zoom_changed", function() {
+        }), v3.directionsService = new google.maps.DirectionsService, v3.directionsDisplay = new google.maps.DirectionsRenderer, pg.hashForMap && pg.hashForMap.indexOf("mylocation") != -1 && window.gps ? pg.renderMyLocation(jQuery("#divContentRoutes"), window.gps) : typeof pg.updateMyLocationMarker == "function" && window.gps ? pg.updateMyLocationMarker(window.gps) : typeof mobile != "undefined" && typeof mobile.updateMyLocationMarker == "function" && window.gps && mobile.updateMyLocationMarker(window.gps), google.maps.event.addListener(f, "zoom_changed", function () {
             (pg.clusterManager._div || {}).innerHTML = "", (pg.getMapVehicles() || {}).innerHTML = "", pg.hideMapInfoWindow()
-        }), google.maps.event.addListener(f, "idle", function() {
-            setTimeout(function() {
+        }), google.maps.event.addListener(f, "idle", function () {
+            setTimeout(function () {
                 pg.clusterManager.refresh(), pg.fShowVehicles()
             }, 100)
-        }), google.maps.event.addListener(f, "maptypeid_changed", function() {
-            setTimeout(function() {
+        }), google.maps.event.addListener(f, "maptypeid_changed", function () {
+            setTimeout(function () {
                 pg.clusterManager.refresh(), pg.clusterManager.showLayer(), pg.fShowVehicles()
             }, 100)
         }), pg.fMapShow()
     }
-}, pg.getMapVehicles = function() {
+}, pg.getMapVehicles = function () {
     if (typeof pg.$mapVehicles == "undefined") {
         var a = v3.getPanes();
         if (a) pg.$mapVehicles = document.createElement("div"), pg.$mapVehicles.id = "divMapVehicles", a.overlayMouseTarget.appendChild(pg.$mapVehicles);
         else return {}
     }
     return pg.$mapVehicles
-}, pg.divMapHide_Click = function() {
+}, pg.divMapHide_Click = function () {
     if (typeof mobile == "undefined" && pg.GMap && pg.GMap.getStreetView().getVisible()) pg.GMap.getStreetView().setVisible(!1);
     else {
         pg.fMapHide(), pg.hashForMap = "";
@@ -4443,27 +4476,27 @@ pg.fTabShowMap_Click = function(a, b) {
         }
         pg.fUrlSet()
     }
-}, pg.divMapMaximize_Click = function(a) {
+}, pg.divMapMaximize_Click = function (a) {
     var b = pg.GMap && pg.GMap.getCenter();
     pg.fUrlSetMap({
         maximized: !0
-    }), b && setTimeout(function() {
+    }), b && setTimeout(function () {
         google.maps.event.trigger(pg.GMap, "resize"), pg.GMap.setCenter(b)
     }, 300);
     return pg.cancelEvent(a)
-}, pg.divMapRestore_Click = function(a) {
+}, pg.divMapRestore_Click = function (a) {
     var b = pg.GMap && pg.GMap.getCenter();
     pg.fUrlSetMap({
         maximized: !1
     }), b && (google.maps.event.trigger(pg.GMap, "resize"), pg.GMap.setCenter(b));
     return pg.cancelEvent(a)
-}, pg.fShowTraffic = function(a) {
+}, pg.fShowTraffic = function (a) {
     pg.mapShowTraffic = a, pg.GMap && (pg.trafficOverlay || (pg.trafficOverlay = new google.maps.TrafficLayer), a ? (pg.GMap.getMapTypeId() == "OSM" && (pg.clusterManager && pg.clusterManager.hideLayer(), pg.GMap.setMapTypeId("roadmap")), pg.trafficOverlay.setMap(pg.GMap)) : (v3.mapTypeIds.indexOf("OSM") >= 0 && (pg.GMap.getMapTypeId() == "roadmap" && (pg.clusterManager && pg.clusterManager.hideLayer(), pg.GMap.setMapTypeId("OSM"))), pg.trafficOverlay.setMap(null)), pg.toggleClass($("divMapShowTraffic"), "pressed", a))
-}, pg.fToggleVehicles = function(a) {
-    pg.mapShowVehicles = a, pg.GMap && cfg.city.urlGPS && (pg.toggleClass($("divMapShowVehicles"), "pressed", a > 0), a > 0 && !pg.mapShowVehiclesInterval ? (pg.mapShowVehiclesInterval = setInterval(pg.fShowVehicles, 5e3), window.setTimeout(function() {
+}, pg.fToggleVehicles = function (a) {
+    pg.mapShowVehicles = a, pg.GMap && cfg.city.urlGPS && (pg.toggleClass($("divMapShowVehicles"), "pressed", a > 0), a > 0 && !pg.mapShowVehiclesInterval ? (pg.mapShowVehiclesInterval = setInterval(pg.fShowVehicles, 5e3), window.setTimeout(function () {
         pg.fShowVehicles()
     }, 200)) : a <= 0 && ((pg.getMapVehicles() || {}).innerHTML = ""))
-}, pg.fShowVehicles = function() {
+}, pg.fShowVehicles = function () {
     if (v3.ready) {
         if (!cfg.city.urlGPS || pg.mapShowVehicles <= 0) {
             pg.mapShowVehiclesInterval && (clearInterval(pg.mapShowVehiclesInterval), pg.mapShowVehiclesInterval = 0), (pg.getMapVehicles() || {}).innerHTML = "";
@@ -4476,7 +4509,7 @@ pg.fTabShowMap_Click = function(a, b) {
         var a = cfg.city.urlGPS;
         a += a.indexOf("?") >= 0 ? "&time=" : "?", a += +(new Date), (!pg.visibility || pg.visibility == "visible") && ti.fDownloadUrl("GET", a, pg.fProcessGPSData)
     }
-}, pg.fProcessGPSData = function(a) {
+}, pg.fProcessGPSData = function (a) {
     if (pg.mapShowVehicles > 0) {
         a = a.split("\n");
         var b = [],
@@ -4546,24 +4579,26 @@ function resizeDropDown() {
         }
     }
 }
-jq(window).bind("resize", function(a) {
+
+jq(window).bind("resize", function (a) {
     resizeDropDown()
-}), pg.fScheduleShow = function(a) {
-    a.num && (a.num = a.num.toLowerCase()), pg.schedule || (pg.schedulePane = 1, ($("spanReturnToRoutes") || {}).href = pg.urlPrevious, pg.urlUnderSchedulePane = pg.urlPrevious, pg.languageUnderSchedulePane = pg.language), document.body.className.indexOf("Schedule") < 0 && (cfg.isMobilePage && pg.hashForMap ? document.body.className = "ScheduleMapDisplayed" : document.body.className = "ScheduleDisplayed"), $("aDir1") && setTimeout(function() {
+}), pg.fScheduleShow = function (a) {
+    a.num && (a.num = a.num.toLowerCase()), pg.schedule || (pg.schedulePane = 1, ($("spanReturnToRoutes") || {}).href = pg.urlPrevious, pg.urlUnderSchedulePane = pg.urlPrevious, pg.languageUnderSchedulePane = pg.language), document.body.className.indexOf("Schedule") < 0 && (cfg.isMobilePage && pg.hashForMap ? document.body.className = "ScheduleMapDisplayed" : document.body.className = "ScheduleDisplayed"), $("aDir1") && setTimeout(function () {
         try {
             $("aDir1").focus()
-        } catch (a) {}
+        } catch (a) {
+        }
     }, 100);
     pg.schedule && pg.schedule.city == a.city && pg.schedule.transport == a.transport && pg.schedule.num == a.num && pg.schedule.dirType == a.dirType && pg.schedule.tripNum == a.tripNum ? (pg.schedule.dirType = a.dirType, pg.schedule.stopId = a.stopId, typeof mobile == "undefined" && pg.fScheduleStopActivate()) : (pg.schedule = a, ($("spanDir1") || {}).innerHTML = "&nbsp;", ($("spanDir2") || {}).innerHTML = "&nbsp;", ($("dlDirStops1") || {}).innerHTML = "&nbsp;", ($("dlDirStops2") || {}).innerHTML = "&nbsp;", ($("divScheduleContentInner") || {}).innerHTML = "<br/>" + i18n.loading, pg.fScheduleLoad())
-}, pg.fScheduleHide = function() {
+}, pg.fScheduleHide = function () {
     pg.schedule = null, document.body.className.indexOf("Schedule") >= 0 && (document.body.className = "", $("divMap").style.width = "100%", $("divMap").style.height = "100%")
-}, pg.fScheduleLoad = function(a) {
+}, pg.fScheduleLoad = function (a) {
     if (typeof mobile == "undefined" || typeof a != "undefined") {
         pg.schedules = null, cfg.city.doNotShowTimetables = cfg.city.doNotShowTimetables || {}, ($("ulScheduleDirectionsList") || {
             style: {}
         }).style.display = "none";
         if (typeof ti.routes !== "object" || typeof ti.stops !== "object") {
-            setTimeout(function() {
+            setTimeout(function () {
                 pg.fScheduleLoad(a)
             }, 200);
             return
@@ -4619,7 +4654,8 @@ jq(window).bind("resize", function(a) {
                     name: i
                 })
             }
-        }($("ulScheduleDirectionsList") || {}).innerHTML = f[1] + f[2], b || (b = c[0]), pg.schedule.dirType = b.dirType, pg.schedule.dirTypes = {}, pg.schedule.route = b;
+        }
+        ($("ulScheduleDirectionsList") || {}).innerHTML = f[1] + f[2], b || (b = c[0]), pg.schedule.dirType = b.dirType, pg.schedule.dirTypes = {}, pg.schedule.route = b;
         var p = pg.schedulePane == 2 ? 2 : 1,
             q = [];
         for (var r = 1; r <= 2; r++) {
@@ -4628,7 +4664,8 @@ jq(window).bind("resize", function(a) {
                 t = 0,
                 u = (b.streets || "").split(",") || [],
                 v, w = null,
-                x, y = pg.schedule.tripNum && r == 1 && !cfg.city.doNotShowTimetables[pg.schedule.transport] ? pg.schedule.tripNum : 0;
+                x,
+                y = pg.schedule.tripNum && r == 1 && !cfg.city.doNotShowTimetables[pg.schedule.transport] ? pg.schedule.tripNum : 0;
             y && (v = typeof b.times === "string" ? ti.explodeTimes(b.times) : b.times, x = v.workdays.length, w = v.times);
             var z = {};
             for (g = 0; g < b.stops.length; g++) {
@@ -4680,7 +4717,8 @@ jq(window).bind("resize", function(a) {
                         hash: n
                     }, ++t
                 }
-            }($("dlDirStops" + p) || {}).innerHTML = q.join(""), ($("dlDirStops" + p) || {
+            }
+            ($("dlDirStops" + p) || {}).innerHTML = q.join(""), ($("dlDirStops" + p) || {
                 style: {}
             }).style.display = "";
             if (r == 2) break;
@@ -4713,17 +4751,18 @@ jq(window).bind("resize", function(a) {
         }
         a ? a(d) : pg.fScheduleStopActivate(), pg.schedule.tripNum || (($("divScheduleBody") || {}).scrollTop = 0)
     }
-}, pg.aDir_Click = function(a) {
-    setTimeout(function() {
+}, pg.aDir_Click = function (a) {
+    setTimeout(function () {
         try {
             a.focus()
-        } catch (b) {}
+        } catch (b) {
+        }
     }, 100);
     var b = $("ulScheduleDirectionsList");
     (a.id || "").indexOf("2") >= 0 && a.offsetLeft > 100 ? (pg.scheduleProposedPane = 2, b.style.right = "10px", b.style.left = "") : (pg.scheduleProposedPane = 1, b.style.left = a.offsetLeft + "px", b.style.right = ""), b.style.display = "block"
-}, pg.aDir_Blur = function() {
+}, pg.aDir_Blur = function () {
     $("ulScheduleDirectionsList").style.display = "none"
-}, pg.ulScheduleDirectionsList_Click = function(a) {
+}, pg.ulScheduleDirectionsList_Click = function (a) {
     a = a || window.event;
     var b = a.target || a.srcElement;
     if (b.nodeName.toLowerCase() == "a") {
@@ -4738,7 +4777,7 @@ jq(window).bind("resize", function(a) {
         }, !0), c != Hash.getHash() ? Hash.go(c) : pg.fScheduleLoad();
         return pg.cancelEvent(a)
     }
-}, pg.fScheduleStops_Click = function(a, b) {
+}, pg.fScheduleStops_Click = function (a, b) {
     a = a || window.event;
     var c = a.target || a.srcElement;
     if (c.nodeName.toLowerCase() == "a") {
@@ -4754,12 +4793,12 @@ jq(window).bind("resize", function(a) {
         });
         return pg.cancelEvent(a)
     }
-}, pg.fTransferHideMenu = function() {
+}, pg.fTransferHideMenu = function () {
     if (pg.transfersMenuHide) {
         var a = $("divTransfersMenu");
         a.style.display = "none"
     }
-}, pg.fTransfer_MouseOver = function(a) {
+}, pg.fTransfer_MouseOver = function (a) {
     a = a || window.event;
     var b = a.target || a.srcElement;
     if (b.id == "divTransfersMenu" || (b.parentNode || {}).id == "divTransfersMenu" || b.id == "checkTransfer" || b.id == "spanCheckTransfer") pg.transfersMenuHide = !1;
@@ -4790,9 +4829,9 @@ jq(window).bind("resize", function(a) {
         var f = $("divTransfersMenu");
         pg.transfersMenuHide ? f.style.display == "block" && pg.fTransfer_MouseOut() : (f.style.left = b.offsetLeft + "px", f.style.top = b.offsetTop + b.offsetHeight + "px", f.style.display = "block")
     }
-}, pg.fTransfer_MouseOut = function() {
+}, pg.fTransfer_MouseOut = function () {
     pg.transfersMenuHide = !0, setTimeout(pg.fTransferHideMenu, 200)
-}, pg.fScheduleStopActivate = function() {
+}, pg.fScheduleStopActivate = function () {
     var a = "/" + pg.schedule.dirType + "/" + pg.schedule.stopId + "/",
         b = pg.schedule.dirTypes[pg.schedule.dirType],
         c;
@@ -4812,7 +4851,7 @@ jq(window).bind("resize", function(a) {
         }
     }
     $("aDir1").className = $("divScheduleLeft").className = b == 1 ? "active" : "", $("aDir2").className = $("divScheduleRight").className = b == 2 ? "active" : "", pg.browserVersion >= 8 && pg.toggleClass($("divScheduleContentInner"), "Right", b == 2), pg.fScheduleLoadTimetable()
-}, pg.fScheduleLoadTimetable = function(a) {
+}, pg.fScheduleLoadTimetable = function (a) {
     if (typeof mobile == "undefined" || typeof a != "undefined") {
         var b, c, d, e = [pg.schedule.city, pg.schedule.transport, pg.schedule.num].join("_"),
             f = pg.schedules || {};
@@ -4935,7 +4974,7 @@ jq(window).bind("resize", function(a) {
                 }
             }
         }
-        t.sort(function(a, b) {
+        t.sort(function (a, b) {
             if (a.workday < b.workday) return -1;
             if (a.workday > b.workday) return 1;
             if (a.time < b.time) return -1;
@@ -5045,7 +5084,7 @@ jq(window).bind("resize", function(a) {
         }
         pg.replaceHtml($("divScheduleContentInner"), U + "<div style=\"clear:both;\"></div>"), a && a(i)
     }
-}, pg.fCheckTransfer_Click = function() {
+}, pg.fCheckTransfer_Click = function () {
     if (!pg.addSchedule) return !1;
     $e = $("checkTransfer");
     var a;
@@ -5060,9 +5099,9 @@ jq(window).bind("resize", function(a) {
     }
     pg.fScheduleLoadTimetable();
     return
-}, pg.fToggleNumbersAtDepartures = function() {
+}, pg.fToggleNumbersAtDepartures = function () {
     pg.showDeparturesWithNumbers = $("showDeparturesWithNumbers").checked, pg.toggleClass($("divScheduleContentInner"), "HideNumbers", !pg.showDeparturesWithNumbers)
-}, pg.fWeekdaysName = function(a, b) {
+}, pg.fWeekdaysName = function (a, b) {
     var c = "";
     pg.schedule && pg.schedule.route && (pg.schedule.route.weekdays || "").indexOf("!") >= 0 && (a || "").indexOf("7") >= 0 && (c = "notfestal");
     var d = i18n[b + "weekdays" + a + c] || i18n[b + "weekdays" + a] || i18n["weekdays" + a + c] || i18n["weekdays" + a] || "";
@@ -5072,17 +5111,17 @@ jq(window).bind("resize", function(a) {
     for (var f = e.length; --f >= 0;) d = e[f], e[f] = i18n[b + "weekdays" + d + c] || i18n[b + "weekdays" + d] || i18n["weekdays" + d + c] || i18n["weekdays" + d] || d;
     d = e.join(", ");
     return d
-}, pg.inputSuggestedStops_Focus = function(a) {
+}, pg.inputSuggestedStops_Focus = function (a) {
     pg.inputActive !== a && (pg.inputActive = a, pg.stopsSuggestedForText = pg[pg.inputActive.id] ? pg.inputActive.value : null);
     if (pg.inputActive.className === "empty" || pg.inputActive.value == i18n.mapPoint || pg.inputActive.value == "Point on map" || pg.inputActive.value == i18n.myLocation || pg.inputActive.value == "My location") pg.inputActive.className = "", pg.inputActive.value = "";
     pg.timerSuggestedStopsShow === !1 ? pg.timerSuggestedStopsShow = 0 : (pg.fSuggestedStopsShow(!0), pg.timerSuggestedStopsShow === 0 && (pg.timerSuggestedStopsShow = setInterval(pg.fSuggestedStopsShow, 200)))
-}, pg.inputSuggestedStops_Blur = function(a) {
-    if (!document.activeElement || document.activeElement.id != "divSuggestedStops") pg.timerSuggestedStopsShow && clearInterval(pg.timerSuggestedStopsShow), pg.timerSuggestedStopsShow = 0, a && !a.value && (a.value = a.id == "inputFinish" ? i18n.finishStop : i18n.startStop, a.className = "empty"), pg.timerSuggestedStopsHide || (pg.timerSuggestedStopsHide = setTimeout(function() {
+}, pg.inputSuggestedStops_Blur = function (a) {
+    if (!document.activeElement || document.activeElement.id != "divSuggestedStops") pg.timerSuggestedStopsShow && clearInterval(pg.timerSuggestedStopsShow), pg.timerSuggestedStopsShow = 0, a && !a.value && (a.value = a.id == "inputFinish" ? i18n.finishStop : i18n.startStop, a.className = "empty"), pg.timerSuggestedStopsHide || (pg.timerSuggestedStopsHide = setTimeout(function () {
         pg.timerSuggestedStopsHide = 0, a && a.id == "inputStop" && a.value != pg.inputStopText && pg.fSuggestedStopsSelectFirst(a), pg.timerSuggestedStopsShow || pg.fSuggestedStopsHide()
     }, 200))
-}, pg.divSuggestedStops_Blur = function() {
+}, pg.divSuggestedStops_Blur = function () {
     (!document.activeElement || !pg.inputActive || document.activeElement.id !== pg.inputActive.id) && pg.inputSuggestedStops_Blur(pg.inputActive)
-}, pg.fSuggestedStopsShow = function(a) {
+}, pg.fSuggestedStopsShow = function (a) {
     if (pg.inputActive) {
         var b = pg.inputActive.value || "",
             c = $("divSuggestedStops");
@@ -5108,28 +5147,28 @@ jq(window).bind("resize", function(a) {
         }
         b.length >= 3 && (pg.geocoder || typeof mobile != "undefined") && d.push("<div id=\"geocaching-results\"><span style=\"display:block; padding-left:10px;line-height:26px;\"><b>" + i18n.addressesAndPlaces + ":</b><br/>" + i18n.loading + "</span></div>"), d.push("<autobusuData id=\"aSuggestShowMap\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_stops\"></span>" + i18n.selectFromMap + "</autobusuData>"), typeof mobile != "undefined" && mobile.kautra && d.pop(), (c || {}).innerHTML = d.join("");
         if (b && b.length >= 3) {
-            if (typeof mobile != "undefined") mobile.searchPlaces(b, function(a) {
+            if (typeof mobile != "undefined") mobile.searchPlaces(b, function (a) {
                 var b = $("geocaching-results");
                 if (b) {
                     var c = [];
-                    a.length ? c.push(["<span style=\"display:block; padding-left:10px;line-height:26px;\"><b>", i18n.addressesAndPlaces, ":</b></span>"].join("")) : c.push(["<autobusuData id=\"aMoreChars\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_info\"></span>", i18n.noAddressesAndPlacesFound, "</autobusuData>"].join("")), jQuery.each(a, function(a, b) {
+                    a.length ? c.push(["<span style=\"display:block; padding-left:10px;line-height:26px;\"><b>", i18n.addressesAndPlaces, ":</b></span>"].join("")) : c.push(["<autobusuData id=\"aMoreChars\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_info\"></span>", i18n.noAddressesAndPlacesFound, "</autobusuData>"].join("")), jQuery.each(a, function (a, b) {
                         c.push(["<autobusuData id=\"", b.key, "\" onclick=\"return false;\" href=\"\">", b.name, "</autobusuData>"].join(""))
-                    }), b.innerHTML = c.join(""), jQuery("#geocaching-results autobusuData").bind("click", function() {
-                        mobile.geocoder.getPlaceId(jQuery(this).attr("id"), function(a) {
+                    }), b.innerHTML = c.join(""), jQuery("#geocaching-results autobusuData").bind("click", function () {
+                        mobile.geocoder.getPlaceId(jQuery(this).attr("id"), function (a) {
                             var b = mobile.geocoder.index[a];
                             b.indexOf(",") != -1 && (b = b.substring(0, b.indexOf(","))), pg.inputActive.value = b, pg.inputActive.className = "", pg.stopsSuggestedForText = b, pg[pg.inputActive.id] = a, pg.fSuggestedStopsHide(), pg.timerSuggestedStopsShow = !1, pg.inputSuggestedStops_KeyDown(null, -13)
                         })
                     })
                 }
             });
-            else if (cfg.defaultCity === "tallinna-linn" && typeof pg.searchPlaces == "function") pg.searchPlaces(b, function(a) {
+            else if (cfg.defaultCity === "tallinna-linn" && typeof pg.searchPlaces == "function") pg.searchPlaces(b, function (a) {
                 var b = $("geocaching-results");
                 if (b) {
                     var c = [];
-                    a.length ? c.push(["<span style=\"display:block; padding-left:10px;line-height:26px;\"><b>", i18n.addressesAndPlaces, ":</b></span>"].join("")) : c.push(["<autobusuData id=\"aMoreChars\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_info\"></span>", i18n.noAddressesAndPlacesFound, "</autobusuData>"].join("")), jQuery.each(a, function(a, b) {
+                    a.length ? c.push(["<span style=\"display:block; padding-left:10px;line-height:26px;\"><b>", i18n.addressesAndPlaces, ":</b></span>"].join("")) : c.push(["<autobusuData id=\"aMoreChars\" href=\"\" onclick=\"return false;\"><span class=\"icon icon_info\"></span>", i18n.noAddressesAndPlacesFound, "</autobusuData>"].join("")), jQuery.each(a, function (a, b) {
                         c.push(["<autobusuData id=\"", b.key, "\" onclick=\"return false;\" href=\"\">", b.name, "</autobusuData>"].join(""))
-                    }), b.innerHTML = c.join(""), jQuery("#geocaching-results autobusuData").bind("click", function() {
-                        pg.geocoder2.getPlaceId(jQuery(this).attr("id"), function(a) {
+                    }), b.innerHTML = c.join(""), jQuery("#geocaching-results autobusuData").bind("click", function () {
+                        pg.geocoder2.getPlaceId(jQuery(this).attr("id"), function (a) {
                             var b = pg.geocoder2.index[a];
                             b.indexOf(",") != -1 && (b = b.substring(0, b.indexOf(","))), pg.inputActive.value = b, pg.inputActive.className = "", pg.stopsSuggestedForText = b, pg[pg.inputActive.id] = a, pg.fSuggestedStopsHide(), pg.timerSuggestedStopsShow = !1, pg.inputSuggestedStops_KeyDown(null, -13)
                         })
@@ -5140,7 +5179,7 @@ jq(window).bind("resize", function(a) {
                 if (pg.inputActive.id == "inputStop") {
                     var j = $("geocaching-results");
                     j && (j.style.display = "none")
-                } else pg.geocoder.search(b, function(a) {
+                } else pg.geocoder.search(b, function (a) {
                     var b = $("geocaching-results");
                     if (b) {
                         var c = "";
@@ -5152,7 +5191,8 @@ jq(window).bind("resize", function(a) {
                         b.innerHTML = c, b.style.display = "block"
                     }
                 })
-        } else typeof mobile != "undefined" && pg.loadGoogleMapsScript(function() {});
+        } else typeof mobile != "undefined" && pg.loadGoogleMapsScript(function () {
+        });
         if (c && pg.inputActive.offsetHeight) {
             var k = $("divContentWrapper") || {
                     offsetLeft: 0,
@@ -5171,12 +5211,12 @@ jq(window).bind("resize", function(a) {
         if (typeof mobile != "object" || !mobile.kautra) c.style.overflowY = d.length > 6 ? "scroll" : "hidden";
         c.style.height = d.length > 6 ? "156px" : "auto", c.style.display = "block"
     }
-}, pg.fSuggestedStopsHide = function() {
+}, pg.fSuggestedStopsHide = function () {
     pg.stopSuggestedForMap = "", $("divSuggestedStops").style.display != "none" && ($("divSuggestedStops").style.display = "none")
-}, pg.divSuggestedStops_MouseDown = function(a) {
+}, pg.divSuggestedStops_MouseDown = function (a) {
     var b = a && (a.target || a.srcElement);
     return !b || b.id !== "divSuggestedStops"
-}, pg.eSuggestedStops_Click = function(a) {
+}, pg.eSuggestedStops_Click = function (a) {
     pg.timerSuggestedStopsHide && (clearTimeout(pg.timerSuggestedStopsHide), pg.timerSuggestedStopsHide = 0);
     var b = a && (a.target || a.srcElement),
         c = b && (b.className || "").toLowerCase(),
@@ -5194,10 +5234,11 @@ jq(window).bind("resize", function(a) {
                 var d;
                 pg.inputActive.id === "inputStart" ? (pg.loadedPlannerParams = "clear start", d = "plan/" + b + "/" + (pg.inputFinish || "")) : (pg.loadedPlannerParams = "clear finish", d = "plan/" + (pg.inputStart || "") + "/" + b), Hash.go(d + "/map")
             } else Hash.go("stop/" + b + "/map");
-            setTimeout(function() {
+            setTimeout(function () {
                 try {
                     pg.inputActive.focus()
-                } catch (a) {}
+                } catch (a) {
+                }
             }, 100)
         }
         if (b && b.indexOf("ShowMap") >= 0) {
@@ -5212,33 +5253,38 @@ jq(window).bind("resize", function(a) {
         } else {
             try {
                 pg.inputActive.focus()
-            } catch (f) {}
+            } catch (f) {
+            }
             pg[pg.inputActive.id] = ""
         }
     }
-    d ? pg.geocoder.getPlaceId(d, function(a) {
+
+    d ? pg.geocoder.getPlaceId(d, function (a) {
         e(a, c)
     }) : e(b.id, c);
     return pg.cancelEvent(a)
-}, pg.inputKeyTab = function(a) {
+}, pg.inputKeyTab = function (a) {
     var b = window.event ? window.event.keyCode : a.keyCode;
     b == 9 && pg.inputSuggestedStops_KeyDown(null, 13)
-}, pg.inputSuggestedStops_KeyDown = function(a, b) {
+}, pg.inputSuggestedStops_KeyDown = function (a, b) {
     pg.stopSuggestedForMap = "", b || (b = window.event ? window.event.keyCode : a.keyCode);
-    b == 27 ? (pg.timerSuggestedStopsShow && clearInterval(pg.timerSuggestedStopsShow), pg.timerSuggestedStopsShow = 0, pg.fSuggestedStopsHide()) : b == 13 || b == -13 || b == -13 ? (pg.timerSuggestedStopsShow && clearInterval(pg.timerSuggestedStopsShow), pg.timerSuggestedStopsShow = 0, b == 13 && pg.fSuggestedStopsSelectFirst(), pg[pg.inputActive.id] && pg.fSuggestedStopsHide(), pg.inputActive.id === "inputStop" ? pg.inputStop && pg.fTabStop_Click(pg.inputStop) : (pg.loadedPlannerParams != pg.inputStart + "/" + pg.inputFinish && (pg.loadedPlannerParams = "clear results"), pg.fTabPlanner_Click(pg.inputStart, pg.inputFinish), pg.inputActive.id === "inputStart" && pg.inputStart && !pg.inputFinish ? setTimeout(function() {
+    b == 27 ? (pg.timerSuggestedStopsShow && clearInterval(pg.timerSuggestedStopsShow), pg.timerSuggestedStopsShow = 0, pg.fSuggestedStopsHide()) : b == 13 || b == -13 || b == -13 ? (pg.timerSuggestedStopsShow && clearInterval(pg.timerSuggestedStopsShow), pg.timerSuggestedStopsShow = 0, b == 13 && pg.fSuggestedStopsSelectFirst(), pg[pg.inputActive.id] && pg.fSuggestedStopsHide(), pg.inputActive.id === "inputStop" ? pg.inputStop && pg.fTabStop_Click(pg.inputStop) : (pg.loadedPlannerParams != pg.inputStart + "/" + pg.inputFinish && (pg.loadedPlannerParams = "clear results"), pg.fTabPlanner_Click(pg.inputStart, pg.inputFinish), pg.inputActive.id === "inputStart" && pg.inputStart && !pg.inputFinish ? setTimeout(function () {
         try {
             $("inputFinish").focus()
-        } catch (a) {}
-    }, 100) : pg.inputActive.id === "inputFinish" && pg.inputFinish && !pg.inputStart ? setTimeout(function() {
+        } catch (a) {
+        }
+    }, 100) : pg.inputActive.id === "inputFinish" && pg.inputFinish && !pg.inputStart ? setTimeout(function () {
         try {
             $("inputStart").focus()
-        } catch (a) {}
-    }, 100) : pg.inputStart && pg.inputFinish && setTimeout(function() {
+        } catch (a) {
+        }
+    }, 100) : pg.inputStart && pg.inputFinish && setTimeout(function () {
         try {
             $("buttonSearch").focus()
-        } catch (a) {}
+        } catch (a) {
+        }
     }, 100))) : b != 9 && (pg.inputActive.className == "empty" && (pg.inputActive.value = "", pg.inputActive.className = ""), pg.fSuggestedStopsShow(), pg.timerSuggestedStopsShow || (pg.timerSuggestedStopsShow = setInterval(pg.fSuggestedStopsShow, 200)))
-}, pg.fSuggestedStopsSelectFirst = function(a) {
+}, pg.fSuggestedStopsSelectFirst = function (a) {
     a = a || pg.inputActive;
     if (a) {
         pg[a.id] = "";
@@ -5247,14 +5293,14 @@ jq(window).bind("resize", function(a) {
             b.length > 0 && (a.value != b[0].name && (a.value = b[0].name), pg.stopsSuggestedForText = b[0].name, pg[a.id] = b[0].id, a.id === "inputStop" && pg.fLoadDepartingRoutes())
         }
     }
-}, pg.fTabStop_Click = function(a) {
+}, pg.fTabStop_Click = function (a) {
     pg.fUrlSet({
         transport: "stop",
         inputStop: a || pg.inputStop,
         hashForMap: pg.hashForMap && "map"
     });
     return !1
-}, pg.fTabPlanner_Click = function(a, b) {
+}, pg.fTabPlanner_Click = function (a, b) {
     pg.fUrlSet({
         transport: "plan",
         inputStart: a || pg.inputStart || pg.inputStop,
@@ -5262,19 +5308,19 @@ jq(window).bind("resize", function(a) {
         hashForMap: pg.hashForMap && "map"
     });
     return !1
-}, pg.fTabActivate = function() {
+}, pg.fTabActivate = function () {
     var a = pg.city + "_" + pg.transport;
     pg.transport || (a = "city", cfg.cities[pg.city] && pg.city !== pg.fGetCity(pg.city) && (a = "region"));
     var b = $("divNav") && $("divNav").getElementsByTagName("autobusuData");
     if (b)
         for (var c = b.length; --c >= 0;) b[c].id === a ? b[c].className = "active" : b[c].className.indexOf("active") >= 0 && (b[c].className = "");
     ($("dt_stop") || {}).className = pg.transport === "stop" ? "active" : "";
-    if (pg.transport === "stop")(cfg.defaultCity == "tallinna-linn" || pg.loadedDepartingRoutes !== pg.inputStop) && setTimeout(pg.fLoadDepartingRoutes, 10);
+    if (pg.transport === "stop") (cfg.defaultCity == "tallinna-linn" || pg.loadedDepartingRoutes !== pg.inputStop) && setTimeout(pg.fLoadDepartingRoutes, 10);
     else if (pg.transport === "plan") {
         typeof mobile == "undefined" && (($("plan") || {}).className = "active"), pg.loadedPlannerParams !== pg.inputStart + "/" + pg.inputFinish && setTimeout(pg.fLoadPlannerTab, 10);
         var d = "" + (($("inputTime") || {}).value || "");
         d.trim() === "" && (d = ti.dateToMinutes(new Date) % 1440, ($("inputTime") || {}).value = ti.printTime(d))
-    } else if (!pg.loadedRoutesHash || pg.loadedRoutesHash.indexOf(pg.city + "/" + pg.transport + "/") != 0)($("inputRoutes") || {}).value = pg.routesFilter = "", pg.inputRoutes_Blur(), pg.fLoadRoutesList();
+    } else if (!pg.loadedRoutesHash || pg.loadedRoutesHash.indexOf(pg.city + "/" + pg.transport + "/") != 0) ($("inputRoutes") || {}).value = pg.routesFilter = "", pg.inputRoutes_Blur(), pg.fLoadRoutesList();
     ($("divContentRoutes") || {
         style: {}
     }).style.display = pg.transport === "stop" || pg.transport === "plan" || pg.transport === "favourites" || pg.transport === "contacts" || pg.transport === "help" ? "none" : "block", ($("divContentDepartingRoutes") || {
@@ -5282,7 +5328,7 @@ jq(window).bind("resize", function(a) {
     }).style.display = pg.transport === "stop" ? "block" : "none", ($("divContentPlanner") || {
         style: {}
     }).style.display = pg.transport === "plan" ? "block" : "none"
-}, pg.footerHTML = function() {
+}, pg.footerHTML = function () {
     var a = ["<div class=\"footer-info\">"],
         b = cfg.cities[pg.city].footer;
     b = b && (b[pg.language] || b.en), b && a.push(b);
@@ -5293,18 +5339,18 @@ jq(window).bind("resize", function(a) {
     }
     a.push("</div>");
     return a.join("")
-}, pg.fLoadRoutesList = function(a) {
+}, pg.fLoadRoutesList = function (a) {
     if (typeof mobile == "undefined" || typeof a != "undefined") {
         var b = $("divContentRoutesResults");
         if (typeof ti.routes !== "object") {
-            pg.loadedRoutesHash = "", (b || {}).innerHTML = "<br/>" + i18n.receivingData, setTimeout(function() {
+            pg.loadedRoutesHash = "", (b || {}).innerHTML = "<br/>" + i18n.receivingData, setTimeout(function () {
                 pg.fLoadRoutesList(a)
             }, 200);
             return
         }
         var c = $("inputRoutes") && ($("inputRoutes").className == "empty" ? "" : ti.toAscii($("inputRoutes").value, 2));
         if (c && pg.routesFilter != c) {
-            pg.routesFilter = c, setTimeout(function() {
+            pg.routesFilter = c, setTimeout(function () {
                 pg.fLoadRoutesList(a)
             }, 200);
             return
@@ -5318,7 +5364,7 @@ jq(window).bind("resize", function(a) {
             (b || {}).innerHTML = "<br/>&nbsp;" + i18n.noRoutesFound;
             return
         }
-        var e = function() {
+        var e = function () {
             var a = [];
             a.push("<table id=\"tblRoutes\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\"><tbody>");
             for (var b = 0; b < d.length; b++) a.push(pg.fMakeRouteRowHTML(d[b], "tblRoutes", b));
@@ -5330,7 +5376,7 @@ jq(window).bind("resize", function(a) {
         }
         e()
     }
-}, pg.fLoadDepartingRoutes = function(a, b) {
+}, pg.fLoadDepartingRoutes = function (a, b) {
     pg.loadedDepartingRoutes = null, pg.realTimeDepartures.timer && a && (clearTimeout(pg.realTimeDepartures.timer), pg.realTimeDepartures.timer = 0);
     var c = $("divContentDepartingRoutesResults");
     pg.inputStop && pg.stopsByIP && pg.inputStop.indexOf("192.168.") >= 0 && cfg.city.defaultTransport == "tablo" && (pg.IP = pg.inputStop, pg.tablo = pg.stopsByIP[pg.IP] || {
@@ -5344,19 +5390,20 @@ jq(window).bind("resize", function(a) {
             var f = pg.fUrlSet({
                 hashForMap: "map"
             }, !0);
-            $("divContentDepartingRoutesHeader").style.display = "none", (c || {}).innerHTML = ("<p class=\"help\">" + i18n.searchDeparturesHelp + "<p/><p class=\"help\">" + i18n.tripPlannerHelpMap).replace(/<a>/g, "<autobusuData class=\"underlined map\" href=\"#" + f + "\">"), document.activeElement && document.activeElement.id !== "inputStop" && ($("inputStop").value = i18n.startStop, $("inputStop").className = "empty", setTimeout(function() {
+            $("divContentDepartingRoutesHeader").style.display = "none", (c || {}).innerHTML = ("<p class=\"help\">" + i18n.searchDeparturesHelp + "<p/><p class=\"help\">" + i18n.tripPlannerHelpMap).replace(/<a>/g, "<autobusuData class=\"underlined map\" href=\"#" + f + "\">"), document.activeElement && document.activeElement.id !== "inputStop" && ($("inputStop").value = i18n.startStop, $("inputStop").className = "empty", setTimeout(function () {
                 try {
                     $("inputStop").focus()
-                } catch (a) {}
+                } catch (a) {
+                }
             }, 100));
             return
         }
-    if (typeof ti.routes !== "object" || typeof ti.stops !== "object") cfg.city.defaultTransport != "tablo" && ((c || {}).innerHTML = "<br/>" + i18n.receivingData), setTimeout(function() {
+    if (typeof ti.routes !== "object" || typeof ti.stops !== "object") cfg.city.defaultTransport != "tablo" && ((c || {}).innerHTML = "<br/>" + i18n.receivingData), setTimeout(function () {
         pg.fLoadDepartingRoutes(a, b)
     }, 200);
     else {
         pg.loadedDepartingRoutes = pg.inputStop, pg.stopsSuggestedForText = d.name;
-        if (cfg.city.defaultTransport == "tablo")($("spanContentDepartingRoutesStop") || {}).innerHTML = d.name || "", d.name && d.name.length >= 30 && (($("spanContentDepartingRoutesStop") || {
+        if (cfg.city.defaultTransport == "tablo") ($("spanContentDepartingRoutesStop") || {}).innerHTML = d.name || "", d.name && d.name.length >= 30 && (($("spanContentDepartingRoutesStop") || {
             style: {}
         }).style.fontSize = "54px"), ($("spanDepartureDate") || {}).innerHTML = ti.printTime(ti.dateToMinutes(new Date));
         else {
@@ -5420,21 +5467,21 @@ jq(window).bind("resize", function(a) {
                 u[y].route.departures.push(u[w].start_time), u[y].route.tripNums.push(u[w].tripNum)
             } else v[x] = w, u[w].route.departures = [u[w].start_time], u[w].route.tripNums = [u[w].tripNum]
         }
-        for (var w = 0, y = 0; w < u.length; w++) u[w].route.departures && (u[w].route.departures.sort(function(a, b) {
+        for (var w = 0, y = 0; w < u.length; w++) u[w].route.departures && (u[w].route.departures.sort(function (a, b) {
             if (a < b) return -1;
             if (a > b) return 1;
             return 0
         }), u[w].route.departures[0] < 0 && u[w].route.num.indexOf("(") >= 0 ? w = w : (a ? e.push(pg.fMakeRouteRowHTML(u[w].route, "tblDepartingRoutes", y, startTime, !0, d.id)) : h.push(pg.fMakeRouteRowHTML(u[w].route, "tblDepartingRoutes", y, startTime, !1, d.id)), ++y));
         if (cfg.city.defaultTransport == "tablo") {
-            pg.realTimeData && (pg.realTimeData = "", pg.realTimeDepartures.timer2 && (clearTimeout(pg.realTimeDepartures.timer2), pg.realTimeDepartures.timer2 = setTimeout(function() {
+            pg.realTimeData && (pg.realTimeData = "", pg.realTimeDepartures.timer2 && (clearTimeout(pg.realTimeDepartures.timer2), pg.realTimeDepartures.timer2 = setTimeout(function () {
                 pg.realTimeDepartures.timer2 = 0, pg.fLoadDepartingRoutes()
             }, 15e3))), pg.fMakeTabloHTML(u);
             return
         }
         c && ((c || {}).innerHTML = h.join("") + "</tbody></table>", $("divContentDepartingRoutesHeader").style.display = ""), a && a(e)
     }
-}, pg.fMakeTabloHTML = function(a) {
-    if (pg.inputStop == "unknown") setTimeout(function() {
+}, pg.fMakeTabloHTML = function (a) {
+    if (pg.inputStop == "unknown") setTimeout(function () {
         location.reload(!0)
     }, 3e4), $("divContentDepartingRoutes").innerHTML = "<p style=\"font-size:96px; padding-top:128px; text-align:center; text-transform:none;\">Vyksta sistemos derinimo<br />darbai</p>" + (cfg.defaultCity != "vilnius" ? "" : "<div style=\"position:absolute; bottom:20px; right:20px; color:#606060; font-size:34px; text-transform:none;\"><img src=\"" + pg.imagesFolder + "sisp_logo.png\" /><br />www.vilniustransport.lt</div>");
     else {
@@ -5448,7 +5495,7 @@ jq(window).bind("resize", function(a) {
                     vehicleID: ((d.vehicles || [])[e] || {}).vehicleID
                 })
         }
-        b.sort(function(a, b) {
+        b.sort(function (a, b) {
             if (a.start_time < b.start_time) return -1;
             if (a.start_time > b.start_time) return 1;
             return ti.naturalSort(a.route.num, b.route.num)
@@ -5545,7 +5592,7 @@ jq(window).bind("resize", function(a) {
             }).style.visibility = pg.tablo.message ? "visible" : "hidden"
         }
     }
-}, pg.fProcessVehicleDepartures = function(a, b) {
+}, pg.fProcessVehicleDepartures = function (a, b) {
     if (typeof mobile == "undefined" || typeof b != "undefined") {
         if (cfg.defaultCity == "tallinna-linn") {
             var c = new Date;
@@ -5564,7 +5611,7 @@ jq(window).bind("resize", function(a) {
             if (typeof mobile != "undefined" && ["favourites", "schedule4", "schedule5", "stop", "index"].indexOf(mobile.current_page) == -1) return
         }
         if (!cfg.city.urlVehicleDepartures) return;
-        pg.realTimeDepartures.timer = setTimeout(function() {
+        pg.realTimeDepartures.timer = setTimeout(function () {
             pg.realTimeDepartures.timer = 0, pg.fProcessVehicleDepartures(null, b)
         }, location.hostname == "xxxlocalhost" ? 999e4 : 1e4);
         if (cfg.isApp && a && typeof a == "object") {
@@ -5572,7 +5619,7 @@ jq(window).bind("resize", function(a) {
             return
         }
         if (typeof a !== "string") {
-            pg.realTimeDepartures.timer2 || (pg.realTimeDepartures.timer2 = setTimeout(function() {
+            pg.realTimeDepartures.timer2 || (pg.realTimeDepartures.timer2 = setTimeout(function () {
                 pg.realTimeDepartures.timer2 = 0, pg.fLoadDepartingRoutes()
             }, location.hostname == "localhost" ? 15e3 : pg.realTimeData ? 9e5 : 15e3));
             if (typeof mobile == "object" && ["favourites", "index"].indexOf(mobile.current_page) != -1 || pg.transport == "favourites" && typeof pg.favouriteStops != "undefined") var e = (pg.favouriteStops || "").split(",");
@@ -5593,7 +5640,7 @@ jq(window).bind("resize", function(a) {
                 i && (pg.stopsBySiriID[i] = e[h], e[h] = i)
             }
             if (e && e.length == 1 && e[0] == "") return;
-            (!pg.visibility || pg.visibility == "visible") && ti.fDownloadUrl("GET", cfg.city.urlVehicleDepartures + "?stopid=" + e.join(",") + "&time=" + +(new Date), function(a) {
+            (!pg.visibility || pg.visibility == "visible") && ti.fDownloadUrl("GET", cfg.city.urlVehicleDepartures + "?stopid=" + e.join(",") + "&time=" + +(new Date), function (a) {
                 pg && pg.fProcessVehicleDepartures(a, b)
             }, cfg.city.defaultTransport == "tablo" ? !0 : !1);
             return
@@ -5722,17 +5769,17 @@ jq(window).bind("resize", function(a) {
                 }
                 for (var f in w) {
                     var A = w[f];
-                    A.route.departures.sort(function(a, b) {
+                    A.route.departures.sort(function (a, b) {
                         return a - b
-                    }), A.route.vehicles.sort(function(a, b) {
+                    }), A.route.vehicles.sort(function (a, b) {
                         return a.departure - b.departure
                     }), A.start_time = A.route.vehicles[0].departure, x.push(A)
                 }
-                x.sort(function(a, b) {
+                x.sort(function (a, b) {
                     if (a.route.sortKey < b.route.sortKey) return -1;
                     if (a.route.sortKey > b.route.sortKey) return 1;
                     return ti.naturalSort(a.route.num, b.route.num)
-                }), pg.realTimeDepartures.timer && cfg.defaultCity === "tallinna-linn" && z >= 30 && (clearTimeout(pg.realTimeDepartures.timer), pg.realTimeDepartures.timer = setTimeout(function() {
+                }), pg.realTimeDepartures.timer && cfg.defaultCity === "tallinna-linn" && z >= 30 && (clearTimeout(pg.realTimeDepartures.timer), pg.realTimeDepartures.timer = setTimeout(function () {
                     pg.realTimeDepartures.timer = 0, pg.fProcessVehicleDepartures(null, b)
                 }, z <= 90 ? 3e4 : 6e4))
             } else {
@@ -5772,7 +5819,7 @@ jq(window).bind("resize", function(a) {
                     for (var h = 1, D = 0; h < A.route.departures.length; ++h) A.route.departures[D] != A.route.departures[h] && (D++, A.route.departures[D] = A.route.departures[h]);
                     A.route.departures.length = D + 1, x.push(A)
                 }
-                x.sort(function(a, b) {
+                x.sort(function (a, b) {
                     if (a.route.departures[0] < b.route.departures[0]) return -1;
                     if (a.route.departures[0] > b.route.departures[0]) return 1;
                     return 0
@@ -5789,7 +5836,7 @@ jq(window).bind("resize", function(a) {
             }
         }
     }
-}, pg.fLoadPlannerTab = function(a, b) {
+}, pg.fLoadPlannerTab = function (a, b) {
     a === !0 && (pg.optimalResults = null, pg.loadedPlannerParams = null, pg.hashForMap = "");
     if (b) var c = {
         errors: []
@@ -5801,11 +5848,11 @@ jq(window).bind("resize", function(a) {
     f.id ? (($("inputFinish") || {}).value = f.name || "", ($("inputFinish") || {}).className = "") : !pg.inputFinish && typeof ti.stops == "object" && (($("divContentPlannerResults") || {}).innerHTML = i18n.typeFinishStop, b && c.errors.push({
         text: i18n.typeFinishStop
     }), document.activeElement && document.activeElement.id !== "inputFinish" && (($("inputFinish") || {}).value = i18n.finishStop, ($("inputFinish") || {}).className = "empty"));
-    if (e.id)($("inputStart") || {}).value = e.name || "", ($("inputStart") || {}).className = "";
-    else if (!pg.inputStart || typeof ti.stops == "object")($("divContentPlannerResults") || {}).innerHTML = i18n.typeStartStop, b && c.errors.push({
+    if (e.id) ($("inputStart") || {}).value = e.name || "", ($("inputStart") || {}).className = "";
+    else if (!pg.inputStart || typeof ti.stops == "object") ($("divContentPlannerResults") || {}).innerHTML = i18n.typeStartStop, b && c.errors.push({
         text: i18n.typeStartStop
     }), document.activeElement && document.activeElement.id !== "inputStart" && (($("inputStart") || {}).value = i18n.startStop, ($("inputStart") || {}).className = "empty");
-    if (typeof ti.routes !== "object" || typeof ti.stops !== "object")($("divContentPlannerResults") || {}).innerHTML = "<br/>" + i18n.receivingData, setTimeout(function() {
+    if (typeof ti.routes !== "object" || typeof ti.stops !== "object") ($("divContentPlannerResults") || {}).innerHTML = "<br/>" + i18n.receivingData, setTimeout(function () {
         pg.fLoadPlannerTab(!1, b)
     }, 200);
     else {
@@ -5850,11 +5897,11 @@ jq(window).bind("resize", function(a) {
             if (!k || !cfg.cities[k]) break
         }
         cfg.defaultCity == "vilnius" && "plane" in j.transport && (j.transport.plane = 120, j.mode = "vintra", j.shapes_url = "http://www.stops.lt/shapes/"), ($("divContentPlannerResults") || {}).innerHTML = "<br/>" + i18n.calculating;
-        if (typeof mobile == "undefined" || typeof mobile != "undefined" && (pg.hashForMap || mobile.tallinnPlannerReady) || a) typeof mobile != "undefined" && jq("#loading").show(), setTimeout(function() {
+        if (typeof mobile == "undefined" || typeof mobile != "undefined" && (pg.hashForMap || mobile.tallinnPlannerReady) || a) typeof mobile != "undefined" && jq("#loading").show(), setTimeout(function () {
             ti.findTrips(j)
         }, 100)
     }
-}, pg.fPrintOptimalTrips = function(a, b, c) {
+}, pg.fPrintOptimalTrips = function (a, b, c) {
     var d = pg.optimalResults = a.results;
     pg.map = {};
     var e = [];
@@ -5913,7 +5960,7 @@ jq(window).bind("resize", function(a) {
     } else e.push("<br/>" + i18n.noOptimalRoutes);
     var v = $("divContentPlannerResults");
     (v || {}).innerHTML = e.join("")
-}, pg.fMakeRouteRowHTML = function(a, b, c, d, e) {
+}, pg.fMakeRouteRowHTML = function (a, b, c, d, e) {
     var f, g = "map," + a.city + "," + a.transport + "," + a.num;
     cfg.city.showAllDirections && (g = g + "," + a.dirType), g = ti.toAscii(g, !0), b == "tblRoutes" ? (f = pg.fUrlSet({
         schedule: {
@@ -5989,12 +6036,12 @@ jq(window).bind("resize", function(a) {
             var u = ~~(t / 60);
             t >= p && ++q, v != u && (v = u, t >= p && ++q, n += "</span></span><span style=\"display:inline-block;\"><span class=\"DeparturesHour" + (u < o || q > r ? " collapse" : "") + "\">&nbsp;" + u % 24 + "</span><span style=\"vertical-align:top\"" + (t < p || q > r ? " class=\"collapse\"" : "") + ">&#x200A;"), t == p && (n += "</span><span style=\"vertical-align:top\">"), q == r + 1 && (n += "</span><span style=\"vertical-align:top\" class=\"collapse\">"), t = t % 60, n += (t < 10 ? "0" : "") + t + " "
         }
-        v === -1 ? (e && m.notes.push(i18n.routeNotOperate), n += "</span><span>" + i18n.routeNotOperate) : !q && a.departures.length ? (a.departures.sort(function(a, b) {
+        v === -1 ? (e && m.notes.push(i18n.routeNotOperate), n += "</span><span>" + i18n.routeNotOperate) : !q && a.departures.length ? (a.departures.sort(function (a, b) {
             return a - b
         }), e && m.times.length == 0 && m.notes.push(i18n.stopLatestDeparture + "&nbsp;" + ti.printTime(a.departures[a.departures.length - 1])), n += "</span><span style=\"cursor:default;\" class=\"hideWhenExpanded\">" + i18n.stopLatestDeparture + "&nbsp;" + ti.printTime(a.departures[a.departures.length - 1])) : q > r && (n += "</span><span style=\"cursor:default;\" class=\"hideWhenExpanded\">..."), n += "</span></span></td></tr>", (v === -1 || !q) && a.dirType.indexOf("d") >= 0 && (n = "")
     }
     return e ? m : n
-}, pg.fContent_Click = function(a) {
+}, pg.fContent_Click = function (a) {
     pg.stopSuggestedForMap && (pg.stopSuggestedForMap = "", pg.fSuggestedStopsHide());
     var b = a && (a.target || a.srcElement);
     if (!b) return !0;
@@ -6031,11 +6078,11 @@ jq(window).bind("resize", function(a) {
         return pg.cancelEvent(a)
     }
     return !0
-}, pg.inputRoutes_KeyDown = function(a, b) {
+}, pg.inputRoutes_KeyDown = function (a, b) {
     var c = $("inputRoutes");
     b || (b = window.event ? window.event.keyCode : a.keyCode), b == 27 ? (c.value = "", setTimeout(pg.fLoadRoutesList, 200)) : b != 9 && (c.className == "empty" && (c.value = "", c.className = ""), pg.routesFilter = "", setTimeout(pg.fLoadRoutesList, 200))
-}, pg.inputRoutes_Focus = function() {
+}, pg.inputRoutes_Focus = function () {
     $e = $("inputRoutes"), $e.className === "empty" && ($e.className = "", $e.value = "")
-}, pg.inputRoutes_Blur = function() {
+}, pg.inputRoutes_Blur = function () {
     $e = $("inputRoutes"), $e && !$e.value && ($e.value = i18n.typeRouteNameOrNumber, $e.className = "empty")
 }
