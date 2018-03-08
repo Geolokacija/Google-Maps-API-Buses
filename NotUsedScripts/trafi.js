@@ -1,10 +1,9 @@
 // Routes
 $.getJSON('http://api-ext.trafi.com/routes?start_lat=55.66542159999999&start_lng=21.176730799999973&end_lat=55.7284356&end_lng=21.125247100000024&is_arrival=false&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
     function(data) {
-<<<<<<< HEAD
-=======
+
    //  console.log(data);
->>>>>>> 6489fd70623924f0dfa4fc6e3af4cec9a4064d36
+
 });
 
 $.getJSON('http://api-ext.trafi.com/stops/nearby?lat=55.703297&lng=21.144279&radius=50000&api_key=01f86ef81f0a2d7414bdd0bcfd9f3adc',
@@ -20,20 +19,28 @@ $.getJSON('http://api-ext.trafi.com/stops/nearby?lat=55.703297&lng=21.144279&rad
 
 $.getJSON('http://api-ext.trafi.com/locations?q=rumpiske&region=klaipeda&current_lat=55.703229&current_lng=21.148679000000016&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
     function(data) {
-<<<<<<< HEAD
-=======
+
      console.log(data);
->>>>>>> 6489fd70623924f0dfa4fc6e3af4cec9a4064d36
+
 });
  // Departure
 var depRegion = 'klaipeda',
-    depStop_ID = "idjkb_7-9 Cawang UKI";
-$.getJSON('http://api-ext.trafi.com/departures?' +
-    'stop_id='+ depStop_ID +
-    '&region='+ depRegion +
-    '&api_key=01f86ef81f0a2d7414bdd0bcfd9f3adc',
-    function(data) {
-});
+    depStop_ID = 'klp_1211';
+
+function busStopInfo(depStop_ID) {
+    if (depStop_ID ==  null){
+        depStop_ID = this.depStop_ID;
+    }
+    $.getJSON('http://api-ext.trafi.com/departures?' +
+        'stop_id=' + depStop_ID +
+        '&region=' + depRegion +
+        '&api_key=01f86ef81f0a2d7414bdd0bcfd9f3adc',
+        function (data) {
+        return data;
+        });
+}
+
+
 
 
   // Places all bus stop markers on the map
@@ -56,13 +63,17 @@ var markerArr = [];
       }
   }
     // Places markers infowindow with name of the stop
-  function addInfoWindow(marker, message)
+  function addInfoWindow(marker, message, busStopID)
   {
       var infoWindow = new google.maps.InfoWindow({
-              content: message
+          content: '<div id="content" onmouseover="updateContent('+this+','+busStopID+')">'+message.Name+'</div>'
           });
 
       google.maps.event.addListener(marker, 'click', function(){
           infoWindow.open(map, marker);
       });
+      function updateContent(infowindow,busID) {
+          var info = busStopInfo(busID);
+          //infowindow.setContent(info.Schedules[0].Name);
+      }
   }
