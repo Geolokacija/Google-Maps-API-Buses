@@ -62,10 +62,11 @@ function addNearBusStops(dataFromServer) {
 function addInfoWindow(marker, stopName, lat, lng, stopId, nextStop) {
 
     var infoWindow = new google.maps.InfoWindow({
-        content: stopName + " " + stopId
+        content: stopName
     });
 
     google.maps.event.addListener(marker, 'click', function () {
+
         $.getJSON('http://api-ext.trafi.com/departures?' +
             'stop_id=' + stopId +
             '&region=' + depRegion +
@@ -80,6 +81,7 @@ function addInfoWindow(marker, stopName, lat, lng, stopId, nextStop) {
                     'Bus arrive in : ' + data.Schedules[0].Departures[0].RemainingMinutes + ' min ' +
                     '<br>' +
                     'Time at :' + data.Schedules[0].Departures[0].TimeLocal;
+
                 infoWindow.open(map, marker);
 
                 getStopCoordinates(lat, lng, stopId, nextStop);
