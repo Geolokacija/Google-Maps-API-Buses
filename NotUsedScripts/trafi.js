@@ -8,8 +8,9 @@ var depRegion = 'klaipeda',
     depStop_ID = 'klp_1211';
 var markerArr = [];
 var index = 0;
+var index2 = 0
 var ast;
-var duration = false;
+var departuresObj;
 
 $.getJSON('http://api-ext.trafi.com/routes?start_lat=55.66542159999999&start_lng=21.176730799999973&end_lat=55.7284356&end_lng=21.125247100000024&is_arrival=false&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
     function (data) {
@@ -19,7 +20,6 @@ $.getJSON('http://api-ext.trafi.com/routes?start_lat=55.66542159999999&start_lng
 $.getJSON('http://api-ext.trafi.com/stops/nearby?lat=55.703297&lng=21.144279&radius=50000&api_key=01f86ef81f0a2d7414bdd0bcfd9f3adc',
     function (data) {
         var jsObject = JSON.parse(JSON.stringify(data));
-        console.log(data);
 
         for (var i = 0; i < jsObject.Stops.length; i++) {
             dataFromServer[dataFromServer.length] = jsObject.Stops[i];
@@ -67,25 +67,24 @@ function addInfoWindow(marker, stopName, lat, lng, stopId, nextStop) {
 
     google.maps.event.addListener(marker, 'click', function () {
 
-        $.getJSON('http://api-ext.trafi.com/departures?' +
-            'stop_id=' + stopId +
-            '&region=' + depRegion +
-            '&api_key=01f86ef81f0a2d7414bdd0bcfd9f3adc',
-            function (data) {
+        if (index == 0) {
+          $.getJSON('http://api-ext.trafi.com/departures?' +
+              'stop_id=' + stopId +
+              '&region=' + depRegion +
+              '&api_key=01f86ef81f0a2d7414bdd0bcfd9f3adc',
 
-                document.getElementById('busInfo').innerHTML =
-                    'Stotele : ' + data.Stop.Name +
-                    '<br>' +
-                    'Bus : ' + data.Schedules[0].Name +
-                    '<br>' +
-                    'Bus arrive in : ' + data.Schedules[0].Departures[0].RemainingMinutes + ' min ' +
-                    '<br>' +
-                    'Time at :' + data.Schedules[0].Departures[0].TimeLocal;
+              function (data) {
+              departuresObj = data;
+              index++;
+            });
+
+        } else {
+          index = 0;
+        }
 
                 infoWindow.open(map, marker);
 
                 getStopCoordinates(lat, lng, stopId, nextStop);
-            });
     });
 }
 
@@ -132,9 +131,44 @@ function busesBetweenStops() {
                 if (startBuses[i].Name == endBuses[j].Name) {
                     commonBuses.push(startBuses[i].Name);
                     document.getElementById('availableBuses').innerHTML = commonBuses;
+                    calculateBusArrivalTime(departuresObj);
                 }
             }
         }
-        console.log(commonBuses);
     }
 }
+
+
+  function calculateBusArrivalTime(departuresObject) {
+      var fastestBuses = [];
+      var fastestBus = null;
+      console.log(departuresObject.Schedules);
+      for (var i = 0; i < departuresObject.Schedules.length; i++) {
+        for (var j = 0; j < commonBuses.length; j ++) {
+          if (departuresObject.Schedules[i].Name == commonBuses[j]) {
+                fastestBuses.push(departuresObject.Schedules[i]);
+          }
+        }
+      }
+      for (var k = 0; k < fastestBuses.length; k++){
+         if(fastestBus == null){
+           fastestBus = fastestBuses[k];
+         }
+         else if(fastestBuses[k].Departures[0].RemainingMinutes <=  fastestBus.Departures[0].RemainingMinutes){
+           fastestBus = fastestBuses[k];
+         }
+
+          }
+          if(fastestBus != null){
+
+          document.getElementById('busInfo').innerHTML =
+                'Stotele : ' + departuresObject.Stop.Name +
+                '<br>' +
+                'Bus : ' + fastestBus.Name +
+                '<br>' +
+                'Bus arrive in : ' + fastestBus.Departures[0].RemainingMinutes + ' min ' +
+                '<br>' +
+                'Time at ' + fastestBus.Departures[0].TimeLocal;
+                fastestBus = null;
+              }
+  }
