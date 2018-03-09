@@ -111,7 +111,7 @@ function getStopCoordinates(lat, lng, stopId, nextStop) {
 
 function busesBetweenStops() {
 
-    //Suranda dvi stoteles pagal ju koordinates.
+    //Suranda dvi stoteles pagal jų koordinates.
     for (var i = 0; i < dataFromServer.length; i++) {
 
         if (dataFromServer[i].Coordinate.Lat == start.Lat && dataFromServer[i].Coordinate.Lng == start.Lng) {
@@ -122,7 +122,7 @@ function busesBetweenStops() {
         }
     }
 
-    //Jei  randamos stoteles nustatomi bendri autobusai.
+    //Jei  randamos stotelės nustatomi bendri autobusai.
     if (startStop != null && endStop != null) {
         var startBuses = startStop.StopTooltip.SchedulesAtStop;
         var endBuses = endStop.StopTooltip.SchedulesAtStop;
@@ -142,7 +142,6 @@ function busesBetweenStops() {
   function calculateBusArrivalTime(departuresObject) {
       var fastestBuses = [];
       var fastestBus = null;
-      var htmlElementId = "busInfo";
 
       //Išrenkami greičiausi autobusai sudedami į fastestBuses.
       for (var i = 0; i < departuresObject.Schedules.length; i++) {
@@ -157,17 +156,16 @@ function busesBetweenStops() {
       for (var k = 0; k < fastestBuses.length; k++){
          if(fastestBus == null){
            fastestBus = fastestBuses[k];
-           //console.log(fastestBus);
          }
          else if(fastestBuses[k].Departures[0].RemainingMinutes <=  fastestBus.Departures[0].RemainingMinutes){
            fastestBus = fastestBuses[k];
          }
           }
           console.log(fastestBuses);
+          console.log(fastestBus);
 
       //Jei yra greičiausias autobusas jo duomenys atvaizduojami.
       if(fastestBus != null){
-
         document.getElementById('busInfo').innerHTML =
          'Stotele : ' + departuresObject.Stop.Name +
          '<br>' +
