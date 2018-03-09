@@ -111,7 +111,7 @@ function getStopCoordinates(lat, lng, stopId, nextStop) {
 
 function busesBetweenStops() {
 
-    //Suranda dvi stoteles pagal ju koordinates.
+    //Suranda dvi stoteles pagal jų koordinates.
     for (var i = 0; i < dataFromServer.length; i++) {
 
         if (dataFromServer[i].Coordinate.Lat == start.Lat && dataFromServer[i].Coordinate.Lng == start.Lng) {
@@ -122,7 +122,7 @@ function busesBetweenStops() {
         }
     }
 
-    //Jei  randamos stoteles nustatomi bendri autobusai.
+    //Jei  randamos stotelės nustatomi bendri autobusai.
     if (startStop != null && endStop != null) {
         var startBuses = startStop.StopTooltip.SchedulesAtStop;
         var endBuses = endStop.StopTooltip.SchedulesAtStop;
@@ -161,10 +161,12 @@ function busesBetweenStops() {
            fastestBus = fastestBuses[k];
          }
           }
+          console.log(fastestBuses);
+          console.log(fastestBus);
 
       //Jei yra greičiausias autobusas jo duomenys atvaizduojami.
       if(fastestBus != null){
-        ocument.getElementById('busInfo').innerHTML =
+        document.getElementById('busInfo').innerHTML =
          'Stotele : ' + departuresObject.Stop.Name +
          '<br>' +
          'Bus : ' + fastestBus.Name +
