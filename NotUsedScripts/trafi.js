@@ -9,6 +9,7 @@ var depRegion = 'klaipeda',
 var markerArr = [];
 var index = 0;
 var ast;
+var duration = false;
 
 $.getJSON('http://api-ext.trafi.com/routes?start_lat=55.66542159999999&start_lng=21.176730799999973&end_lat=55.7284356&end_lng=21.125247100000024&is_arrival=false&api_key=b8bee4f34d5c2b7fbbcab7533638870d',
     function (data) {
@@ -70,6 +71,7 @@ function addInfoWindow(marker, stopName, lat, lng, stopId, nextStop) {
             '&region=' + depRegion +
             '&api_key=01f86ef81f0a2d7414bdd0bcfd9f3adc',
             function (data) {
+              
                 document.getElementById('busInfo').innerHTML =
                     'Stotele : ' + data.Stop.Name +
                     '<br>' +
@@ -79,6 +81,7 @@ function addInfoWindow(marker, stopName, lat, lng, stopId, nextStop) {
                     '<br>' +
                     'Time at :' + data.Schedules[0].Departures[0].TimeLocal;
                 infoWindow.open(map, marker);
+
                 getStopCoordinates(lat, lng, stopId, nextStop);
             });
     });
@@ -87,9 +90,10 @@ function addInfoWindow(marker, stopName, lat, lng, stopId, nextStop) {
 
 function getStopCoordinates(lat, lng, stopId, nextStop) {
 
-    //Į stast ir end yra sudedamos pasirinktų stotelių koordinatės.
+    //Į start ir end yra sudedamos pasirinktų stotelių koordinatės.
     if (start == null) {
         start = {Lat: lat, Lng: lng};
+        duration = true;
     } else if (end == null) {
         end = {Lat: lat, Lng: lng};
     }
@@ -121,7 +125,6 @@ function busesBetweenStops() {
     if (startStop != null && endStop != null) {
         var startBuses = startStop.StopTooltip.SchedulesAtStop;
         var endBuses = endStop.StopTooltip.SchedulesAtStop;
-        //var commonBuses = [];
         for (var i = 0; i < startBuses.length; i++) {
             for (var j = 0; j < endBuses.length; j++) {
                 if (startBuses[i].Name == endBuses[j].Name) {
