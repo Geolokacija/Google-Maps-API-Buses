@@ -83,6 +83,7 @@ function addInfoWindow(marker, stopName, lat, lng, stopId, nextStop) {
         }
 
                 infoWindow.open(map, marker);
+
                 getStopCoordinates(lat, lng, stopId, nextStop);
     });
 }
@@ -90,9 +91,10 @@ function addInfoWindow(marker, stopName, lat, lng, stopId, nextStop) {
 
 function getStopCoordinates(lat, lng, stopId, nextStop) {
 
-    //Į stast ir end yra sudedamos pasirinktų stotelių koordinatės.
+    //Į start ir end yra sudedamos pasirinktų stotelių koordinatės.
     if (start == null) {
         start = {Lat: lat, Lng: lng};
+        duration = true;
     } else if (end == null) {
         end = {Lat: lat, Lng: lng};
     }
@@ -124,7 +126,6 @@ function busesBetweenStops() {
     if (startStop != null && endStop != null) {
         var startBuses = startStop.StopTooltip.SchedulesAtStop;
         var endBuses = endStop.StopTooltip.SchedulesAtStop;
-        //var commonBuses = [];
         for (var i = 0; i < startBuses.length; i++) {
             for (var j = 0; j < endBuses.length; j++) {
                 if (startBuses[i].Name == endBuses[j].Name) {
@@ -139,23 +140,35 @@ function busesBetweenStops() {
 
 
   function calculateBusArrivalTime(departuresObject) {
-
+      var fastestBuses = [];
+      var fastestBus = null;
+      console.log(departuresObject.Schedules);
       for (var i = 0; i < departuresObject.Schedules.length; i++) {
-
         for (var j = 0; j < commonBuses.length; j ++) {
-
           if (departuresObject.Schedules[i].Name == commonBuses[j]) {
-
-                document.getElementById('busInfo').innerHTML =
-                      'Stotele : ' + departuresObject.Stop.Name +
-                      '<br>' +
-                      'Bus : ' + departuresObject.Schedules[i].Name +
-                      '<br>' +
-                      'Bus arrive in : ' + departuresObject.Schedules[i].Departures[0].RemainingMinutes + ' min ' +
-                      '<br>' +
-                      'Time at ' + departuresObject.Schedules[i].Departures[0].TimeLocal;
+                fastestBuses.push(departuresObject.Schedules[i]);
           }
         }
-
       }
+      for (var k = 0; k < fastestBuses.length; k++){
+         if(fastestBus == null){
+           fastestBus = fastestBuses[k];
+         }
+         else if(fastestBuses[k].Departures[0].RemainingMinutes <=  fastestBus.Departures[0].RemainingMinutes){
+           fastestBus = fastestBuses[k];
+         }
+
+          }
+          if(fastestBus != null){
+
+          document.getElementById('busInfo').innerHTML =
+                'Stotele : ' + departuresObject.Stop.Name +
+                '<br>' +
+                'Bus : ' + fastestBus.Name +
+                '<br>' +
+                'Bus arrive in : ' + fastestBus.Departures[0].RemainingMinutes + ' min ' +
+                '<br>' +
+                'Time at ' + fastestBus.Departures[0].TimeLocal;
+                fastestBus = null;
+              }
   }
