@@ -168,7 +168,7 @@ function busesBetweenStops() {
       //Jei yra greičiausias autobusas jo duomenys atvaizduojami.
       if(fastestBus != null){
 
-        document.getElementById('busInfo1').innerHTML =
+        document.getElementById('busInfo').innerHTML =
          'Stotele : ' + departuresObject.Stop.Name +
          '<br>' +
          'Bus : ' + fastestBus.Name +
