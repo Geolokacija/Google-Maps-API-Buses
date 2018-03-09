@@ -72,7 +72,7 @@ function addInfoWindow(marker, stopName, lat, lng, stopId, nextStop) {
             '&region=' + depRegion +
             '&api_key=01f86ef81f0a2d7414bdd0bcfd9f3adc',
             function (data) {
-              
+
                 document.getElementById('busInfo').innerHTML =
                     'Stotele : ' + data.Stop.Name +
                     '<br>' +
