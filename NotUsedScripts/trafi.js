@@ -142,7 +142,8 @@ function busesBetweenStops() {
   function calculateBusArrivalTime(departuresObject) {
       var fastestBuses = [];
       var fastestBus = null;
-      console.log(departuresObject.Schedules);
+
+      //Išrenkami greičiausi autobusai sudedami į fastestBuses.
       for (var i = 0; i < departuresObject.Schedules.length; i++) {
         for (var j = 0; j < commonBuses.length; j ++) {
           if (departuresObject.Schedules[i].Name == commonBuses[j]) {
@@ -150,6 +151,8 @@ function busesBetweenStops() {
           }
         }
       }
+
+      //Iš greičiausių autobusų išrenkamas greičiausias fastestBus
       for (var k = 0; k < fastestBuses.length; k++){
          if(fastestBus == null){
            fastestBus = fastestBuses[k];
@@ -157,18 +160,18 @@ function busesBetweenStops() {
          else if(fastestBuses[k].Departures[0].RemainingMinutes <=  fastestBus.Departures[0].RemainingMinutes){
            fastestBus = fastestBuses[k];
          }
-
           }
-          if(fastestBus != null){
 
-          document.getElementById('busInfo').innerHTML =
-                'Stotele : ' + departuresObject.Stop.Name +
-                '<br>' +
-                'Bus : ' + fastestBus.Name +
-                '<br>' +
-                'Bus arrive in : ' + fastestBus.Departures[0].RemainingMinutes + ' min ' +
-                '<br>' +
-                'Time at ' + fastestBus.Departures[0].TimeLocal;
-                fastestBus = null;
-              }
+      //Jei yra greičiausias autobusas jo duomenys atvaizduojami.
+      if(fastestBus != null){
+        ocument.getElementById('busInfo').innerHTML =
+         'Stotele : ' + departuresObject.Stop.Name +
+         '<br>' +
+         'Bus : ' + fastestBus.Name +
+          '<br>' +
+          'Bus arrive in : ' + fastestBus.Departures[0].RemainingMinutes + ' min ' +
+          '<br>' +
+          'Time at ' + fastestBus.Departures[0].TimeLocal;
+          fastestBus = null;
+        }
   }
